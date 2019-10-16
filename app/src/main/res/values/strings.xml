@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">EIMS</string>
+    <string name="app_name_detail">EMERIO Information Management System</string>
+
+    <!--string yang ada di page login-->
+    <string name="welcome">WELCOME</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="remember_login">Remember my login</string>
+    <string name="login">LOGIN</string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <!--string yang di bawah ini ada buat di main page/setelah login-->
+    <string name="sign_out">Sign Out</string>
+    <string name="menu_attendance">Attendance</string>
+    <string name="menu_leave">Leave</string>
+    <string name="menu_claim">Claim</string>
+    <string name="menu_task">Task</string>
+    <string name="menu_report">Report</string>
+    <string name="menu_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

@@ -19,4 +19,7 @@ public class MainPM extends Fragment {
         return inflater.inflate(R.layout.fragment_main_pm, container, false);
     }
 
+    public void onclickView(View v){
+
+    }
 }

@@ -50,19 +50,6 @@
                 android:inputType="textPassword"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp">
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkboxRememberMe"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/remember_login"/>
-        </LinearLayout>
         <View android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1" />

@@ -1,14 +1,275 @@
 package com.example.eims;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class Attendance extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+
+public class Attendance extends AppCompatActivity implements LocationListener{
+    private LocationManager locationManager;
+    String nameAndEmail;
+    Bundle bundle;
+    JSONObject output;
+    Spinner spinner;
+    TextView dateNow;
+    ArrayList<HashMap<String,String>> completeProjectUserData = new ArrayList<HashMap<String,String>>();
+    ArrayList<String> projectNameOnlyForUser = new ArrayList<String>();
+    Location officeLocation = new Location("");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
+
+        bundle = getIntent().getExtras();
+        try {
+            output = new JSONObject(bundle.getString("employee_data"));
+            nameAndEmail = output.getString("first_name") + " " +output.getString("last_name") + ",\n" +output.getString("email");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        TextView employee_data =  findViewById(R.id.nameAndEmailAttendance);
+        employee_data.setText(nameAndEmail);
+
+        checkProjectForUser();
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+        dateNow = findViewById(R.id.date_time_now);
+        dateNow.setText(formattedDate);
+
+        final Handler handler = new Handler();
+        final int delay = 1000; //milliseconds
+
+        handler.postDelayed(new Runnable(){
+            public void run(){
+                //do something
+                LocalDateTime myDateObj = LocalDateTime.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDate = myDateObj.format(myFormatObj);
+                dateNow.setText(formattedDate);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=
+                PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},1 );
+            return;
+        }
+
+    }
+
+    public void onClickBackButton(View view){
+        finish();
+    }
+
+    public void showCoordinate(View view){
+        boolean flag = displayGpsStatus();//masi blom tau bakal kepake atau engga
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=
+                    PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},1 );
+                return;
+             }
+        Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+        Toast.makeText(this, officeLocation.distanceTo(location)+" meters", Toast.LENGTH_LONG).show();
+        checkAttendanceUser();
+
+    }
+
+    private boolean displayGpsStatus() {
+        ContentResolver contentResolver = getBaseContext()
+                .getContentResolver();
+        boolean gpsStatus = Settings.Secure
+                .isLocationProviderEnabled(contentResolver,
+                        LocationManager.GPS_PROVIDER);
+        if (gpsStatus) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Toast.makeText(this, location.getLatitude()+", "+location.getLongitude(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+
+
+    public void checkAttendanceUser(){
+        class checkAttendanceToDB extends AsyncTask<Void,Void,String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(Attendance.this,"Mengambil data pegawai...","Tunggu...",false,false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                try {
+                    JSONObject output = new JSONObject(s);
+                    if(output.getString("value").equalsIgnoreCase("1")){
+
+                    }
+                    Toast.makeText(Attendance.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("email",output.getString("employee_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.CheckAttendanceEmployee, params);
+                return res;
+            }
+        }
+
+        checkAttendanceToDB ae = new checkAttendanceToDB();
+        ae.execute();
+    }
+
+    public void checkProjectForUser(){
+        class checkProjectForUserToDB extends AsyncTask<Void,Void,String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(Attendance.this,"Mengambil data project...","Tunggu...",false,false);
+            }
+
+            @Override
+            protected void onPostExecute(String output) {
+                super.onPostExecute(output);
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(output);
+                    JSONArray result = jsonObject.getJSONArray("result");
+
+                    for(int i = 0; i<result.length(); i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        String project_name = jo.getString("project_name");
+                        String latitude = jo.getString("latitude");
+                        String longitude = jo.getString("longitude");
+
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("project_name",project_name);
+                        data.put("latitude",latitude);
+                        data.put("longitude",longitude);
+                        completeProjectUserData.add(data);
+                        projectNameOnlyForUser.add(project_name);
+
+                    }
+                    loading.dismiss();
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Attendance.this,android.R.layout.simple_selectable_list_item, projectNameOnlyForUser);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner = findViewById(R.id.spinnerProjectAttendance);
+                    spinner.setAdapter(arrayAdapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String projectName = parent.getItemAtPosition(position).toString();
+                            officeLocation.setLongitude(Double.valueOf(completeProjectUserData.get(position).get("longitude")));
+                            officeLocation.setLatitude(Double.valueOf(completeProjectUserData.get(position).get("latitude")));
+                            Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.CheckProjectEmployee, params);
+                return res;
+            }
+        }
+
+        checkProjectForUserToDB ae = new checkProjectForUserToDB();
+        ae.execute();
     }
 }
+

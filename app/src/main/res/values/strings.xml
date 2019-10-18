@@ -20,10 +20,13 @@
     <string name="menu_profile">Profile</string>
 
     <!--string yang di bawah ini ada buat di attendance page-->
-    <string name="button_back">&lt; Back</string>
-
+    <string name="date_time_now">Current Date Time</string>
+    <string name="clock_in">Clock In</string>
+    <string name="clock_out">Clock Out</string>
+    <string name="colon">:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_back">&lt; Back</string>
+    <string name="project">Project</string>
 
 </resources>

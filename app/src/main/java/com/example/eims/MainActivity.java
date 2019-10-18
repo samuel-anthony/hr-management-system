@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity  {
             Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
-            finish();
         }
         else if((view == findViewById(R.id.main_menu_leave_emp))||(view == findViewById(R.id.main_menu_leave_pm))){
             Intent mainActivity = new Intent(MainActivity.this, Attendance.class);

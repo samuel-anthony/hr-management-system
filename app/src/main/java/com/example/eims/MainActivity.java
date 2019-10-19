@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -14,10 +15,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity  {
     String nameAndEmail;
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         try {
             JSONObject output = new JSONObject(bundle.getString("employee_data"));
             nameAndEmail = output.getString("first_name") + " " +output.getString("last_name") + ",\n" +output.getString("email");
@@ -37,11 +39,34 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         setContentView(R.layout.activity_main);
-        TextView employee_data =  findViewById(R.id.nameAndEmail);
+        TextView employee_data =  findViewById(R.id.nameAndEmailMain);
         employee_data.setText(nameAndEmail);
 
     }
 
-
-
+    public void onclickChangeMenu(View view){
+        if((view == findViewById(R.id.main_menu_attendance_emp))||(view == findViewById(R.id.main_menu_attendance_pm))){
+            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
+        }
+        else if((view == findViewById(R.id.main_menu_leave_emp))||(view == findViewById(R.id.main_menu_leave_pm))){
+            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
+            finish();
+        }
+        else if((view == findViewById(R.id.main_menu_claim_emp))||(view == findViewById(R.id.main_menu_claim_pm))){
+            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
+            finish();
+        }
+        else if((view == findViewById(R.id.main_menu_task_pm))){
+            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
+            finish();
+        }
+    }
 }

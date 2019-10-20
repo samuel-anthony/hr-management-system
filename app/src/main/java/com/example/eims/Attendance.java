@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,10 @@ public class Attendance extends AppCompatActivity implements LocationListener{
     JSONObject output;
     Spinner spinner;
     TextView dateNow;
+    String clockIn = "0";
+    String selectedProjectId;
+    String formattedDate;
+    Location currentUserLocation;
     ArrayList<HashMap<String,String>> completeProjectUserData = new ArrayList<HashMap<String,String>>();
     ArrayList<String> projectNameOnlyForUser = new ArrayList<String>();
     Location officeLocation = new Location("");
@@ -68,11 +75,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
 
         checkProjectForUser();
 
-        LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formattedDate = myDateObj.format(myFormatObj);
         dateNow = findViewById(R.id.date_time_now);
-        dateNow.setText(formattedDate);
 
         final Handler handler = new Handler();
         final int delay = 1000; //milliseconds
@@ -110,10 +113,22 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},1 );
                 return;
              }
-        Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-        Toast.makeText(this, officeLocation.distanceTo(location)+" meters", Toast.LENGTH_LONG).show();
-        checkAttendanceUser();
-
+        currentUserLocation = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+        if(officeLocation.distanceTo(currentUserLocation) > 100.00){
+            new AlertDialog.Builder(Attendance.this)
+                    .setTitle("Error distance")
+                    .setMessage("You have to be at least 100 m close to the project location")
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Continue with delete operation
+                        }
+                    });
+        }
+        else {
+            checkAttendanceUser();
+        }
     }
 
     private boolean displayGpsStatus() {
@@ -160,7 +175,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(Attendance.this,"Mengambil data pegawai...","Tunggu...",false,false);
+                loading = ProgressDialog.show(Attendance.this,"Retrieving employee's data...","Tunggu...",false,false);
             }
 
             @Override
@@ -169,8 +184,14 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
-                    if(output.getString("value").equalsIgnoreCase("1")){
+                    if(output.getString("value").equalsIgnoreCase("1") ){
+                        if(clockIn.equalsIgnoreCase("0")){
 
+                            clockIn = "1";
+                        }
+                        else{
+                            clockIn = "2";
+                        }
                     }
                     Toast.makeText(Attendance.this,output.getString("message"),Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
@@ -182,7 +203,13 @@ public class Attendance extends AppCompatActivity implements LocationListener{
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
                 try {
-                    params.put("email",output.getString("employee_id"));
+                    LocalDateTime myDateObj = LocalDateTime.now();
+                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                    formattedDate = myDateObj.format(myFormatObj);
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("time",formattedDate);
+                    params.put("is_clockIn",clockIn);
+                    params.put("project_id",selectedProjectId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -191,6 +218,8 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 return res;
             }
         }
+
+
 
         checkAttendanceToDB ae = new checkAttendanceToDB();
         ae.execute();
@@ -215,14 +244,37 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 try {
                     jsonObject = new JSONObject(output);
                     JSONArray result = jsonObject.getJSONArray("result");
-
+                    if(jsonObject.getString("clockin").isEmpty()){
+                        LinearLayout m = findViewById(R.id.layout_clock_out_attendance);
+                        m.setVisibility(LinearLayout.GONE);
+                        clockIn = "1";
+                    }
+                    if(jsonObject.getString("clockout").isEmpty() && !jsonObject.getString("clockin").isEmpty()){
+                        LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
+                        n.setVisibility(LinearLayout.GONE);
+                        clockIn = "2";
+                    }
+                    if(!jsonObject.getString("clockin").isEmpty() && !jsonObject.getString("clockout").isEmpty()){
+                        LinearLayout m = findViewById(R.id.layout_clock_out_attendance);
+                        m.setVisibility(LinearLayout.GONE);
+                        LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
+                        n.setVisibility(LinearLayout.GONE);
+                        LinearLayout o = findViewById(R.id.layout_project_attendance);
+                        o.setVisibility(LinearLayout.GONE);
+                    }
+                    TextView clockInTextView= findViewById(R.id.clock_in_attendance);
+                    clockInTextView.setText(jsonObject.getString("clockin"));
+                    TextView clockOutTextView= findViewById(R.id.clock_out_attendance);
+                    clockOutTextView.setText(jsonObject.getString("clockout"));
                     for(int i = 0; i<result.length(); i++){
                         JSONObject jo = result.getJSONObject(i);
+                        String project_id = jo.getString("project_id");
                         String project_name = jo.getString("project_name");
                         String latitude = jo.getString("latitude");
                         String longitude = jo.getString("longitude");
 
                         HashMap<String,String> data = new HashMap<>();
+                        data.put("project_id",project_id);
                         data.put("project_name",project_name);
                         data.put("latitude",latitude);
                         data.put("longitude",longitude);
@@ -241,6 +293,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                             String projectName = parent.getItemAtPosition(position).toString();
                             officeLocation.setLongitude(Double.valueOf(completeProjectUserData.get(position).get("longitude")));
                             officeLocation.setLatitude(Double.valueOf(completeProjectUserData.get(position).get("latitude")));
+                            selectedProjectId = completeProjectUserData.get(position).get("project_id");
                             Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
                         }
                         @Override

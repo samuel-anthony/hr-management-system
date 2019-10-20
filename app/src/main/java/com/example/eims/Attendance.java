@@ -124,7 +124,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                         public void onClick(DialogInterface dialog, int which) {
                             // Continue with delete operation
                         }
-                    });
+                    }).show();
         }
         else {
             checkAttendanceUser();
@@ -186,10 +186,17 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                     JSONObject output = new JSONObject(s);
                     if(output.getString("value").equalsIgnoreCase("1") ){
                         if(clockIn.equalsIgnoreCase("0")){
-
+                            LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
+                            n.setVisibility(LinearLayout.GONE);
                             clockIn = "1";
                         }
                         else{
+                            LinearLayout m = findViewById(R.id.layout_clock_out_attendance);
+                            m.setVisibility(LinearLayout.GONE);
+                            LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
+                            n.setVisibility(LinearLayout.GONE);
+                            LinearLayout o = findViewById(R.id.layout_project_attendance);
+                            o.setVisibility(LinearLayout.GONE);
                             clockIn = "2";
                         }
                     }
@@ -247,12 +254,12 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                     if(jsonObject.getString("clockin").isEmpty()){
                         LinearLayout m = findViewById(R.id.layout_clock_out_attendance);
                         m.setVisibility(LinearLayout.GONE);
-                        clockIn = "1";
+                        clockIn = "0";
                     }
                     if(jsonObject.getString("clockout").isEmpty() && !jsonObject.getString("clockin").isEmpty()){
                         LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
                         n.setVisibility(LinearLayout.GONE);
-                        clockIn = "2";
+                        clockIn = "1";
                     }
                     if(!jsonObject.getString("clockin").isEmpty() && !jsonObject.getString("clockout").isEmpty()){
                         LinearLayout m = findViewById(R.id.layout_clock_out_attendance);

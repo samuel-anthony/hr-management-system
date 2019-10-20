@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -112,8 +114,17 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 return;
              }
         currentUserLocation = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-        if(officeLocation.distanceTo(currentUserLocation) > 270.00){
-            Toast.makeText(this, officeLocation.distanceTo(currentUserLocation)+" meters", Toast.LENGTH_LONG).show();
+        if(officeLocation.distanceTo(currentUserLocation) > 100.00){
+            new AlertDialog.Builder(Attendance.this)
+                    .setTitle("Error distance")
+                    .setMessage("You have to be at least 100 m close to the project location")
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Continue with delete operation
+                        }
+                    });
         }
         else {
             checkAttendanceUser();
@@ -164,7 +175,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(Attendance.this,"Mengambil data pegawai...","Tunggu...",false,false);
+                loading = ProgressDialog.show(Attendance.this,"Retrieving employee's data...","Tunggu...",false,false);
             }
 
             @Override

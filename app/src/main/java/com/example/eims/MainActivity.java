@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         setContentView(R.layout.activity_main);
-        TextView employee_data =  findViewById(R.id.nameAndEmailMain);
+        TextView employee_data =  findViewById(R.id.nameAndEmail);
         employee_data.setText(nameAndEmail);
 
     }
@@ -51,13 +51,12 @@ public class MainActivity extends AppCompatActivity  {
             startActivity(mainActivity);
         }
         else if((view == findViewById(R.id.main_menu_leave_emp))||(view == findViewById(R.id.main_menu_leave_pm))){
-            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            Intent mainActivity = new Intent(MainActivity.this, Leave.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
-            finish();
         }
         else if((view == findViewById(R.id.main_menu_claim_emp))||(view == findViewById(R.id.main_menu_claim_pm))){
-            Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
+            Intent mainActivity = new Intent(MainActivity.this, Reimbursement.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
             finish();

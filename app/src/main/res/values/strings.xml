@@ -25,8 +25,22 @@
     <string name="clock_out">Clock Out</string>
     <string name="colon">:</string>
 
+    <!--string yang di bawah ini ada buat di leave page-->
+    <string name="leave_type">Leave Type</string>
+    <string name="reported_to">Reported To</string>
+    <string name="notes">Notes</string>
+    <string name="attachment">Attachment</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="button_back">&lt; Back</string>
     <string name="project">Project</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="submit">Submit</string>
+    <string name="upload_file">Upload File</string>
+    <string name="no_file_selected">No File Selected</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

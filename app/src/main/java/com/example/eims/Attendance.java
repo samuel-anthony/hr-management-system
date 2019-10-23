@@ -70,7 +70,7 @@ public class Attendance extends AppCompatActivity implements LocationListener{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        TextView employee_data =  findViewById(R.id.nameAndEmailAttendance);
+        TextView employee_data =  findViewById(R.id.nameAndEmail);
         employee_data.setText(nameAndEmail);
 
         checkProjectForUser();

@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -25,7 +27,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     String nameAndEmail;
@@ -73,10 +78,13 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateString = DateFormat.getDateInstance().format(calendar.getTime());
+        String currentDateString2 = dateFormat.format(calendar.getTime());
         TextView a = (TextView) datePickerView;
-        a.setText(currentDateString);
+        a.setText(currentDateString2);
     }
+
 
     public void showUploadFragment(View view){
         Intent gallery = new Intent();
@@ -121,5 +129,47 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
     }
 
 
+    public void getLeaveEmployeeData(){
+        class getLeaveEmployeeDataFromDB extends AsyncTask<Void,Void,String> {
 
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(Leave.this,"Retrieving employee's data...","Please wait...",false,false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                try {
+                    JSONObject output = new JSONObject(s);
+                    if(output.getString("value").equalsIgnoreCase("1") ){
+
+                    }
+                    Toast.makeText(Leave.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.GetLeavePageDataEmployee, params);
+                return res;
+            }
+        }
+
+        getLeaveEmployeeDataFromDB ae = new getLeaveEmployeeDataFromDB();
+        ae.execute();
+    }
 }

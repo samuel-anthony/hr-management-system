@@ -21,6 +21,7 @@
 
     <!--string yang di bawah ini ada buat di attendance page-->
     <string name="date_time_now">Current Date Time</string>
+    <string name="date">Date</string>
     <string name="clock_in">Clock In</string>
     <string name="clock_out">Clock Out</string>
     <string name="colon">:</string>
@@ -34,11 +35,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="button_back">&lt; Back</string>
     <string name="project">Project</string>
-    <string name="from">From</string>
-    <string name="to">To</string>
+    <string name="date_from">Date From</string>
+    <string name="date_to">Date To</string>
     <string name="submit">Submit</string>
     <string name="upload_file">Upload File</string>
     <string name="no_file_selected">No File Selected</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title">Title</string>
+    <string name="currency">Currency</string>
+    <string name="amount">Amount</string>
+    <string name="type">Type</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

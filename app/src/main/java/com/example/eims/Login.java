@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(Login.this,"Mencoba Login...","Tunggu...",false,false);
+                loading = ProgressDialog.show(Login.this,"Mencoba Login...","Please wait...",false,false);
             }
 
             @Override

@@ -67,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="@string/from"
+                android:text="@string/date_from"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
@@ -99,7 +99,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="@string/to"
+                android:text="@string/date_to"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"

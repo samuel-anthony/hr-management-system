@@ -33,14 +33,18 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     String nameAndEmail,selectedProjectID,selectedLeaveID;
+    long leaveBalance,leaveMaxDuration;
     Bundle bundle;
     JSONObject output;
     View datePickerView;
@@ -49,6 +53,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
     TextView uploadPictureStat;
     FrameLayout fragmentPicture;
     private static final int PICK_IMAGE = 1;
+    SimpleDateFormat dateFormat;
 
     ArrayList<HashMap<String,String>> completeProjectData = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeLeaveData = new ArrayList<HashMap<String,String>>();
@@ -74,7 +79,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentImageLeave, fragment);
         ft.commit();
-
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         getLeaveEmployeeData();
     }
 
@@ -89,7 +94,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
         String currentDateString = dateFormat.format(calendar.getTime());
         TextView a = (TextView) datePickerView;
         a.setText(currentDateString);
@@ -131,7 +136,33 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         fragmentPicture.setVisibility(View.INVISIBLE);
     }
 
-    public void onClickSubmitButton(){
+    public void onClickSubmitButton(View view){
+        if(!((TextView)(findViewById(R.id.dateFrom))).getText().toString().isEmpty() && !((TextView)(findViewById(R.id.dateTo))).getText().toString().isEmpty()){
+            try {
+                Date dateFrom = dateFormat.parse(((TextView)(findViewById(R.id.dateFrom))).getText().toString());
+                Date dateTo = dateFormat.parse(((TextView)(findViewById(R.id.dateTo))).getText().toString());
+                if(dateFrom.compareTo(dateTo) > 0){
+
+                }
+                else{
+                    long requestLeaveDuration = TimeUnit.DAYS.convert(Math.abs(dateTo.getTime()-dateFrom.getTime()),TimeUnit.MILLISECONDS);
+                    if(leaveMaxDuration<requestLeaveDuration){
+                        Toast.makeText(this,"The maximum duration for this leave type is: " +leaveMaxDuration + "days",Toast.LENGTH_LONG).show();
+                    }
+                    else if(leaveBalance<requestLeaveDuration){
+                        Toast.makeText(this,"Your leave balance is less than your requested leave",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(this,"request is processed",Toast.LENGTH_LONG).show();
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            Toast.makeText(this,"please fill all of the data",Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -204,6 +235,8 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             String leaveName = parent.getItemAtPosition(position).toString();
                             selectedLeaveID = completeLeaveData.get(position).get("leave_id");
+                            leaveBalance = Long.parseLong(completeLeaveData.get(position).get("leave_balance"));
+                            leaveMaxDuration = Long.parseLong(completeLeaveData.get(position).get("max_duration"));
                             Toast.makeText(parent.getContext(), "Selected: " + leaveName, Toast.LENGTH_LONG).show();
                         }
                         @Override

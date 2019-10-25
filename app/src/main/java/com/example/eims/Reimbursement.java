@@ -37,6 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Reimbursement extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -48,6 +49,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
     Bitmap bitmap = null;
     TextView uploadPictureStat;
     FrameLayout fragmentPicture;
+    SimpleDateFormat dateFormat;
 
     ArrayList<HashMap<String,String>> completeProjectData = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeClaimData = new ArrayList<HashMap<String,String>>();
@@ -75,6 +77,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentImageLeave, fragment);
         ft.commit();
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         getClaimEmployeeData();
     }
@@ -90,7 +93,6 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateString = dateFormat.format(calendar.getTime());
         TextView a = (TextView) datePickerView;
         a.setText(currentDateString);
@@ -133,7 +135,6 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
     }
 
     public void onClickSubmitButton(){
-
     }
 
     public void onClickBackButton(View view){

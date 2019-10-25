@@ -3,6 +3,9 @@ package com.example.eims;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -13,13 +16,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,11 +35,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class Reimbursement extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-    String nameAndEmail;
+    String nameAndEmail,selectedProjectID,selectedClaimTypeID;
     Bundle bundle;
     JSONObject output;
     View datePickerView;
@@ -40,12 +48,35 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
     Bitmap bitmap = null;
     TextView uploadPictureStat;
     FrameLayout fragmentPicture;
+
+    ArrayList<HashMap<String,String>> completeProjectData = new ArrayList<HashMap<String,String>>();
+    ArrayList<HashMap<String,String>> completeClaimData = new ArrayList<HashMap<String,String>>();
     private static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reimbursement);
+
+        bundle = getIntent().getExtras();
+        try {
+            output = new JSONObject(bundle.getString("employee_data"));
+            nameAndEmail = output.getString("first_name") + " " +output.getString("last_name") + ",\n" +output.getString("email");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        uploadPictureStat = findViewById(R.id.uploadedPictureStatus);
+        TextView employee_data =  findViewById(R.id.nameAndEmail);
+        employee_data.setText(nameAndEmail);
+        fragmentPicture = findViewById(R.id.fragmentImageLeave);
+        fragmentPicture.setVisibility(View.INVISIBLE);
+        Fragment fragment = new Image();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragmentImageLeave, fragment);
+        ft.commit();
+
+        getClaimEmployeeData();
     }
 
     public void showDatePicker(View view){
@@ -60,10 +91,9 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String currentDateString = DateFormat.getDateInstance().format(calendar.getTime());
-        String currentDateString2 = dateFormat.format(calendar.getTime());
+        String currentDateString = dateFormat.format(calendar.getTime());
         TextView a = (TextView) datePickerView;
-        a.setText(currentDateString2);
+        a.setText(currentDateString);
     }
 
 
@@ -128,10 +158,59 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
-                    if(output.getString("value").equalsIgnoreCase("1") ){
-
+                    JSONArray resultProject = output.getJSONArray("project");
+                    ArrayList<String> arrayListProject = new ArrayList<String>();
+                    for(int i = 0; i<resultProject.length() ; i++){
+                        JSONObject jo = resultProject.getJSONObject(i);
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("project_id",jo.getString("project_id"));
+                        data.put("project_name",jo.getString("project_name"));
+                        completeProjectData.add(data);
+                        arrayListProject.add(jo.getString("project_name"));
                     }
-                    Toast.makeText(Reimbursement.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                    ArrayList<String> arrayListClaim = new ArrayList<String>();
+                    JSONArray resultClaimType = output.getJSONArray("claim");
+                    for(int i = 0; i<resultClaimType.length() ; i++){
+                        JSONObject jo = resultClaimType.getJSONObject(i);
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("claim_id",jo.getString("claim_id"));
+                        data.put("claim_name",jo.getString("claim_name"));
+                        completeClaimData.add(data);
+                        arrayListClaim.add(jo.getString("claim_name"));
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Reimbursement.this,android.R.layout.simple_selectable_list_item, arrayListProject);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Spinner spinnerProject = findViewById(R.id.spinnerProject);
+                    spinnerProject.setAdapter(arrayAdapter);
+                    spinnerProject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String projectName = parent.getItemAtPosition(position).toString();
+                            selectedProjectID = completeProjectData.get(position).get("project_id");
+                            Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(Reimbursement.this,android.R.layout.simple_selectable_list_item, arrayListClaim);
+                    arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Spinner spinnerClaim = findViewById(R.id.spinnerType);
+                    spinnerClaim.setAdapter(arrayAdapter2);
+                    spinnerClaim.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String claimName = parent.getItemAtPosition(position).toString();
+                            selectedClaimTypeID = completeClaimData.get(position).get("claim_id");
+                            Toast.makeText(parent.getContext(), "Selected: " + claimName, Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

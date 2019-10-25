@@ -15,25 +15,32 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    String nameAndEmail;
+    String nameAndEmail,selectedProjectID,selectedLeaveID;
     Bundle bundle;
     JSONObject output;
     View datePickerView;
@@ -43,6 +50,8 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
     FrameLayout fragmentPicture;
     private static final int PICK_IMAGE = 1;
 
+    ArrayList<HashMap<String,String>> completeProjectData = new ArrayList<HashMap<String,String>>();
+    ArrayList<HashMap<String,String>> completeLeaveData = new ArrayList<HashMap<String,String>>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,8 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentImageLeave, fragment);
         ft.commit();
+
+        getLeaveEmployeeData();
     }
 
     public void showDatePicker(View view){
@@ -79,11 +90,11 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String currentDateString = DateFormat.getDateInstance().format(calendar.getTime());
-        String currentDateString2 = dateFormat.format(calendar.getTime());
+        String currentDateString = dateFormat.format(calendar.getTime());
         TextView a = (TextView) datePickerView;
-        a.setText(currentDateString2);
-    }
+        a.setText(currentDateString);
+
+        }
 
 
     public void showUploadFragment(View view){
@@ -146,10 +157,61 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
-                    if(output.getString("value").equalsIgnoreCase("1") ){
-
+                    JSONArray resultProject = output.getJSONArray("project");
+                    ArrayList<String> arrayListProject = new ArrayList<String>();
+                    for(int i = 0; i<resultProject.length() ; i++){
+                        JSONObject jo = resultProject.getJSONObject(i);
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("project_id",jo.getString("project_id"));
+                        data.put("project_name",jo.getString("project_name"));
+                        completeProjectData.add(data);
+                        arrayListProject.add(jo.getString("project_name"));
                     }
-                    Toast.makeText(Leave.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                    ArrayList<String> arrayListLeave = new ArrayList<String>();
+                    JSONArray resultLeaveType = output.getJSONArray("leave");
+                    for(int i = 0; i<resultLeaveType.length() ; i++){
+                        JSONObject jo = resultLeaveType.getJSONObject(i);
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("leave_id",jo.getString("leave_id"));
+                        data.put("leave_name",jo.getString("leave_name"));
+                        data.put("max_duration",jo.getString("max_duration"));
+                        data.put("leave_balance",jo.getString("leave_balance"));
+                        completeLeaveData.add(data);
+                        arrayListLeave.add(jo.getString("leave_name")+", balance:"+jo.getString("leave_balance"));
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Leave.this,android.R.layout.simple_selectable_list_item, arrayListProject);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Spinner spinnerProject = findViewById(R.id.spinnerProject);
+                    spinnerProject.setAdapter(arrayAdapter);
+                    spinnerProject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String projectName = parent.getItemAtPosition(position).toString();
+                            selectedProjectID = completeProjectData.get(position).get("project_id");
+                            Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(Leave.this,android.R.layout.simple_selectable_list_item, arrayListLeave);
+                    arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Spinner spinnerLeave = findViewById(R.id.spinnerLeaveType);
+                    spinnerLeave.setAdapter(arrayAdapter2);
+                    spinnerLeave.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String leaveName = parent.getItemAtPosition(position).toString();
+                            selectedLeaveID = completeLeaveData.get(position).get("leave_id");
+                            Toast.makeText(parent.getContext(), "Selected: " + leaveName, Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

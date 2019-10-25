@@ -8,7 +8,7 @@ public class ConfigURL {
     public final static String Login = "http://" + staticIP + "/eims/login.php/";
     public final static String CheckAttendanceEmployee = "http://" + staticIP + "/eims/checkAttendanceEmployee.php/";
     public final static String CheckProjectEmployee = "http://" + staticIP + "/eims/checkProjectEmployee.php/";
-    public final static String GetLeavePageDataEmployee = "htpp://" + staticIP + "/eims/getLeavePageDataEmployee.php/";
+    public final static String GetLeavePageDataEmployee = "http://" + staticIP + "/eims/getLeavePageDataEmployee.php/";
     public final static String SubmitLeaveDataEmployee = "http://" + staticIP + "/eims/submitLeavePageDataEmployee.php/";
     public final static String GetClaimPageDataEmployee = "http://" +staticIP + "/eims/getClaimPageDataEmployee.php/";
 }

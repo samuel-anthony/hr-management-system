@@ -15,10 +15,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,7 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Reimbursement extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-    String nameAndEmail,selectedProjectID,selectedClaimTypeID;
+    String nameAndEmail,selectedProjectID,selectedClaimTypeID,imageString = "";
     Bundle bundle;
     JSONObject output;
     View datePickerView;
@@ -118,6 +122,10 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
                 ImageView uploadedPic = findViewById(R.id.uploadedPicture);
                 uploadedPic.setImageBitmap(bitmap);
                 uploadPictureStat.setText("picture selected, click to view");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -134,7 +142,24 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         fragmentPicture.setVisibility(View.INVISIBLE);
     }
 
-    public void onClickSubmitButton(){
+    public void onClickSubmitButton(View view){
+        EditText title = (EditText) findViewById(R.id.title);
+        EditText amount = (EditText) findViewById(R.id.amount);
+        EditText account = (EditText) findViewById(R.id.account);
+        if((TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(amount.getText()) || TextUtils.isEmpty(account.getText()))){
+            if(TextUtils.isEmpty(title.getText())){
+            title.setError("title is required");
+            }
+            if(TextUtils.isEmpty(amount.getText())){
+                amount.setError("amount is required");
+            }
+            if(TextUtils.isEmpty(account.getText())){
+                account.setError("account number is required");
+            }
+        }
+        else{
+
+        }
     }
 
     public void onClickBackButton(View view){

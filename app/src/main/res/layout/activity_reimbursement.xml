@@ -150,8 +150,26 @@
                     android:id="@+id/amount"
                     android:background="@drawable/rectangle"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:layout_marginVertical="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:text="@string/account_reimbursement"/>
+                <EditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:id="@+id/account"
+                    android:background="@drawable/rectangle"/>
+            </LinearLayout>
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/notes"

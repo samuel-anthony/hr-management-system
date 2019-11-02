@@ -33,6 +33,7 @@
     <string name="attachment">Attachment</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="greater_than_character">&gt;</string>
     <string name="button_back">&lt; Back</string>
     <string name="project">Project</string>
     <string name="date_from">Date From</string>
@@ -47,6 +48,10 @@
     <string name="amount">Amount</string>
     <string name="type">Type</string>
     <string name="account_reimbursement">Account (BCA)</string>
+
+
+    <string name="from">From</string>
+    <string name="To">To</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

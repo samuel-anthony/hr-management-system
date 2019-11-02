@@ -24,7 +24,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/just_shape"
-                    android:id="@+id/main_menu_attendance_emp"
+                    android:id="@+id/menu_attendance"
                     android:onClick="onclickChangeMenu">
                 </ImageView>
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/just_shape"
-                    android:id="@+id/main_menu_leave_emp"
+                    android:id="@+id/menu_leave"
                     android:onClick="onclickChangeMenu">
                 </ImageView>
                 <TextView
@@ -67,7 +67,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/just_shape"
-                    android:id="@+id/main_menu_claim_emp"
+                    android:id="@+id/menu_claim"
                     android:onClick="onclickChangeMenu">
                 </ImageView>
                 <TextView

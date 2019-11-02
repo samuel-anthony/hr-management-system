@@ -7,24 +7,29 @@
     android:orientation="vertical"
     tools:context=".Reimbursement">
     <LinearLayout
-        android:weightSum="10"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="10">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Employee Name,\nemail"
             android:id="@+id/nameAndEmail"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:layout_weight="8"
             android:background="@drawable/rectangle"
-            android:orientation="vertical">
+            android:layout_weight="8">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,7 +214,11 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submit"/>
+                android:text="@string/submit"
+                android:onClick="onClickSubmitButton"/>
+
+        </LinearLayout>
+        </ScrollView>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

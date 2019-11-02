@@ -45,26 +45,30 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void onclickChangeMenu(View view){
-        if((view == findViewById(R.id.main_menu_attendance_emp))||(view == findViewById(R.id.main_menu_attendance_pm))){
+        if(view == findViewById(R.id.menu_attendance)){
             Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
         }
-        else if((view == findViewById(R.id.main_menu_leave_emp))||(view == findViewById(R.id.main_menu_leave_pm))){
+        else if(view == findViewById(R.id.menu_leave)){
             Intent mainActivity = new Intent(MainActivity.this, Leave.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
         }
-        else if((view == findViewById(R.id.main_menu_claim_emp))||(view == findViewById(R.id.main_menu_claim_pm))){
+        else if(view == findViewById(R.id.menu_claim)){
             Intent mainActivity = new Intent(MainActivity.this, Reimbursement.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
         }
-        else if((view == findViewById(R.id.main_menu_task_pm))){
+        else if(view == findViewById(R.id.menu_task)){
             Intent mainActivity = new Intent(MainActivity.this, Attendance.class);
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
-            finish();
+        }
+        else if(view == findViewById(R.id.menu_report)){
+            Intent mainActivity = new Intent(MainActivity.this, Report_Main.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
         }
     }
 }

@@ -170,7 +170,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                     }
                     else{
                         Toast.makeText(this,"request is processed",Toast.LENGTH_LONG).show();
-                        submitLeaveEmployeeData(requestLeaveDuration,selectedLeaveID,selectedProjectID,imageString);
+                        submitLeaveEmployeeData(requestLeaveDuration);
                     }
                 }
             } catch (ParseException e) {
@@ -284,15 +284,11 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
         ae.execute();
     }
 
-    public void submitLeaveEmployeeData(long requestedLeave,String selectedLeaveID,String selectedProjectID,String imageString){
+    public void submitLeaveEmployeeData(long requestedLeave){
         class submitDataToDB extends AsyncTask<Void,Void,String> {
             Long requestedLeave;
-            String selectedLeaveID,selectedProjectID,imageString;
-            submitDataToDB(long requestedLeave,String selectedLeaveID,String selectedProjectID,String imageString){
+            submitDataToDB(long requestedLeave){
                 this.requestedLeave = requestedLeave;
-                this.selectedLeaveID = selectedLeaveID;
-                this.selectedProjectID = selectedProjectID;
-                this.imageString = imageString;
             }
             @Override
             protected void onPreExecute() {
@@ -305,6 +301,10 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                 try {
                     JSONObject output = new JSONObject(s);
                     Toast.makeText(Leave.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                    if(output.getString("value").equalsIgnoreCase("1")){
+                        //sukses submit..
+                        utilHelper.createPopUpDialogCloseActivity("Success Message","Your request is processed...To view your request please open Report menu");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -315,13 +315,13 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                 HashMap<String,String> params = new HashMap<>();
                 try {
                     params.put("employee_id",output.getString("employee_id"));
-                    params.put("project_id",this.selectedProjectID);
-                    params.put("leave_id",this.selectedLeaveID);
+                    params.put("project_id",selectedProjectID);
+                    params.put("leave_id",selectedLeaveID);
                     params.put("start_date",((TextView)(findViewById(R.id.dateFrom))).getText().toString());
                     params.put("end_date",((TextView)(findViewById(R.id.dateTo))).getText().toString());
                     params.put("duration",String.valueOf(this.requestedLeave));
                     params.put("notes",((EditText)(findViewById(R.id.notes))).getText().toString());
-                    params.put("file",this.imageString);
+                    params.put("file",imageString);
                     params.put("filetype",".img");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -332,7 +332,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
             }
         }
 
-        submitDataToDB ae = new submitDataToDB(requestedLeave,selectedLeaveID,selectedProjectID,imageString);
+        submitDataToDB ae = new submitDataToDB(requestedLeave);
         ae.execute();
     }
 }

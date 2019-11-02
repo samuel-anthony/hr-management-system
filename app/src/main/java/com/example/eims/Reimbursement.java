@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Reimbursement extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-    String nameAndEmail,selectedProjectID,selectedClaimTypeID,imageString = "";
+    String nameAndEmail,selectedProjectID,selectedClaimTypeID,selectedCurrency,imageString = "";
     Bundle bundle;
     JSONObject output;
     View datePickerView;
@@ -54,6 +55,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
     TextView uploadPictureStat;
     FrameLayout fragmentPicture;
     SimpleDateFormat dateFormat;
+    UtilHelper utilHelper;
 
     ArrayList<HashMap<String,String>> completeProjectData = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeClaimData = new ArrayList<HashMap<String,String>>();
@@ -63,7 +65,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reimbursement);
-
+        utilHelper = new UtilHelper(Reimbursement.this);
         bundle = getIntent().getExtras();
         try {
             output = new JSONObject(bundle.getString("employee_data"));
@@ -82,8 +84,19 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         ft.replace(R.id.fragmentImageLeave, fragment);
         ft.commit();
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
         getClaimEmployeeData();
+        Spinner spinnerClaim = findViewById(R.id.spinnerCurrency);
+        spinnerClaim.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCurrency = parent.getItemAtPosition(position).toString();
+                Toast.makeText(parent.getContext(), "Selected: " + selectedCurrency, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView <?> parent) {
+                Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void showDatePicker(View view){
@@ -146,7 +159,8 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
         EditText title = (EditText) findViewById(R.id.title);
         EditText amount = (EditText) findViewById(R.id.amount);
         EditText account = (EditText) findViewById(R.id.account);
-        if((TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(amount.getText()) || TextUtils.isEmpty(account.getText()))){
+        String date = ((TextView)(findViewById(R.id.date))).getText().toString();
+        if(TextUtils.isEmpty(title.getText()) || TextUtils.isEmpty(amount.getText()) || TextUtils.isEmpty(account.getText()) || date.isEmpty() || imageString.isEmpty()){
             if(TextUtils.isEmpty(title.getText())){
             title.setError("title is required");
             }
@@ -156,9 +170,28 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
             if(TextUtils.isEmpty(account.getText())){
                 account.setError("account number is required");
             }
+            if(date.isEmpty()){
+                utilHelper.createPopUpDialog("Date is required","Please fill the date");
+            }
+            else if(imageString.isEmpty()){
+                utilHelper.createPopUpDialog("Attachment is required","Please attach the receipt as proof");
+            }
         }
         else{
-
+            try {
+                Date todayDate = new Date();
+                Date inputDate = dateFormat.parse(date);
+                if(todayDate.compareTo(inputDate)>0){
+                    utilHelper.createPopUpDialog("Error input","Claim date could not be later than today");
+                }
+                else{
+                    //semua inputnya lengkap brti dung
+                    sumbmitReimbursementData(title.getText().toString(),amount.getText().toString(),account.getText().toString(),date);
+                }
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -259,6 +292,66 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
 
 
         getClaimEmployeeDataFromDB ae = new getClaimEmployeeDataFromDB();
+        ae.execute();
+    }
+
+    public void sumbmitReimbursementData(String title, String amount, String account_no, String date){
+        class submitDataToDB extends AsyncTask<Void,Void,String> {
+            String title, amount,account_no,date;
+            public submitDataToDB(String title,String amount, String account_no, String date){
+                this.title = title;
+                this.amount = amount;
+                this.account_no = account_no;
+                this.date = date;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    JSONObject output = new JSONObject(s);
+                    if(output.getString("value").equalsIgnoreCase("1")){
+                        //sukses submit..
+                        utilHelper.createPopUpDialogCloseActivity("Success Message","Your request is processed...To view your request please open Report menu");
+                    }
+                    else{
+                        utilHelper.createPopUpDialog("Ooopsss",output.getString("message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("title",this.title);
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("project_id",selectedProjectID);
+                    params.put("claim_id",selectedClaimTypeID);
+                    params.put("claim_date",this.date);
+                    params.put("currency",selectedCurrency);
+                    params.put("amount",this.amount);
+                    params.put("account_no",this.account_no);
+                    params.put("notes",((EditText)(findViewById(R.id.notes))).getText().toString());
+                    params.put("file",imageString);
+                    params.put("filetype",".img");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.SubmitClaimDataEmployee, params);
+                return res;
+            }
+        }
+
+        submitDataToDB ae = new submitDataToDB(title,amount,account_no,date);
         ae.execute();
     }
 }

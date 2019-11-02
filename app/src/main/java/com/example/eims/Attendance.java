@@ -57,12 +57,13 @@ public class Attendance extends AppCompatActivity implements LocationListener{
     Location currentUserLocation;
     ArrayList<HashMap<String,String>> completeProjectUserData = new ArrayList<HashMap<String,String>>();
     ArrayList<String> projectNameOnlyForUser = new ArrayList<String>();
+    UtilHelper utilHelper;
     Location officeLocation = new Location("");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
-
+        utilHelper = new UtilHelper(Attendance.this);
         bundle = getIntent().getExtras();
         try {
             output = new JSONObject(bundle.getString("employee_data"));
@@ -185,22 +186,11 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                 try {
                     JSONObject output = new JSONObject(s);
                     if(output.getString("value").equalsIgnoreCase("1") ){
-                        if(clockIn.equalsIgnoreCase("0")){
-                            LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
-                            n.setVisibility(LinearLayout.GONE);
-                            clockIn = "1";
-                        }
-                        else{
-                            LinearLayout m = findViewById(R.id.layout_clock_out_attendance);
-                            m.setVisibility(LinearLayout.GONE);
-                            LinearLayout n = findViewById(R.id.layout_clock_in_attendance);
-                            n.setVisibility(LinearLayout.GONE);
-                            LinearLayout o = findViewById(R.id.layout_project_attendance);
-                            o.setVisibility(LinearLayout.GONE);
-                            clockIn = "2";
-                        }
+                        utilHelper.createPopUpDialogCloseActivity("Success",output.getString("message"));
                     }
-                    Toast.makeText(Attendance.this,output.getString("message"),Toast.LENGTH_LONG).show();
+                    else{
+                        utilHelper.createPopUpDialog("Ooopsss",output.getString("message"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

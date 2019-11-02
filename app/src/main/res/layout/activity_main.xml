@@ -52,6 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/menu_report"
+                android:id="@+id/menu_report"
+                android:onClick="onclickChangeMenu"
                 android:gravity="center"/>
         </LinearLayout>
         <LinearLayout
@@ -63,6 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/menu_profile"
+                android:id="@+id/menu_profile"
+                android:onClick="onclickChangeMenu"
                 android:gravity="center"
                 />
         </LinearLayout>

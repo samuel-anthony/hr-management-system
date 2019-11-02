@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Reimbursement"
+    tools:context=".Report_Main"
     android:weightSum="10"
     android:layout_marginHorizontal="20dp"
     android:layout_marginVertical="20dp">
@@ -36,6 +36,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/menu_attendance"
+            android:id="@+id/menu_attendance"
+            android:onClick="onclickChangeMenu"
             android:background="@drawable/rectangle"
             android:layout_marginVertical="10dp"
             android:gravity="center"/>
@@ -43,6 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/menu_leave"
+            android:onClick="onclickChangeMenu"
             android:text="@string/menu_leave"
             android:background="@drawable/rectangle"
             android:layout_marginVertical="10dp"
@@ -52,6 +56,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/menu_claim"
+            android:id="@+id/menu_claim"
+            android:onClick="onclickChangeMenu"
             android:background="@drawable/rectangle"
             android:layout_marginVertical="10dp"
             android:gravity="center"/>

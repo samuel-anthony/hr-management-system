@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10"
+            android:layout_marginVertical="2dp"
             >
             <TextView
                 android:layout_width="0dp"
@@ -32,12 +33,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:layout_marginVertical="2dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="@string/To"/>
+                android:text="@string/to"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,6 +48,49 @@
                 android:onClick="showDatePicker"
                 android:clickable="true"
                 android:background="@drawable/rectangle"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_marginVertical="2dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/status"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:id="@+id/status"
+                android:background="@drawable/rectangle"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_marginVertical="2dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/search"
+                android:id="@+id/searchAttendance"
+                android:onClick="onClickSearchButton"
+                android:background="@drawable/rectangle"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/clear"
+                android:id="@+id/clearAttendance"
+                android:onClick="onClickClearButton"
+                android:background="@drawable/rectangle"
+                android:layout_marginRight="5dp"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

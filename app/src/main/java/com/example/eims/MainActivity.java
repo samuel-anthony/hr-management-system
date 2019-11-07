@@ -71,4 +71,11 @@ public class MainActivity extends AppCompatActivity  {
             startActivity(mainActivity);
         }
     }
+
+
+    public void signOut(View view){
+        Intent loginIntent = new Intent(this, Login.class);
+        startActivity(loginIntent);
+        finish();
+    }
 }

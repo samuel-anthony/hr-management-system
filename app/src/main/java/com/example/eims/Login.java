@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -55,8 +56,14 @@ public class Login extends AppCompatActivity {
                 try {
                     JSONObject output = new JSONObject(s);
                     if(output.getString("value").equalsIgnoreCase("1")){
-                        Intent mainActivity = new Intent(Login.this, MainActivity.class);
-                        mainActivity.putExtra("employee_data",s);
+                        Intent mainActivity = null;
+                        if(output.getString("is_user").equalsIgnoreCase("1")){
+                            mainActivity = new Intent(Login.this, MainActivity.class);
+                            mainActivity.putExtra("employee_data",s);
+                        }
+                        else{
+                            mainActivity = new Intent(Login.this,AdminMain.class);
+                        }
                         startActivity(mainActivity);
                         finish();
                     }

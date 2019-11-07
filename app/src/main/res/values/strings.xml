@@ -17,6 +17,7 @@
     <string name="menu_claim">Claim</string>
     <string name="menu_task">Task</string>
     <string name="menu_report">Report</string>
+    <string name="menu_employee">Employee</string>
     <string name="menu_profile">Profile</string>
 
     <!--string yang di bawah ini ada buat di attendance page-->
@@ -55,6 +56,9 @@
     <string name="status">Status</string>
     <string name="search">Search</string>
     <string name="clear">Clear</string>
+
+
+    <string name="master_data">Master Data</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

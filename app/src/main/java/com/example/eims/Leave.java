@@ -90,7 +90,8 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
     }
 
     public void showDatePicker(View view){
-        DialogFragment datePicker = new DatePickerFragment();
+        String selectedDate = ((TextView)view).getText().toString();
+        DialogFragment datePicker = new DatePickerFragment(true,selectedDate);
         datePicker.show(getSupportFragmentManager(), "Date Picker");
         datePickerView = view;
     }

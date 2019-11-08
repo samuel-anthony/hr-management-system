@@ -91,7 +91,8 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
     }
 
     public void showDatePicker(View view){
-        DialogFragment datePicker = new DatePickerFragment();
+        String selectedDate = ((TextView)view).getText().toString();
+        DialogFragment datePicker = new DatePickerFragment(selectedDate);
         datePicker.show(getSupportFragmentManager(), "Date Picker");
         datePickerView = view;
     }

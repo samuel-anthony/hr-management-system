@@ -14,4 +14,5 @@ public class ConfigURL {
     public final static String GetClaimPageDataEmployee = "http://" +staticIP + "/eims/getClaimPageDataEmployee.php/";
     public final static String SubmitClaimDataEmployee = "http://" + staticIP + "/eims/submitClaimPageDataEmployee.php/";
     public final static String SearchAttendanceDataEmployee = "http://" + staticIP + "/eims/searchAttendanceDataEmployee.php/";
+    public final static String GetTypeAndStatusReportMenu = "http://" + staticIP + "/eims/getTypeAndStatusReportMenu.php/";
 }

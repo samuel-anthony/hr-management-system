@@ -8,15 +8,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +37,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class Report_Menu extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    String nameAndEmail;
+    String nameAndEmail,statusSelected,typeSelected;
     Bundle bundle;
     JSONObject output;
     String sub_menu_text;
@@ -41,6 +45,9 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
     UtilHelper utilHelper;
     View datePickerView;
     LinearLayout searchResult;
+    ArrayList<HashMap<String,String>> completeTypeDate = new ArrayList<HashMap<String,String>>();
+    ArrayList<HashMap<String,String>> completeStatusData = new ArrayList<HashMap<String,String>>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +84,7 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
         utilHelper = new UtilHelper(Report_Menu.this);
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         searchResult = findViewById(R.id.search_result_scroll);
+        initializeData(Report_Menu.this,sub_menu_text);
     }
     public void onClickBackButton(View view){
         finish();
@@ -113,8 +121,8 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                         utilHelper.createPopUpDialog("Error Input","DateTo should be later than DateFrom");
                     }
                     else{
-                        if(!((TextView)findViewById(R.id.status)).getText().toString().isEmpty()){
-                            status = ((TextView)findViewById(R.id.status)).getText().toString();
+                        if(!statusSelected.equalsIgnoreCase("0")){
+                            status = statusSelected;
                         }
                         getEmployeeAttendanceData(Report_Menu.this,((TextView)(findViewById(R.id.dateFrom))).getText().toString(),((TextView)(findViewById(R.id.dateTo))).getText().toString(),status);
                     }
@@ -250,6 +258,118 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
         }
 
         retrieveDataDB ae = new retrieveDataDB(context,dateFrom,dateTo,status);
+        ae.execute();
+    }
+
+    public void initializeData(Context context, String sub_menu){
+        class retrieveDataDB extends AsyncTask<Void,Void,String> {
+
+            ProgressDialog loading;
+            Context context;
+            String sub_menu;
+            public retrieveDataDB(Context context,String sub_menu){
+                this.context = context;
+                this.sub_menu = sub_menu;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(context,"Retrieving employee's data...","Please wait...",false,false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                try {
+                    JSONObject output = new JSONObject(s);
+                    JSONArray resultStatus = output.getJSONArray("status");
+                    HashMap<String,String> data = new HashMap<>();
+                    data.put("status_id","");
+                    data.put("status_value","No Filter");
+                    completeStatusData.add(data);
+                    ArrayList<String> arrayListStatus = new ArrayList<String>();
+                    arrayListStatus.add("No Filter");
+                    for(int i = 0; i<resultStatus.length() ; i++){
+                        JSONObject jo = resultStatus.getJSONObject(i);
+                        data = new HashMap<>();
+                        data.put("status_id",jo.getString("status_id"));
+                        data.put("status_value",jo.getString("status_value"));
+                        completeStatusData.add(data);
+                        arrayListStatus.add(jo.getString("status_value"));
+                    }
+                    ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(context,android.R.layout.simple_selectable_list_item, arrayListStatus);
+                    arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Spinner spinnerLeave = findViewById(R.id.status);
+                    spinnerLeave.setAdapter(arrayAdapter2);
+                    spinnerLeave.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String statusName = parent.getItemAtPosition(position).toString();
+                            statusSelected = completeStatusData.get(position).get("status_id");
+                            Toast.makeText(parent.getContext(), "Selected: " + statusName, Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView <?> parent) {
+                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    if(!sub_menu.equalsIgnoreCase("Attendance")){
+                        JSONArray resultType = output.getJSONArray("type");
+                        data = new HashMap<>();
+                        data.put("type_id","");
+                        data.put("type_name","No Filter");
+                        completeTypeDate.add(data);
+                        ArrayList<String> arrayListType = new ArrayList<String>();
+                        arrayListType.add("No Filter");
+                        for(int i = 0; i<resultType.length() ; i++){
+                            JSONObject jo = resultType.getJSONObject(i);
+                            data = new HashMap<>();
+                            data.put("type_id",jo.getString("type_id"));
+                            data.put("type_name",jo.getString("type_name"));
+                            completeTypeDate.add(data);
+                            arrayListType.add(jo.getString("type_name"));
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_selectable_list_item, arrayListType);
+                        arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Spinner spinnerType = findViewById(R.id.type);
+                        spinnerType.setAdapter(arrayAdapter);
+                        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String typeName = parent.getItemAtPosition(position).toString();
+                                typeSelected = completeTypeDate.get(position).get("type_id");
+                                Toast.makeText(parent.getContext(), "Selected: " + typeName, Toast.LENGTH_LONG).show();
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView <?> parent) {
+                                Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("sub_menu",sub_menu);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.GetTypeAndStatusReportMenu, params);
+                return res;
+            }
+        }
+
+        retrieveDataDB ae = new retrieveDataDB(context,sub_menu);
         ae.execute();
     }
 }

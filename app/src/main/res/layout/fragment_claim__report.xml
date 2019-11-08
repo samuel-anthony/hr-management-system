@@ -18,14 +18,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="@string/type"/>
-            <TextView
+                android:text="@string/type"
+                android:layout_gravity="center_vertical"/>
+            <Spinner
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="6"
                 android:id="@+id/type"
-                android:onClick="showDatePickertePicker"
-                android:clickable="true"
                 android:background="@drawable/rectangle"/>
         </LinearLayout>
 
@@ -38,10 +37,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="@string/status"/>
-            <TextView
+                android:text="@string/status"
+                android:layout_gravity="center_vertical"/>
+            <Spinner
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="6"
                 android:id="@+id/status"
                 android:background="@drawable/rectangle"/>

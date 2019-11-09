@@ -135,11 +135,21 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 utilHelper.createPopUpDialog("Error input","please fill all of the data");
             }
         }
-        else if(view == findViewById(R.id.searchLeave)){
-
-        }
-        else if(view == findViewById(R.id.searchClaim)){
-
+        else {
+            String status = "";
+            if(!statusSelected.equalsIgnoreCase("0")){
+                status = statusSelected;
+            }
+            String type = "";
+            if(!typeSelected.equalsIgnoreCase("0")){
+                type = typeSelected;
+            }
+            if(view == findViewById(R.id.searchLeave)) {
+                getEmployeeLeaveData(Report_Menu.this, type, status);
+            }
+            else if(view == findViewById(R.id.searchClaim)){
+                getEmployeeClaimData(Report_Menu.this, type, status);
+            }
         }
     }
 
@@ -259,6 +269,232 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
         }
 
         retrieveDataDB ae = new retrieveDataDB(context,dateFrom,dateTo,status);
+        ae.execute();
+    }
+
+    public void getEmployeeLeaveData(Context context,String type,String status){
+        class retrieveDataDB extends AsyncTask<Void,Void,String> {
+            Context context;
+            String type,status;
+            retrieveDataDB(Context context,String type,String status){
+                this.context = context;
+                this.type = type;
+                this.status = status;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    JSONObject output = new JSONObject(s);
+                    JSONArray result = output.getJSONArray("leave");
+                    for(int i = 0; i<result.length() ; i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        LinearLayout container = new LinearLayout(context);
+                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+                        container.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout.LayoutParams paramContainer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams paramTextView = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,4.0f);
+                        //type
+                        LinearLayout subContainer = new LinearLayout(context);
+                        subContainer.setLayoutParams(paramContainer);
+                        subContainer.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer.setWeightSum(10.0f);
+                        TextView labelType = new TextView(context);
+                        labelType.setText("Type");
+                        labelType.setLayoutParams(paramTextView);
+                        TextView dataType = new TextView(context);
+                        dataType.setLayoutParams(paramTextView);
+                        dataType.setText(jo.getString("type"));
+                        subContainer.addView(labelType);
+                        subContainer.addView(dataType);
+                        //DateFrom
+                        LinearLayout subContainer2 = new LinearLayout(context);
+                        subContainer2.setLayoutParams(paramContainer);
+                        subContainer2.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer2.setWeightSum(10.0f);
+                        TextView labelDateFrom = new TextView(context);
+                        labelDateFrom.setText("Date-From");
+                        labelDateFrom.setLayoutParams(paramTextView);
+                        TextView dataDateFrom = new TextView(context);
+                        dataDateFrom.setText(jo.getString("dateFrom"));
+                        dataDateFrom.setLayoutParams(paramTextView);
+                        subContainer2.addView(labelDateFrom);
+                        subContainer2.addView(dataDateFrom);
+                        //DateTo
+                        LinearLayout subContainer3 = new LinearLayout(context);
+                        subContainer3.setLayoutParams(paramContainer);
+                        subContainer3.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer3.setWeightSum(10.0f);
+
+                        TextView labelDateTo = new TextView(context);
+                        labelDateTo.setText("Date-To");
+                        labelDateTo.setLayoutParams(paramTextView);
+                        TextView dataDateTo = new TextView(context);
+                        dataDateTo.setText(jo.getString("dateTo"));
+                        dataDateTo.setLayoutParams(paramTextView);
+                        subContainer3.addView(labelDateTo);
+                        subContainer3.addView(dataDateTo);
+                        //status
+                        LinearLayout subContainer4 = new LinearLayout(context);
+                        subContainer4.setLayoutParams(paramContainer);
+                        subContainer4.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer4.setWeightSum(10.0f);
+                        TextView labelStatus = new TextView(context);
+                        labelStatus.setText("Status");
+                        labelStatus.setLayoutParams(paramTextView);
+                        TextView dataStatus = new TextView(context);
+                        dataStatus.setText(jo.getString("status"));
+                        dataStatus.setLayoutParams(paramTextView);
+                        subContainer4.addView(labelStatus);
+                        subContainer4.addView(dataStatus);
+
+                        container.addView(subContainer);
+                        container.addView(subContainer2);
+                        container.addView(subContainer3);
+                        container.addView(subContainer4);
+                        container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+                        searchResult.addView(container);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("type",type);
+                    params.put("status",status);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.SearchLeaveDataEmployee, params);
+                return res;
+            }
+        }
+
+        retrieveDataDB ae = new retrieveDataDB(context,type,status);
+        ae.execute();
+    }
+
+    public void getEmployeeClaimData(Context context,String type,String status){
+        class retrieveDataDB extends AsyncTask<Void,Void,String> {
+            Context context;
+            String type,status;
+            retrieveDataDB(Context context,String type,String status){
+                this.context = context;
+                this.type = type;
+                this.status = status;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    JSONObject output = new JSONObject(s);
+                    JSONArray result = output.getJSONArray("claim");
+                    for(int i = 0; i<result.length() ; i++){
+                        JSONObject jo = result.getJSONObject(i);
+                        LinearLayout container = new LinearLayout(context);
+                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+                        container.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout.LayoutParams paramContainer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams paramTextView = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,4.0f);
+                        //type
+                        LinearLayout subContainer = new LinearLayout(context);
+                        subContainer.setLayoutParams(paramContainer);
+                        subContainer.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer.setWeightSum(10.0f);
+                        TextView labelType = new TextView(context);
+                        labelType.setText("Type");
+                        labelType.setLayoutParams(paramTextView);
+                        TextView dataType = new TextView(context);
+                        dataType.setLayoutParams(paramTextView);
+                        dataType.setText(jo.getString("type"));
+                        subContainer.addView(labelType);
+                        subContainer.addView(dataType);
+                        //DateProject
+                        LinearLayout subContainer2 = new LinearLayout(context);
+                        subContainer2.setLayoutParams(paramContainer);
+                        subContainer2.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer2.setWeightSum(10.0f);
+                        TextView labelDateProject = new TextView(context);
+                        labelDateProject.setText("Date-Project");
+                        labelDateProject.setLayoutParams(paramTextView);
+                        TextView dataDateProject = new TextView(context);
+                        dataDateProject.setText(jo.getString("date"));
+                        dataDateProject.setLayoutParams(paramTextView);
+                        subContainer2.addView(labelDateProject);
+                        subContainer2.addView(dataDateProject);
+                        //Amount
+                        LinearLayout subContainer3 = new LinearLayout(context);
+                        subContainer3.setLayoutParams(paramContainer);
+                        subContainer3.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer3.setWeightSum(10.0f);
+
+                        TextView labelAmount = new TextView(context);
+                        labelAmount.setText("Amount");
+                        labelAmount.setLayoutParams(paramTextView);
+                        TextView dataAmount = new TextView(context);
+                        dataAmount.setText(jo.getString("amount"));
+                        dataAmount.setLayoutParams(paramTextView);
+                        subContainer3.addView(labelAmount);
+                        subContainer3.addView(dataAmount);
+                        //status
+                        LinearLayout subContainer4 = new LinearLayout(context);
+                        subContainer4.setLayoutParams(paramContainer);
+                        subContainer4.setOrientation(LinearLayout.HORIZONTAL);
+                        subContainer4.setWeightSum(10.0f);
+                        TextView labelStatus = new TextView(context);
+                        labelStatus.setText("Status");
+                        labelStatus.setLayoutParams(paramTextView);
+                        TextView dataStatus = new TextView(context);
+                        dataStatus.setText(jo.getString("status"));
+                        dataStatus.setLayoutParams(paramTextView);
+                        subContainer4.addView(labelStatus);
+                        subContainer4.addView(dataStatus);
+
+                        container.addView(subContainer);
+                        container.addView(subContainer2);
+                        container.addView(subContainer3);
+                        container.addView(subContainer4);
+                        container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+                        searchResult.addView(container);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("type",type);
+                    params.put("status",status);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.SearchClaimDataEmployee, params);
+                return res;
+            }
+        }
+
+        retrieveDataDB ae = new retrieveDataDB(context,type,status);
         ae.execute();
     }
 

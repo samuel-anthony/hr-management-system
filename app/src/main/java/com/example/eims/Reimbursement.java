@@ -182,7 +182,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
             try {
                 Date todayDate = new Date();
                 Date inputDate = dateFormat.parse(date);
-                if(todayDate.compareTo(inputDate)>0){
+                if(inputDate.compareTo(todayDate)>0){
                     utilHelper.createPopUpDialog("Error input","Claim date could not be later than today");
                 }
                 else{
@@ -298,6 +298,8 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
 
     public void sumbmitReimbursementData(String title, String amount, String account_no, String date){
         class submitDataToDB extends AsyncTask<Void,Void,String> {
+            ProgressDialog loading;
+
             String title, amount,account_no,date;
             public submitDataToDB(String title,String amount, String account_no, String date){
                 this.title = title;
@@ -308,6 +310,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
 
             @Override
             protected void onPreExecute() {
+                loading = ProgressDialog.show(Reimbursement.this,"Retrieving employee's data...","Please wait...",false,false);
                 super.onPreExecute();
             }
 
@@ -315,6 +318,7 @@ public class Reimbursement extends AppCompatActivity implements DatePickerDialog
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 try {
+                    loading.dismiss();
                     JSONObject output = new JSONObject(s);
                     if(output.getString("value").equalsIgnoreCase("1")){
                         //sukses submit..

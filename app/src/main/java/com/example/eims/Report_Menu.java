@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -178,73 +179,45 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 try {
                     JSONObject output = new JSONObject(s);
                     JSONArray result = output.getJSONArray("attendance");
-                    for(int i = 0; i<result.length() ; i++){
-                        JSONObject jo = result.getJSONObject(i);
-                        LinearLayout container = new LinearLayout(context);
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-                        container.setOrientation(LinearLayout.VERTICAL);
-                        LinearLayout.LayoutParams paramContainer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        LinearLayout.LayoutParams paramTextView = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,4.0f);
-                        //date
-                        LinearLayout subContainer = new LinearLayout(context);
-                        subContainer.setLayoutParams(paramContainer);
-                        subContainer.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer.setWeightSum(10.0f);
-                        TextView labelDate = new TextView(context);
-                        labelDate.setText("Date");
-                        labelDate.setLayoutParams(paramTextView);
-                        TextView dataDate = new TextView(context);
-                        dataDate.setLayoutParams(paramTextView);
-                        dataDate.setText(jo.getString("date"));
-                        subContainer.addView(labelDate);
-                        subContainer.addView(dataDate);
-                        //clockin
-                        LinearLayout subContainer2 = new LinearLayout(context);
-                        subContainer2.setLayoutParams(paramContainer);
-                        subContainer2.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer2.setWeightSum(10.0f);
-                        TextView labelClockIn = new TextView(context);
-                        labelClockIn.setText("Clock-In");
-                        labelClockIn.setLayoutParams(paramTextView);
-                        TextView dataClockIn = new TextView(context);
-                        dataClockIn.setText(jo.getString("clockIn"));
-                        dataClockIn.setLayoutParams(paramTextView);
-                        subContainer2.addView(labelClockIn);
-                        subContainer2.addView(dataClockIn);
-                        //clockout
-                        LinearLayout subContainer3 = new LinearLayout(context);
-                        subContainer3.setLayoutParams(paramContainer);
-                        subContainer3.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer3.setWeightSum(10.0f);
+                     if(result.length()>0){
+                        for(int i = 0; i<result.length() ; i++){
+                            JSONObject jo = result.getJSONObject(i);
+                            LinearLayout container = utilHelper.createLinearLayout(true,true);
+                            //date
+                            LinearLayout subContainer = utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelDate = utilHelper.createTextView("Date",4.0f);
+                            TextView dataDate = utilHelper.createTextView(jo.getString("date"),4.0f);
+                            subContainer.addView(labelDate);
+                            subContainer.addView(dataDate);
+                            //clockin
+                            LinearLayout subContainer2 = utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelClockIn = utilHelper.createTextView("Clock-In",4.0f);;
+                            TextView dataClockIn = utilHelper.createTextView(jo.getString("clockIn"),4.0f);
+                            subContainer2.addView(labelClockIn);
+                            subContainer2.addView(dataClockIn);
+                            //clockout
+                            LinearLayout subContainer3 = utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelClockOut = utilHelper.createTextView("Clock-Out",4.0f);
+                            TextView dataClockOut = utilHelper.createTextView(jo.getString("clockOut"),4.0f);
+                            subContainer3.addView(labelClockOut);
+                            subContainer3.addView(dataClockOut);
+                            //status
+                            LinearLayout subContainer4 = utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelStatus = utilHelper.createTextView("Status",4.0f);
+                            TextView dataStatus = utilHelper.createTextView(jo.getString("status"),4.0f);
+                            subContainer4.addView(labelStatus);
+                            subContainer4.addView(dataStatus);
 
-                        TextView labelClockOut = new TextView(context);
-                        labelClockOut.setText("Clock-Out");
-                        labelClockOut.setLayoutParams(paramTextView);
-                        TextView dataClockOut = new TextView(context);
-                        dataClockOut.setText(jo.getString("clockOut"));
-                        dataClockOut.setLayoutParams(paramTextView);
-                        subContainer3.addView(labelClockOut);
-                        subContainer3.addView(dataClockOut);
-                        //status
-                        LinearLayout subContainer4 = new LinearLayout(context);
-                        subContainer4.setLayoutParams(paramContainer);
-                        subContainer4.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer4.setWeightSum(10.0f);
-                        TextView labelStatus = new TextView(context);
-                        labelStatus.setText("Status");
-                        labelStatus.setLayoutParams(paramTextView);
-                        TextView dataStatus = new TextView(context);
-                        dataStatus.setText(jo.getString("status"));
-                        dataStatus.setLayoutParams(paramTextView);
-                        subContainer4.addView(labelStatus);
-                        subContainer4.addView(dataStatus);
-
-                        container.addView(subContainer);
-                        container.addView(subContainer2);
-                        container.addView(subContainer3);
-                        container.addView(subContainer4);
-                        container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
-                        searchResult.addView(container);
+                            container.addView(subContainer);
+                            container.addView(subContainer2);
+                            container.addView(subContainer3);
+                            container.addView(subContainer4);
+                            searchResult.addView(container);
+                        }
+                    }
+                    else{
+                        TextView dataStatus = utilHelper.createTextView("No Data Available");
+                        searchResult.addView(dataStatus);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -292,73 +265,48 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 try {
                     JSONObject output = new JSONObject(s);
                     JSONArray result = output.getJSONArray("leave");
-                    for(int i = 0; i<result.length() ; i++){
-                        JSONObject jo = result.getJSONObject(i);
-                        LinearLayout container = new LinearLayout(context);
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-                        container.setOrientation(LinearLayout.VERTICAL);
-                        LinearLayout.LayoutParams paramContainer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        LinearLayout.LayoutParams paramTextView = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,4.0f);
-                        //type
-                        LinearLayout subContainer = new LinearLayout(context);
-                        subContainer.setLayoutParams(paramContainer);
-                        subContainer.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer.setWeightSum(10.0f);
-                        TextView labelType = new TextView(context);
-                        labelType.setText("Type");
-                        labelType.setLayoutParams(paramTextView);
-                        TextView dataType = new TextView(context);
-                        dataType.setLayoutParams(paramTextView);
-                        dataType.setText(jo.getString("type"));
-                        subContainer.addView(labelType);
-                        subContainer.addView(dataType);
-                        //DateFrom
-                        LinearLayout subContainer2 = new LinearLayout(context);
-                        subContainer2.setLayoutParams(paramContainer);
-                        subContainer2.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer2.setWeightSum(10.0f);
-                        TextView labelDateFrom = new TextView(context);
-                        labelDateFrom.setText("Date-From");
-                        labelDateFrom.setLayoutParams(paramTextView);
-                        TextView dataDateFrom = new TextView(context);
-                        dataDateFrom.setText(jo.getString("dateFrom"));
-                        dataDateFrom.setLayoutParams(paramTextView);
-                        subContainer2.addView(labelDateFrom);
-                        subContainer2.addView(dataDateFrom);
-                        //DateTo
-                        LinearLayout subContainer3 = new LinearLayout(context);
-                        subContainer3.setLayoutParams(paramContainer);
-                        subContainer3.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer3.setWeightSum(10.0f);
+                    if(result.length()>0){
+                        for(int i = 0; i<result.length() ; i++){
+                            JSONObject jo = result.getJSONObject(i);
+                            LinearLayout container = utilHelper.createLinearLayout(true,true);
+                            //type
+                            LinearLayout subContainer = utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelType = utilHelper.createTextView("Type",4.0f);
+                            TextView dataType = utilHelper.createTextView(jo.getString("type"),4.0f);
+                            subContainer.addView(labelType);
+                            subContainer.addView(dataType);
+                            //DateFrom
+                            LinearLayout subContainer2 = utilHelper.createLinearLayout(false,false,10.0f);
 
-                        TextView labelDateTo = new TextView(context);
-                        labelDateTo.setText("Date-To");
-                        labelDateTo.setLayoutParams(paramTextView);
-                        TextView dataDateTo = new TextView(context);
-                        dataDateTo.setText(jo.getString("dateTo"));
-                        dataDateTo.setLayoutParams(paramTextView);
-                        subContainer3.addView(labelDateTo);
-                        subContainer3.addView(dataDateTo);
-                        //status
-                        LinearLayout subContainer4 = new LinearLayout(context);
-                        subContainer4.setLayoutParams(paramContainer);
-                        subContainer4.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer4.setWeightSum(10.0f);
-                        TextView labelStatus = new TextView(context);
-                        labelStatus.setText("Status");
-                        labelStatus.setLayoutParams(paramTextView);
-                        TextView dataStatus = new TextView(context);
-                        dataStatus.setText(jo.getString("status"));
-                        dataStatus.setLayoutParams(paramTextView);
-                        subContainer4.addView(labelStatus);
-                        subContainer4.addView(dataStatus);
+                            TextView labelDateFrom = utilHelper.createTextView("Date-From",4.0f);
+                            TextView dataDateFrom = utilHelper.createTextView(jo.getString("dateFrom"),4.0f);
+                            subContainer2.addView(labelDateFrom);
+                            subContainer2.addView(dataDateFrom);
+                            //DateTo
+                            LinearLayout subContainer3 = utilHelper.createLinearLayout(false,false,10.0f);
 
-                        container.addView(subContainer);
-                        container.addView(subContainer2);
-                        container.addView(subContainer3);
-                        container.addView(subContainer4);
-                        container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
-                        searchResult.addView(container);
+                            TextView labelDateTo = utilHelper.createTextView("Date-To",4.0f);
+                            TextView dataDateTo = utilHelper.createTextView(jo.getString("dateTo"),4.0f);
+                            subContainer3.addView(labelDateTo);
+                            subContainer3.addView(dataDateTo);
+                            //status
+                            LinearLayout subContainer4 = utilHelper.createLinearLayout(false,false,10.0f);
+
+                            TextView labelStatus = utilHelper.createTextView("Status",4.0f);
+                            TextView dataStatus = utilHelper.createTextView(jo.getString("status"),4.0f);
+                            subContainer4.addView(labelStatus);
+                            subContainer4.addView(dataStatus);
+
+                            container.addView(subContainer);
+                            container.addView(subContainer2);
+                            container.addView(subContainer3);
+                            container.addView(subContainer4);
+                            searchResult.addView(container);
+                        }
+                    }
+                    else{
+                        TextView dataStatus = utilHelper.createTextView("No Data Available");
+                        searchResult.addView(dataStatus);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -405,73 +353,48 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 try {
                     JSONObject output = new JSONObject(s);
                     JSONArray result = output.getJSONArray("claim");
-                    for(int i = 0; i<result.length() ; i++){
-                        JSONObject jo = result.getJSONObject(i);
-                        LinearLayout container = new LinearLayout(context);
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-                        container.setOrientation(LinearLayout.VERTICAL);
-                        LinearLayout.LayoutParams paramContainer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        LinearLayout.LayoutParams paramTextView = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,4.0f);
-                        //type
-                        LinearLayout subContainer = new LinearLayout(context);
-                        subContainer.setLayoutParams(paramContainer);
-                        subContainer.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer.setWeightSum(10.0f);
-                        TextView labelType = new TextView(context);
-                        labelType.setText("Type");
-                        labelType.setLayoutParams(paramTextView);
-                        TextView dataType = new TextView(context);
-                        dataType.setLayoutParams(paramTextView);
-                        dataType.setText(jo.getString("type"));
-                        subContainer.addView(labelType);
-                        subContainer.addView(dataType);
-                        //DateProject
-                        LinearLayout subContainer2 = new LinearLayout(context);
-                        subContainer2.setLayoutParams(paramContainer);
-                        subContainer2.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer2.setWeightSum(10.0f);
-                        TextView labelDateProject = new TextView(context);
-                        labelDateProject.setText("Date-Project");
-                        labelDateProject.setLayoutParams(paramTextView);
-                        TextView dataDateProject = new TextView(context);
-                        dataDateProject.setText(jo.getString("date"));
-                        dataDateProject.setLayoutParams(paramTextView);
-                        subContainer2.addView(labelDateProject);
-                        subContainer2.addView(dataDateProject);
-                        //Amount
-                        LinearLayout subContainer3 = new LinearLayout(context);
-                        subContainer3.setLayoutParams(paramContainer);
-                        subContainer3.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer3.setWeightSum(10.0f);
+                    if(result.length()>0){
+                        for(int i = 0; i<result.length() ; i++){
+                            JSONObject jo = result.getJSONObject(i);
+                            LinearLayout container = utilHelper.createLinearLayout(true,true);
+                            //type
+                            LinearLayout subContainer = utilHelper.createLinearLayout(false,false,10.0f);
 
-                        TextView labelAmount = new TextView(context);
-                        labelAmount.setText("Amount");
-                        labelAmount.setLayoutParams(paramTextView);
-                        TextView dataAmount = new TextView(context);
-                        dataAmount.setText(jo.getString("amount"));
-                        dataAmount.setLayoutParams(paramTextView);
-                        subContainer3.addView(labelAmount);
-                        subContainer3.addView(dataAmount);
-                        //status
-                        LinearLayout subContainer4 = new LinearLayout(context);
-                        subContainer4.setLayoutParams(paramContainer);
-                        subContainer4.setOrientation(LinearLayout.HORIZONTAL);
-                        subContainer4.setWeightSum(10.0f);
-                        TextView labelStatus = new TextView(context);
-                        labelStatus.setText("Status");
-                        labelStatus.setLayoutParams(paramTextView);
-                        TextView dataStatus = new TextView(context);
-                        dataStatus.setText(jo.getString("status"));
-                        dataStatus.setLayoutParams(paramTextView);
-                        subContainer4.addView(labelStatus);
-                        subContainer4.addView(dataStatus);
+                            TextView labelType = utilHelper.createTextView("Type",4.0f);
+                            TextView dataType = utilHelper.createTextView(jo.getString("type"),4.0f);
+                            subContainer.addView(labelType);
+                            subContainer.addView(dataType);
+                            //DateProject
+                            LinearLayout subContainer2 = utilHelper.createLinearLayout(false,false,10.0f);
 
-                        container.addView(subContainer);
-                        container.addView(subContainer2);
-                        container.addView(subContainer3);
-                        container.addView(subContainer4);
-                        container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
-                        searchResult.addView(container);
+                            TextView labelDateProject = utilHelper.createTextView("Date-Project",4.0f);
+                            TextView dataDateProject = utilHelper.createTextView(jo.getString("date"),4.0f);
+                            subContainer2.addView(labelDateProject);
+                            subContainer2.addView(dataDateProject);
+                            //Amount
+                            LinearLayout subContainer3 = utilHelper.createLinearLayout(false,false,10.0f);
+
+                            TextView labelAmount = utilHelper.createTextView("Amount",4.0f);
+                            TextView dataAmount = utilHelper.createTextView(jo.getString("amount"),4.0f);
+                            subContainer3.addView(labelAmount);
+                            subContainer3.addView(dataAmount);
+                            //status
+                            LinearLayout subContainer4 = utilHelper.createLinearLayout(false,false,10.0f);
+
+                            TextView labelStatus = utilHelper.createTextView("Status",4.0f);
+                            TextView dataStatus = utilHelper.createTextView(jo.getString("status"),4.0f);
+                            subContainer4.addView(labelStatus);
+                            subContainer4.addView(dataStatus);
+
+                            container.addView(subContainer);
+                            container.addView(subContainer2);
+                            container.addView(subContainer3);
+                            container.addView(subContainer4);
+                            searchResult.addView(container);
+                        }
+                    }else{
+                        TextView dataStatus = utilHelper.createTextView("No Data Available");
+                        searchResult.addView(dataStatus);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

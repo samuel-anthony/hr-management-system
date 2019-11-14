@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminMain"></activity>
+        <activity android:name=".TaskDetail"></activity>
+        <activity android:name=".TaskSearch" />
+        <activity android:name=".TaskMain" />
+        <activity android:name=".AdminMain" />
         <activity android:name=".Report_Menu" />
         <activity android:name=".Report_Main" />
         <activity android:name=".Reimbursement" />

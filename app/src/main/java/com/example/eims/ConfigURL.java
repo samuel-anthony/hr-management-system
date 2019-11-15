@@ -5,7 +5,7 @@ public class ConfigURL {
     //ip wifi arenda =  192.168.0.107
     //ip hape gue = 192.168.43.91
     //ip starbuk tj duren= 10.107.166.52
-    private final static String staticIP = "192.168.0.107";
+    private final static String staticIP = "192.168.0.112";
     public final static String Login = "http://" + staticIP + "/eims/login.php/";
     public final static String CheckAttendanceEmployee = "http://" + staticIP + "/eims/checkAttendanceEmployee.php/";
     public final static String CheckProjectEmployee = "http://" + staticIP + "/eims/checkProjectEmployee.php/";
@@ -17,4 +17,5 @@ public class ConfigURL {
     public final static String SearchLeaveDataEmployee = "http://" + staticIP + "/eims/searchLeaveDataEmployee.php/";
     public final static String SearchClaimDataEmployee = "http://" + staticIP + "/eims/searchClaimDataEmployee.php/";
     public final static String GetTypeAndStatusReportMenu = "http://" + staticIP + "/eims/getTypeAndStatusReportMenu.php/";
+    public final static String GetLeaveAndClaimTaskMenu = "http://" + staticIP + "/eims/getLeaveAndClaimTaskMenu.php/";
 }

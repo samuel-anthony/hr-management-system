@@ -57,7 +57,9 @@
     <string name="search">Search</string>
     <string name="clear">Clear</string>
     <string name="show">Show</string>
-
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="remarks">Remarks</string>
 
     <string name="master_data">Master Data</string>
     <!-- TODO: Remove or change this placeholder text -->

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Reimbursement">
+    tools:context=".Reimbursement"
+    android:onClick="hideUploadedPicture">
     <LinearLayout
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"

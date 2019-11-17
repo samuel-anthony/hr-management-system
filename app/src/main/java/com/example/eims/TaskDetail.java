@@ -7,10 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 public class TaskDetail extends AppCompatActivity {
-    String nameAndEmail,menuText;
+    String nameAndEmail,menuText,summaryID;
     Bundle bundle;
     JSONObject output;
     UtilHelper utilHelper;
@@ -39,6 +43,7 @@ public class TaskDetail extends AppCompatActivity {
             output = new JSONObject(bundle.getString("employee_data"));
             nameAndEmail = output.getString("first_name") + " " +output.getString("last_name") + ",\n" +output.getString("email");
             menuText = bundle.getString("sub_menu");
+            summaryID = bundle.getString("id");
         } catch (
                 JSONException e) {
             e.printStackTrace();
@@ -57,7 +62,15 @@ public class TaskDetail extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentDetail, fragment);
         ft.commit();
+
+
+        Fragment fragment2 = new Image();
+        FragmentManager fm2 = getSupportFragmentManager();
+        FragmentTransaction ft2 = fm2.beginTransaction();
+        ft2.replace(R.id.fragmentImage, fragment2);
+        ft2.commit();
         fragmentPicture = findViewById(R.id.fragmentImage );
+        fragmentPicture.setVisibility(View.INVISIBLE);
         getDetail(TaskDetail.this);
 
     }
@@ -104,8 +117,22 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataDateTo = findViewById(R.id.dateTo);
                                 TextView dataNotes = findViewById(R.id.notes);
 
-                                View attachment = findViewById(R.id.linearLayoutAttachment);
+                                dataLeaveType.setText(jo.getString("leaveType"));
+                                dataReportedTo.setText(jo.getString("projectName"));
+                                dataDateFrom.setText(jo.getString("dateFrom"));
+                                dataDateTo.setText(jo.getString("dateTo"));
+                                dataNotes.setText(jo.getString("notes"));
 
+                                View attachment = findViewById(R.id.linearLayoutAttachment);
+                                if(jo.getString("file_data").isEmpty()){
+                                    attachment.setVisibility(View.INVISIBLE);
+                                }
+                                else{
+                                    byte[] imageBytes = Base64.decode(jo.getString("file_data"), Base64.DEFAULT);
+                                    bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                    ImageView uploadedPic = findViewById(R.id.uploadedPicture);
+                                    uploadedPic.setImageBitmap(bitmap);
+                                }
                             }
                         }
                     }
@@ -124,6 +151,20 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataNotes = findViewById(R.id.notes);
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
+                                dataTitle.setText(jo.getString("title"));
+                                dataProject.setText(jo.getString("projectName"));
+                                dataClaimType.setText(jo.getString("claimType"));
+                                dataClaimDate.setText(jo.getString("date"));
+                                dataAmount.setText(jo.getString("amount"));
+                                dataCurrency.setText(jo.getString("currency"));
+                                dataAccount.setText(jo.getString("bank_account"));
+                                dataNotes.setText(jo.getString("notes"));
+
+
+                                byte[] imageBytes = Base64.decode(jo.getString("file_data"), Base64.DEFAULT);
+                                bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                ImageView uploadedPic = findViewById(R.id.uploadedPicture);
+                                uploadedPic.setImageBitmap(bitmap);
                             }
                         }
                     }
@@ -138,11 +179,12 @@ public class TaskDetail extends AppCompatActivity {
                 try {
                     params.put("employee_id",output.getString("employee_id"));
                     params.put("menu",menuText);
+                    params.put("summaryID",summaryID);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 RequestHandler rh = new RequestHandler();
-                String res = rh.sendPostRequest(ConfigURL.GetLeaveAndClaimTaskMenu, params);
+                String res = rh.sendPostRequest(ConfigURL.GetDetailLeaveAndClaimTaskMenu, params);
                 return res;
             }
         }
@@ -150,5 +192,7 @@ public class TaskDetail extends AppCompatActivity {
         retrieveDataDB ae = new retrieveDataDB(context);
         ae.execute();
     }
+
+
 
 }

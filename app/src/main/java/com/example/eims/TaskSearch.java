@@ -2,6 +2,7 @@ package com.example.eims;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -51,12 +52,15 @@ public class TaskSearch extends AppCompatActivity {
     public void getEmployeeData(Context context){
         class retrieveDataDB extends AsyncTask<Void,Void,String> {
             Context context;
+            ProgressDialog loading;
+
             retrieveDataDB(Context context){
                 this.context = context;
             }
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                loading = ProgressDialog.show(context,"Retrieving employee's data...","Please wait...",false,false);
             }
 
             @Override
@@ -112,6 +116,7 @@ public class TaskSearch extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                         startActivity(detailActivity);
+                                        finish();
                                     }
                                 });
                                 rightSubContainer.addView(editButton);
@@ -175,6 +180,7 @@ public class TaskSearch extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                         startActivity(detailActivity);
+                                        finish();
                                     }
                                 });
                                 rightSubContainer.addView(editButton);
@@ -192,6 +198,7 @@ public class TaskSearch extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                loading.dismiss();
             }
 
             @Override
@@ -213,4 +220,6 @@ public class TaskSearch extends AppCompatActivity {
         retrieveDataDB ae = new retrieveDataDB(context);
         ae.execute();
     }
+
+
 }

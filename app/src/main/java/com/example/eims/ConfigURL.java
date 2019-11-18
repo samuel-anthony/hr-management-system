@@ -19,4 +19,6 @@ public class ConfigURL {
     public final static String GetTypeAndStatusReportMenu = "http://" + staticIP + "/eims/getTypeAndStatusReportMenu.php/";
     public final static String GetLeaveAndClaimTaskMenu = "http://" + staticIP + "/eims/getLeaveAndClaimTaskMenu.php/";
     public final static String GetDetailLeaveAndClaimTaskMenu = "http://" + staticIP + "/eims/getDetailLeaveAndClaimTaskMenu.php/";
+    public final static String UpdateLeaveAndClaimSummary = "http://" + staticIP + "/eims/updateLeaveAndClaimSummary.php/";
+
 }

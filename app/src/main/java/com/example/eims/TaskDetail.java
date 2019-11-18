@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -75,7 +77,20 @@ public class TaskDetail extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent mainActivity = new Intent(this, TaskSearch.class);
+        mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+        mainActivity.putExtra("sub_menu",menuText);
+        startActivity(mainActivity);
+        finish();
+
+    }
     public void onClickBackButton(View view){
+        Intent mainActivity = new Intent(this, TaskSearch.class);
+        mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+        mainActivity.putExtra("sub_menu",menuText);
+        startActivity(mainActivity);
         finish();
     }
 
@@ -93,12 +108,16 @@ public class TaskDetail extends AppCompatActivity {
     public void getDetail(Context context){
         class retrieveDataDB extends AsyncTask<Void,Void,String> {
             Context context;
+            ProgressDialog loading;
+
             retrieveDataDB(Context context){
                 this.context = context;
             }
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                loading = ProgressDialog.show(context,"Retrieving employee's data...","Please wait...",false,false);
+
             }
 
             @Override
@@ -171,6 +190,7 @@ public class TaskDetail extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                loading.dismiss();
             }
 
             @Override
@@ -193,6 +213,71 @@ public class TaskDetail extends AppCompatActivity {
         ae.execute();
     }
 
+    public void onClickApproveAndRejectButton(View view){
+        String remarks = ((TextView)findViewById(R.id.remarks)).getText().toString();
+        if(view == findViewById(R.id.buttonReject)){
+            if(!remarks.isEmpty()){
+                updateContent(TaskDetail.this,"9",remarks);
+            }
+            else{
+                utilHelper.createPopUpDialog("Missing Required field","Please fill the remarks");
+            }
+        }
+        else{
+            updateContent(TaskDetail.this,"7",remarks);
+        }
+    }
 
+    public void updateContent(Context context,String statusCode,String remarks){
+        class updateDatabase extends AsyncTask<Void,Void,String> {
+            Context context;
+            String statusCode,remarks;
+            updateDatabase(Context context,String statusCode,String remarks){
+                this.context = context;
+                this.statusCode = statusCode;
+                this.remarks = remarks;
+            }
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    JSONObject output = new JSONObject(s);
+                    if(output.getString("value").equalsIgnoreCase("1") ){
+                        utilHelper.createPopUpDialogCloseActivity("Success",output.getString("message"));
+                    }
+                    else{
+                        utilHelper.createPopUpDialog("Ooopsss",output.getString("message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("employee_id",output.getString("employee_id"));
+                    params.put("menu",menuText);
+                    params.put("summaryID",summaryID);
+                    params.put("statusCode",statusCode);
+                    params.put("remarks",remarks);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(ConfigURL.UpdateLeaveAndClaimSummary, params);
+                return res;
+            }
+        }
+
+        updateDatabase ae = new updateDatabase(context,statusCode,remarks);
+        ae.execute();
+    }
 
 }

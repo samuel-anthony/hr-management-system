@@ -60,12 +60,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/buttonApprove"
-                                android:text="@string/approve"/>
+                                android:text="@string/approve"
+                                android:onClick="onClickApproveAndRejectButton"/>
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/buttonReject"
-                                android:text="@string/reject"/>
+                                android:text="@string/reject"
+                                android:onClick="onClickApproveAndRejectButton"/>
                         </LinearLayout>
                 </LinearLayout>
             </ScrollView>

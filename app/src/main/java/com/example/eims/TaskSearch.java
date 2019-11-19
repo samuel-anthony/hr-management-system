@@ -159,10 +159,17 @@ public class TaskSearch extends AppCompatActivity {
                                 textViewContainer3.addView(labelAmount);
                                 textViewContainer3.addView(dataAmount);
 
+                                LinearLayout textViewContainer4 = utilHelper.createLinearLayout(false,false,10.0f);
+                                TextView labelStatus = utilHelper.createTextView("Status",3.0f);
+                                TextView dataStatus = utilHelper.createTextView(jo.getString("status"),4.0f);
+                                textViewContainer4.addView(labelStatus);
+                                textViewContainer4.addView(dataStatus);
+
                                 leftSubContainer.addView(employeeName);
                                 leftSubContainer.addView(textViewContainer);
                                 leftSubContainer.addView(textViewContainer2);
                                 leftSubContainer.addView(textViewContainer3);
+                                leftSubContainer.addView(textViewContainer4);
 
                                 ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
                                 editButton.setOnClickListener(new View.OnClickListener()

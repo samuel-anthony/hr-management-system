@@ -62,6 +62,16 @@
     <string name="remarks">Remarks</string>
 
     <string name="master_data">Master Data</string>
+
+    <string name="employeeID">Employee ID</string>
+    <string name="name">Name</string>
+    <string name="addNew">Add New</string>
+    <string name="addForm">Add Form</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="address">Address</string>
+    <string name="hiredDate">Hired Date</string>
+    <string name="employeeTag"></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

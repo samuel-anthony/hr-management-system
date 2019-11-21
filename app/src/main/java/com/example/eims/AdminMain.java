@@ -16,18 +16,19 @@ public class AdminMain extends AppCompatActivity {
 
     public void onclickChangeMenu(View view){
         if(view == findViewById(R.id.menu_employee)){
-
+            Intent mainActivity = new Intent(this, HREmployeeMain.class);
+            startActivity(mainActivity);
         }
         else if(view == findViewById(R.id.menu_project)){
 
         }
-        else if(view == findViewById(R.id.menu_employee)){
+        else if(view == findViewById(R.id.menu_attendance)){
 
         }
-        else if(view == findViewById(R.id.menu_employee)){
+        else if(view == findViewById(R.id.menu_leave)){
 
         }
-        else if(view == findViewById(R.id.menu_employee)){
+        else if(view == findViewById(R.id.menu_claim)){
 
         }
     }

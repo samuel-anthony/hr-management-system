@@ -12,14 +12,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment {
-    boolean isMinimumDate;
+    boolean isMinimumDate,isMaximumDate;
     String tempDate;
     public DatePickerFragment(String tempDate){
         isMinimumDate = false;
+        isMaximumDate = false;
         this.tempDate = tempDate;
     }
-    public DatePickerFragment(boolean isMinimumDate, String tempDate){
+
+    public DatePickerFragment(boolean isMinimumDate,boolean isMaximumDate, String tempDate){
         this.isMinimumDate = isMinimumDate;
+        this.isMaximumDate = isMaximumDate;
         this.tempDate = tempDate;
     }
     @NonNull
@@ -42,6 +45,8 @@ public class DatePickerFragment extends DialogFragment {
         if(isMinimumDate){
             calendarDatePicker.getDatePicker().setMinDate(new Date().getTime());
         }
+        if(isMaximumDate)
+            calendarDatePicker.getDatePicker().setMaxDate(new Date().getTime());
         return calendarDatePicker;
     }
 }

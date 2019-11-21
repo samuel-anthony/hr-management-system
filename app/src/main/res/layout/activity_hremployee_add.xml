@@ -112,6 +112,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:text="@string/phoneNumber"/>
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:background="@drawable/rectangle"
+                        android:id="@+id/phone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_marginVertical="2dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
                         android:text="@string/hiredDate"/>
                     <TextView
                         android:layout_width="0dp"
@@ -126,8 +144,104 @@
                         android:layout_weight="2"
                         android:src="@drawable/calendar" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/rectangle"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gender"
+                        />
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/radioGroupGender">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Male"
+                            android:checked="true"
+                            android:id="@+id/radioEmployeeMale"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Female"
+                            android:id="@+id/radioEmployeeFemale"/>
+                    </RadioGroup>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/rectangle"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/employeeTag"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-                
+                        >
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioGroup1"
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/radioEmployeeFullTime"
+                                android:text="Full Time"
+                                android:checked="true"
+                                android:onClick="onclickRadioButton"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/radioEmployeeIntern"
+                                android:text="Intern"
+                                android:onClick="onclickRadioButton"/>
+
+                        </RadioGroup>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioGroup2">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/radioEmployeeContract"
+                                android:text="Contract"
+                                android:onClick="onclickRadioButton"/>
+                        </RadioGroup>
+                    </LinearLayout>
+                </LinearLayout>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Is PM"
+                    android:id="@+id/checkboxIsPM"/>
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Is User"
+                    android:id="@+id/checkboxIsUser"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/submit"
+                    android:onClick="onClickSubmitButton"/>
             </LinearLayout>
         </ScrollView>
 
@@ -137,6 +251,7 @@
             android:textSize="10pt"
             android:fontFamily="@font/josefinsans"
             android:text="@string/button_back"
-            android:onClick="onClickBackButton"/>
+            android:onClick="onClickBackButton"
+            android:layout_marginVertical="10dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

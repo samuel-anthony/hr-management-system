@@ -70,8 +70,9 @@
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="address">Address</string>
+    <string name="phoneNumber">Phone No</string>
     <string name="hiredDate">Hired Date</string>
-    <string name="employeeTag"></string>
+    <string name="employeeTag">Employee Tag</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

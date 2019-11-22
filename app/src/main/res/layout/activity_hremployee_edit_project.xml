@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".HREmployeeEditProject">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit project"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

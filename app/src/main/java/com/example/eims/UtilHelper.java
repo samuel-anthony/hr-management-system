@@ -52,9 +52,38 @@ public class UtilHelper {
         return container;
     }
 
+    public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,int left,int top,int right, int bottom){
+        LinearLayout container = new LinearLayout(context);
+        LinearLayout.LayoutParams myparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        myparam.setMargins(left,top,right,bottom);
+        container.setLayoutParams(myparam);
+        if(isVerticalLayout){
+            container.setOrientation(LinearLayout.VERTICAL);
+        }
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        return container;
+    }
+
     public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,float weightSum){//create linear Layout with match parent,wrap content
         LinearLayout container = new LinearLayout(context);
         container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+        if(isVerticalLayout){
+            container.setOrientation(LinearLayout.VERTICAL);
+        }
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        container.setWeightSum(weightSum);
+        return container;
+    }
+
+    public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,float weightSum,int left,int top,int right, int bottom){//create linear Layout with match parent,wrap content
+        LinearLayout container = new LinearLayout(context);
+        LinearLayout.LayoutParams myParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        myParam.setMargins(left, top, right, bottom);
+        container.setLayoutParams(myParam);
         if(isVerticalLayout){
             container.setOrientation(LinearLayout.VERTICAL);
         }
@@ -104,6 +133,29 @@ public class UtilHelper {
         return container;
     }
 
+    public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,float layout_weight, boolean isLayoutWeightVertical,boolean isHeightMatchParent){
+        LinearLayout container = new LinearLayout(context);
+
+        if(isVerticalLayout){
+            container.setOrientation(LinearLayout.VERTICAL);
+        }
+
+        if(isLayoutWeightVertical){
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,layout_weight));
+        }
+        else{
+            if(!isHeightMatchParent)
+                container.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,layout_weight));
+            else
+                container.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT,layout_weight));
+        }
+
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        return container;
+    }
+
     public RelativeLayout createRelativeLayout(boolean isUsingSquareBorder){//create linear Layout with match parent,match parent content
         RelativeLayout container = new RelativeLayout(context);
         container.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
@@ -117,9 +169,9 @@ public class UtilHelper {
     public RelativeLayout createRelativeLayout(boolean isUsingSquareBorder,float layout_weight, boolean isLayoutWeightVertical){
         RelativeLayout container = new RelativeLayout(context);
         if(isLayoutWeightVertical){
-            container.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,0,layout_weight));
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,layout_weight));
         }else{
-            container.setLayoutParams(new LinearLayout.LayoutParams(0, RelativeLayout.LayoutParams.MATCH_PARENT,layout_weight));
+            container.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,layout_weight));
         }
         if(isUsingSquareBorder){
             container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
@@ -148,5 +200,4 @@ public class UtilHelper {
         imageView.setImageResource(drawableID);
         return imageView;
     }
-
 }

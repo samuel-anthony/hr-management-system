@@ -29,7 +29,7 @@
                     android:layout_weight="4"
                     android:text="@string/name"
                     android:layout_gravity="center_vertical"/>
-                <Spinner
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="6"
@@ -48,7 +48,7 @@
                     android:layout_weight="4"
                     android:text="@string/employeeID"
                     android:layout_gravity="center_vertical"/>
-                <Spinner
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="6"

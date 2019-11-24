@@ -63,7 +63,7 @@ public class HREmployeeMain extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(HREmployeeMain.this,"Inserting employee's data...","Please wait...",false,false);
+                loading = ProgressDialog.show(HREmployeeMain.this,"Getting employee's data...","Please wait...",false,false);
             }
 
             @Override
@@ -173,7 +173,7 @@ public class HREmployeeMain extends AppCompatActivity {
                 params.put("employee_name",employeeName);
 
                 RequestHandler rh = new RequestHandler();
-                String res = rh.sendPostRequest(ConfigURL.SearchEmployeeForAdmin, params);
+                String res = rh.sendPostRequest(ConfigURL.SearcProjectforAdmin, params);
                 return res;
             }
         }

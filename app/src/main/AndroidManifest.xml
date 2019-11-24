@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HREmployeeEdit"></activity>
+        <activity android:name=".HRProjectAddEdit"></activity>
+        <activity android:name=".HRProjectMain" />
+        <activity android:name=".HREmployeeEdit" />
         <activity android:name=".HREmployeeEditProject" />
         <activity android:name=".HREmployeeEditLeave" />
         <activity android:name=".HREmployeeAdd" />

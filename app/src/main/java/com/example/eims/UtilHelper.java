@@ -202,6 +202,22 @@ public class UtilHelper {
         return container;
     }
 
+    public RelativeLayout createRelativeLayout(int width, int height ,float layoutWeight,boolean isUsingSquareBorder,int left,int top,int right,int bottom){
+        RelativeLayout container = new RelativeLayout(context);
+        LinearLayout.LayoutParams params;
+        if(width==0 ||height ==0){
+            params = new LinearLayout.LayoutParams(width,height,layoutWeight);
+        }
+        else{
+            params = new LinearLayout.LayoutParams(width,height);
+        }
+        params.setMargins(left, top, right, bottom);
+        container.setLayoutParams(params);
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        return container;
+    }
     public TextView createTextView(String textContent){
         TextView textView = new TextView(context);
         textView.setText(textContent);

@@ -31,7 +31,6 @@ public class HREmployeeEditLeave extends AppCompatActivity {
     Bundle bundle;
     LinearLayout searchResult;
     UtilHelper utilHelper;
-    boolean firstTimeCheckBoxClicked = true;
     ArrayList<HashMap<String,String>> completeLeaveData = new ArrayList<HashMap<String,String>>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +46,6 @@ public class HREmployeeEditLeave extends AppCompatActivity {
         utilHelper = new UtilHelper(this);
         searchEmployeeData(this);
 
-        CheckBox checkBox = findViewById(R.id.checkboxIsPM);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if(isChecked){
-                    if(firstTimeCheckBoxClicked)
-                        utilHelper.createPopUpDialog("PM is checked","By Checking the PM, then this employee will automatically become user(not admin)");
-                    firstTimeCheckBoxClicked = false;
-                    ((CheckBox)findViewById(R.id.checkboxIsUser)).setChecked(true);
-                }
-            }
-        });
     }
 
     public void onClickBackButton(View view){finish();}

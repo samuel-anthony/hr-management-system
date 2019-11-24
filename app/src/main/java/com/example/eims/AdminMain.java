@@ -20,6 +20,8 @@ public class AdminMain extends AppCompatActivity {
             startActivity(mainActivity);
         }
         else if(view == findViewById(R.id.menu_project)){
+            Intent mainActivity = new Intent(this, HRProjectMain.class);
+            startActivity(mainActivity);
 
         }
         else if(view == findViewById(R.id.menu_attendance)){

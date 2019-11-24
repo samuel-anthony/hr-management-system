@@ -79,6 +79,8 @@
 
     <string name="projectList">Project List</string>
     <string name="projectAssigned">Project Assigned</string>
+    <string name="projectId">Project ID</string>
+    <string name="projectName">Project Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

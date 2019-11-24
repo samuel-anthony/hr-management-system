@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -31,6 +32,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
     int selectedIDRadioButton = 0;
     Bundle bundle;
     String nameAndEmail,employeeID;
+    boolean firstTimeCheckBoxClicked = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,21 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
         employeeID = bundle.getString("id");
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         utilHelper = new UtilHelper(this);
+
+        CheckBox checkBox = findViewById(R.id.checkboxIsPM);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked){
+                    if(firstTimeCheckBoxClicked)
+                        utilHelper.createPopUpDialog("PM is checked","By Checking the PM, then this employee will automatically become user(not admin)");
+                    firstTimeCheckBoxClicked = false;
+                    ((CheckBox)findViewById(R.id.checkboxIsUser)).setChecked(true);
+                }
+            }
+        });
         getData(this);
     }
 

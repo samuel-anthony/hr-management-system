@@ -41,12 +41,17 @@ public class HREmployeeMain extends AppCompatActivity {
 
 
     public void onClickSearchButton(View view){
+        scrollViewLayout.removeAllViews();
         String employeeName = ((EditText)findViewById(R.id.name)).getText().toString();
         String employeeID = ((EditText)findViewById(R.id.employeeID)).getText().toString();
 
         searchEmployeeData(employeeName,employeeID);
     }
 
+
+    public void onClickClearButton(View view){
+        scrollViewLayout.removeAllViews();
+    }
     public void searchEmployeeData(String employeeName, String employeeID){
         class searchDB extends AsyncTask<Void,Void,String> {
             ProgressDialog loading;
@@ -98,6 +103,7 @@ public class HREmployeeMain extends AppCompatActivity {
                                     Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEdit.class);
                                     try {
                                         detailActivity.putExtra("id",jo.getString("empID"));
+                                        detailActivity.putExtra("name",jo.getString("name"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -118,6 +124,7 @@ public class HREmployeeMain extends AppCompatActivity {
                                     Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditLeave.class);
                                     try {
                                         detailActivity.putExtra("id",jo.getString("empID"));
+                                        detailActivity.putExtra("name",jo.getString("name"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -136,6 +143,7 @@ public class HREmployeeMain extends AppCompatActivity {
                                     Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditProject.class);
                                     try {
                                         detailActivity.putExtra("id",jo.getString("empID"));
+                                        detailActivity.putExtra("name",jo.getString("name"));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

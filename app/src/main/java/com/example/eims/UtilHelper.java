@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -132,6 +135,26 @@ public class UtilHelper {
         }
         return container;
     }
+    public LinearLayout createLinearLayout(int width, int height, float layoutWeight, float weightSum,boolean isVerticalLayout, boolean isUsingSquareBorder, int left, int top, int right, int bottom){
+        LinearLayout container = new LinearLayout(context);
+        LinearLayout.LayoutParams params;
+        if(width==0 ||height ==0){
+            params = new LinearLayout.LayoutParams(width,height,layoutWeight);
+        }
+        else{
+            params = new LinearLayout.LayoutParams(width,height);
+        }
+        params.setMargins(left, top, right, bottom);
+        container.setLayoutParams(params);
+        container.setWeightSum(weightSum);
+        if(isVerticalLayout)
+            container.setOrientation(LinearLayout.VERTICAL);
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        return container;
+    }
+
 
     public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,float layout_weight, boolean isLayoutWeightVertical,boolean isHeightMatchParent){
         LinearLayout container = new LinearLayout(context);
@@ -200,4 +223,46 @@ public class UtilHelper {
         imageView.setImageResource(drawableID);
         return imageView;
     }
+
+    public EditText createEditText(int width, int height,int left,int top,int right, int bottom){
+        EditText editText = new EditText(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
+        layoutParams.setMargins(left, top, right, bottom);
+        editText.setLayoutParams(layoutParams);
+        return editText;
+    }
+    public EditText createEditText(int width, int height,float layout_weight,int left,int top,int right, int bottom){
+        EditText editText = new EditText(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height,layout_weight);
+        layoutParams.setMargins(left, top, right, bottom);
+        editText.setLayoutParams(layoutParams);
+        return editText;
+    }
+
+    public CheckBox createCheckBox(int width, int height, int id ,int left, int top, int right, int bottom){
+        CheckBox checkBox = new CheckBox(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
+        layoutParams.setMargins(left, top, right, bottom);
+        checkBox.setLayoutParams(layoutParams);
+        checkBox.setId(id);
+        return checkBox;
+    }
+    public CheckBox createCheckBox(int width, int height ,int left, int top, int right, int bottom){
+        CheckBox checkBox = new CheckBox(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
+        layoutParams.setMargins(left, top, right, bottom);
+        checkBox.setLayoutParams(layoutParams);
+        return checkBox;
+    }
+
+    public RadioButton createRadioButton(int width, int height, int id ,int left, int top, int right, int bottom,String content){
+        RadioButton radioButton = new RadioButton(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
+        layoutParams.setMargins(left, top, right, bottom);
+        radioButton.setLayoutParams(layoutParams);
+        radioButton.setId(id);
+        radioButton.setText(content);
+        return radioButton;
+    }
+
 }

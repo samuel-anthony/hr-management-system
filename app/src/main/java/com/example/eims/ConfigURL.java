@@ -6,7 +6,7 @@ public class ConfigURL {
     //ip hape gue = 192.168.43.91
     //ip starbuk tj duren= 10.107.166.52
     //ip kaisar = 192.168.1.134
-    private final static String staticIP = "192.168.0.107";
+    private final static String staticIP = "192.168.0.106";
     public final static String Login = "http://" + staticIP + "/eims/login.php/";
     public final static String CheckAttendanceEmployee = "http://" + staticIP + "/eims/checkAttendanceEmployee.php/";
     public final static String CheckProjectEmployee = "http://" + staticIP + "/eims/checkProjectEmployee.php/";
@@ -24,10 +24,14 @@ public class ConfigURL {
     public final static String GetProjectManagerList = "http://" + staticIP + "/eims/getProjectManagerList.php/";
     public final static String GetProjectDataforAllocation = "http://" + staticIP + "/eims/getProjectDataForAllocationPage.php/";
     public final static String GetLeaveDataforAllocation = "http://" + staticIP + "/eims/getLeaveDataForAllocationPage.php/";
+    public final static String EditEmployee = "http://" + staticIP + "/eims/editEmployee.php/";
     public final static String EditEmployeeProject = "http://" + staticIP + "/eims/editEmployeeProject.php/";
+    public final static String EditEmployeeLeave = "http://" + staticIP + "/eims/editEmployeeLeave.php/";
     public final static String AddEmployee = "http://" + staticIP + "/eims/addNewEmployee.php/";
     public final static String AddProject = "http://" + staticIP + "/eims/addNewProject.php/";
     public final static String SearchEmployeeForAdmin = "http://" + staticIP + "/eims/searchEmployeeData.php/";
+    public final static String SearchEmployeeLeaveForAdmin = "http://" + staticIP + "/eims/searchEmployeeLeaveForAdmin.php/";
+    public final static String SearchEmployeeProjectForAdmin = "http://" + staticIP + "/eims/searchEmployeeProjectForAdmin.php/";
     public final static String SearcProjectforAdmin = "http://" + staticIP + "/eims/searchProjectData.php/";
 
 

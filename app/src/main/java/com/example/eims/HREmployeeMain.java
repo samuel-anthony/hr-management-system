@@ -173,7 +173,7 @@ public class HREmployeeMain extends AppCompatActivity {
                 params.put("employee_name",employeeName);
 
                 RequestHandler rh = new RequestHandler();
-                String res = rh.sendPostRequest(ConfigURL.SearcProjectforAdmin, params);
+                String res = rh.sendPostRequest(ConfigURL.SearchEmployeeForAdmin, params);
                 return res;
             }
         }

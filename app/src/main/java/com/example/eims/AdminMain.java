@@ -25,13 +25,16 @@ public class AdminMain extends AppCompatActivity {
 
         }
         else if(view == findViewById(R.id.menu_attendance)){
-
+            Intent mainActivity = new Intent(this,AdminAttendance.class);
+            startActivity(mainActivity);
         }
         else if(view == findViewById(R.id.menu_leave)){
-
+            Intent mainActivity = new Intent(this,AdminLeave.class);
+            startActivity(mainActivity);
         }
         else if(view == findViewById(R.id.menu_claim)){
-
+            Intent mainActivity = new Intent(this,AdminClaim.class);
+            startActivity(mainActivity);
         }
     }
 

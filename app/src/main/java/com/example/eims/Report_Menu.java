@@ -318,6 +318,7 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 HashMap<String,String> params = new HashMap<>();
                 try {
                     params.put("employee_id",output.getString("employee_id"));
+                    params.put("name","");
                     params.put("type",type);
                     params.put("status",status);
                 } catch (JSONException e) {
@@ -406,6 +407,7 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                 HashMap<String,String> params = new HashMap<>();
                 try {
                     params.put("employee_id",output.getString("employee_id"));
+                    params.put("name","");
                     params.put("type",type);
                     params.put("status",status);
                 } catch (JSONException e) {

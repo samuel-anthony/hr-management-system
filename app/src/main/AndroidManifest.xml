@@ -14,7 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HRProjectAddEdit"></activity>
+        <activity android:name=".AdminClaim"></activity>
+        <activity android:name=".AdminDetail" />
+        <activity android:name=".AdminLeave" />
+        <activity android:name=".AdminAttendance" />
+        <activity android:name=".HRProjectAddEdit" />
         <activity android:name=".HRProjectMain" />
         <activity android:name=".HREmployeeEdit" />
         <activity android:name=".HREmployeeEditProject" />

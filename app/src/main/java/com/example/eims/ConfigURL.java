@@ -6,7 +6,7 @@ public class ConfigURL {
     //ip hape gue = 192.168.43.91
     //ip starbuk tj duren= 10.107.166.52
     //ip kaisar = 192.168.1.134
-    private final static String staticIP = "192.168.0.106";
+    private final static String staticIP = "192.168.1.134";
     public final static String Login = "http://" + staticIP + "/eims/login.php/";
     public final static String CheckAttendanceEmployee = "http://" + staticIP + "/eims/checkAttendanceEmployee.php/";
     public final static String CheckProjectEmployee = "http://" + staticIP + "/eims/checkProjectEmployee.php/";
@@ -33,6 +33,7 @@ public class ConfigURL {
     public final static String SearchEmployeeLeaveForAdmin = "http://" + staticIP + "/eims/searchEmployeeLeaveForAdmin.php/";
     public final static String SearchEmployeeProjectForAdmin = "http://" + staticIP + "/eims/searchEmployeeProjectForAdmin.php/";
     public final static String SearcProjectforAdmin = "http://" + staticIP + "/eims/searchProjectData.php/";
+    public final static String SearchAttendanceforAdmin = "http://" + staticIP + "/eims/searchAttendanceDataForAdmin.php/";
 
 
 

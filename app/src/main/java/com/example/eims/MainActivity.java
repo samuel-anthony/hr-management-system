@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity  {
             mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
             startActivity(mainActivity);
         }
+        else if(view == findViewById(R.id.menu_profile)){
+            Intent mainActivity = new Intent(MainActivity.this, Profile.class);
+            mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
+            startActivity(mainActivity);
+        }
     }
 
 

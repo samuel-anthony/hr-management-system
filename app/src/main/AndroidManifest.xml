@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminClaim"></activity>
+        <activity android:name=".Profile"></activity>
+        <activity android:name=".AdminClaim" />
         <activity android:name=".AdminDetail" />
         <activity android:name=".AdminLeave" />
         <activity android:name=".AdminAttendance" />

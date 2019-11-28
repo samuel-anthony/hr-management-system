@@ -34,6 +34,7 @@ public class ConfigURL {
     public final static String SearchEmployeeProjectForAdmin = "http://" + staticIP + "/eims/searchEmployeeProjectForAdmin.php/";
     public final static String SearcProjectforAdmin = "http://" + staticIP + "/eims/searchProjectData.php/";
     public final static String SearchAttendanceforAdmin = "http://" + staticIP + "/eims/searchAttendanceDataForAdmin.php/";
+    public final static String UpdatePassword = "http://" + staticIP + "/eims/UpdatePassword.php/";
 
 
 

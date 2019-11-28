@@ -98,8 +98,14 @@ public class AdminClaim extends AppCompatActivity {
                             RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(false,5.0f,false);
 
                             //id-name
-                            TextView firstRow =  utilHelper.createTextView(jo.getString("id") + " - " + jo.getString("name"));
-                            TextView secondRow = utilHelper.createTextView("Date   :" + jo.getString("date"));
+                            TextView firstRow =  utilHelper.createTextView(jo.getString("id")+" - "+jo.getString("name"));
+
+                            //date
+                            LinearLayout secondRow =utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelDate = utilHelper.createTextView("Date",3f);
+                            TextView dataDate = utilHelper.createTextView(jo.getString("date"),4f);
+                            secondRow.addView(labelDate);
+                            secondRow.addView(dataDate);
 
                             //type
                             LinearLayout subContainer =utilHelper.createLinearLayout(false,false,10.0f);
@@ -107,20 +113,24 @@ public class AdminClaim extends AppCompatActivity {
                             TextView dataType = utilHelper.createTextView(jo.getString("type"),4.0f);
                             subContainer.addView(labelType);
                             subContainer.addView(dataType);
-                            TextView fourrow = utilHelper.createTextView("Amount   :" + jo.getString("amount"));
+                            LinearLayout subContainer1 =utilHelper.createLinearLayout(false,false,10.0f);
+                            TextView labelAmount = utilHelper.createTextView("Amount" ,3f);
+                            TextView dataAmount = utilHelper.createTextView(jo.getString("amount"),4f);
+                            subContainer1.addView(labelAmount);
+                            subContainer1.addView(dataAmount);
                             //status
-                            LinearLayout subContainer1 = utilHelper.createLinearLayout(false,false,10.0f);
+                            LinearLayout subContainer2 = utilHelper.createLinearLayout(false,false,10.0f);
                             TextView labelStatus = utilHelper.createTextView("Status",3.0f);
                             TextView dataStatus = utilHelper.createTextView(jo.getString("status"),4.0f);
-                            subContainer1.addView(labelStatus);
-                            subContainer1.addView(dataStatus);
+                            subContainer2.addView(labelStatus);
+                            subContainer2.addView(dataStatus);
 
                             leftSubContainer.addView(firstRow);
                             leftSubContainer.addView(secondRow);
                             leftSubContainer.addView(subContainer);
-                            leftSubContainer.addView(fourrow);
+                            //leftSubContainer.addView(fourrow);
                             leftSubContainer.addView(subContainer1);
-
+                            leftSubContainer.addView(subContainer2);
                             ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
@@ -271,7 +281,7 @@ public class AdminClaim extends AppCompatActivity {
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("employee_id","");
-                params.put("sub_menu","LeaveAdmin");
+                params.put("sub_menu","Leave");
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.GetTypeAndStatusReportMenu, params);
                 return res;

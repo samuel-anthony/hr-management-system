@@ -41,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/remarks"
+                        android:id="@+id/labelRemarks"
                         android:layout_marginVertical="2dp"/>
                     <EditText
                         android:inputType="textMultiLine"

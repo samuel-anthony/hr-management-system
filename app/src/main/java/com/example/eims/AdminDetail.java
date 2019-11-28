@@ -55,6 +55,10 @@ public class AdminDetail extends AppCompatActivity {
         Fragment fragment = null;
         if(menuText.equalsIgnoreCase("Leave")){
             fragment = new LeaveDetail();
+            View label = findViewById(R.id.labelRemarks);
+            View editTextRemarks = findViewById(R.id.remarks);
+            label.setVisibility(View.INVISIBLE);
+            editTextRemarks.setVisibility(View.INVISIBLE);
         }
         else if(menuText.equalsIgnoreCase("Claim")){
             fragment = new ClaimDetail();
@@ -220,7 +224,7 @@ public class AdminDetail extends AppCompatActivity {
 
     public void onClickApproveAndRejectButton(View view){
         String remarks = ((TextView)findViewById(R.id.remarks)).getText().toString();
-        if(view == findViewById(R.id.buttonReject)){
+        if(view == findViewById(R.id.buttonReject) && menuText.equalsIgnoreCase("Leave")){
             if(!remarks.isEmpty()){
                 updateContent(AdminDetail.this,"9",remarks);
             }

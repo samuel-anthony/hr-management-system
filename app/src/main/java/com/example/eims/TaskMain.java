@@ -32,13 +32,18 @@ public class TaskMain extends AppCompatActivity {
 
     }
     public void onclickChangeMenu(View view){
-        Intent mainActivity = new Intent(this, TaskSearch.class);
-        mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
-        if(view == findViewById(R.id.menu_leave)){
-            mainActivity.putExtra("sub_menu","Leave");
-        }else if(view == findViewById(R.id.menu_claim)){
-            mainActivity.putExtra("sub_menu","Claim");
+        Intent mainActivity;
+        if(view == findViewById(R.id.menu_project)){
+            mainActivity = new Intent(this,TaskProject.class);
+        }else{
+            mainActivity = new Intent(this, TaskSearch.class);
+            if(view == findViewById(R.id.menu_leave)){
+                mainActivity.putExtra("sub_menu","Leave");
+            }else if(view == findViewById(R.id.menu_claim)){
+                mainActivity.putExtra("sub_menu","Claim");
+            }
         }
+        mainActivity.putExtra("employee_data",bundle.getString("employee_data"));
         startActivity(mainActivity);
     }
 

@@ -281,7 +281,7 @@ public class AdminClaim extends AppCompatActivity {
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("employee_id","");
-                params.put("sub_menu","Leave");
+                params.put("sub_menu","LeaveAdmin");
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.GetTypeAndStatusReportMenu, params);
                 return res;

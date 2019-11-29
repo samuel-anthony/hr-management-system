@@ -135,12 +135,15 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataDateFrom = findViewById(R.id.dateFrom);
                                 TextView dataDateTo = findViewById(R.id.dateTo);
                                 TextView dataNotes = findViewById(R.id.notes);
+                                TextView status = findViewById(R.id.txtStatus);
 
                                 dataLeaveType.setText(jo.getString("leaveType"));
                                 dataReportedTo.setText(jo.getString("projectName"));
                                 dataDateFrom.setText(jo.getString("dateFrom"));
                                 dataDateTo.setText(jo.getString("dateTo"));
                                 dataNotes.setText(jo.getString("notes"));
+                                status.setText(jo.getString("statusVal"));
+
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
                                 if(jo.getString("file_data").isEmpty()){
@@ -168,6 +171,8 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataAmount = findViewById(R.id.amount);
                                 TextView dataAccount = findViewById(R.id.account);
                                 TextView dataNotes = findViewById(R.id.notes);
+                                TextView status = findViewById(R.id.txtStatus);
+
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
                                 dataTitle.setText(jo.getString("title"));
@@ -178,6 +183,7 @@ public class TaskDetail extends AppCompatActivity {
                                 dataCurrency.setText(jo.getString("currency"));
                                 dataAccount.setText(jo.getString("bank_account"));
                                 dataNotes.setText(jo.getString("notes"));
+                                status.setText(jo.getString("statusVal"));
 
 
                                 byte[] imageBytes = Base64.decode(jo.getString("file_data"), Base64.DEFAULT);

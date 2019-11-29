@@ -43,7 +43,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
         setContentView(R.layout.activity_hremployee_add);
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         utilHelper = new UtilHelper(HREmployeeAdd.this);
-        CheckBox checkBox = findViewById(R.id.checkboxIsPM);
+        /*CheckBox checkBox = findViewById(R.id.checkboxIsPM);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -56,7 +56,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
                     ((CheckBox)findViewById(R.id.checkboxIsUser)).setChecked(true);
                 }
             }
-        });
+        });*/
     }
 
     public void onClickBackButton(View view){
@@ -70,7 +70,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
         String address = ((EditText) findViewById(R.id.address)).getText().toString();
         String phone = ((EditText)findViewById(R.id.phone)).getText().toString();
         boolean isDateEmpty = ((TextView) findViewById(R.id.hiredDate)).getText().toString().isEmpty();
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || address.isEmpty() || isDateEmpty) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || address.isEmpty() || isDateEmpty || phone.isEmpty() || address.isEmpty()) {
             if (firstName.isEmpty()) {
                 ((EditText)findViewById(R.id.firstName)).setError("first name is required");
             }
@@ -80,19 +80,26 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
             if (email.isEmpty()){
                 ((EditText)findViewById(R.id.email)).setError("email is required");
             }
-            if(isDateEmpty){
+            if(phone.isEmpty()){
+                ((EditText)findViewById(R.id.phone)).setError("Phone is required");
+            }
+            if(address.isEmpty()){
+                ((EditText)findViewById(R.id.address)).setError("Address is required");
+            }
+            else if(isDateEmpty){
                 utilHelper.createPopUpDialog("Error Input","Hired date is required");
             }
+
         }
         else{
             String hiredDate = ((TextView)findViewById(R.id.hiredDate)).getText().toString();
             String gender = ((RadioButton)findViewById(((RadioGroup)findViewById(R.id.radioGroupGender)).getCheckedRadioButtonId())).getText().toString();
             String employeeTag = ((RadioButton)findViewById(selectedIDRadioButton)).getText().toString();
             CheckBox isPM = findViewById(R.id.checkboxIsPM);
-            CheckBox isUser = findViewById(R.id.checkboxIsUser);
+            //CheckBox isUser = findViewById(R.id.checkboxIsUser);
             String pmTag,userFlag;
             pmTag = isPM.isChecked() ? "1" : "0";
-            userFlag = isUser.isChecked() ? "1" : "0";
+            userFlag = "1";//isUser.isChecked() ? "1" : "0";
             submitHREmployee(firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag,userFlag);
         }
     }

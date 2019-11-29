@@ -48,17 +48,11 @@ public class AdminDetail extends AppCompatActivity {
         employee_data.setText(idname);
 
         utilHelper = new UtilHelper(AdminDetail.this);
-       /*if(menuText.equalsIgnoreCase("Leave")){
-            LinearLayout m = findViewById(R.id.detailapproval);
-            m.setVisibility(LinearLayout.GONE);
-        }*/
+
         Fragment fragment = null;
         if(menuText.equalsIgnoreCase("Leave")){
             fragment = new LeaveDetail();
-            View label = findViewById(R.id.labelRemarks);
-            View editTextRemarks = findViewById(R.id.remarks);
-            label.setVisibility(View.INVISIBLE);
-            editTextRemarks.setVisibility(View.INVISIBLE);
+            setVisibility();
         }
         else if(menuText.equalsIgnoreCase("Claim")){
             fragment = new ClaimDetail();
@@ -67,7 +61,6 @@ public class AdminDetail extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragmentDetail, fragment);
         ft.commit();
-
 
         Fragment fragment2 = new Image();
         FragmentManager fm2 = getSupportFragmentManager();
@@ -104,6 +97,18 @@ public class AdminDetail extends AppCompatActivity {
             finish();
 
         }
+    }
+
+    public void setVisibility(){
+        View label = findViewById(R.id.labelRemarks);
+        View editTextRemarks = findViewById(R.id.remarks);
+        View btnApprove = findViewById(R.id.buttonApprove);
+        View btnReject = findViewById(R.id.buttonReject);
+
+        label.setVisibility(View.INVISIBLE);
+        editTextRemarks.setVisibility(View.INVISIBLE);
+        btnApprove.setVisibility(View.INVISIBLE);
+        btnReject.setVisibility(View.INVISIBLE);
     }
 
     public void showUploadedPicture(View view){
@@ -146,12 +151,14 @@ public class AdminDetail extends AppCompatActivity {
                                 TextView dataDateFrom = findViewById(R.id.dateFrom);
                                 TextView dataDateTo = findViewById(R.id.dateTo);
                                 TextView dataNotes = findViewById(R.id.notes);
+                                TextView status = findViewById(R.id.txtStatus);
 
                                 dataLeaveType.setText(jo.getString("leaveType"));
                                 dataReportedTo.setText(jo.getString("projectName"));
                                 dataDateFrom.setText(jo.getString("dateFrom"));
                                 dataDateTo.setText(jo.getString("dateTo"));
                                 dataNotes.setText(jo.getString("notes"));
+                                status.setText(jo.getString("statusVal"));
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
                                 if(jo.getString("file_data").isEmpty()){
@@ -179,6 +186,7 @@ public class AdminDetail extends AppCompatActivity {
                                 TextView dataAmount = findViewById(R.id.amount);
                                 TextView dataAccount = findViewById(R.id.account);
                                 TextView dataNotes = findViewById(R.id.notes);
+                                TextView status = findViewById(R.id.txtStatus);
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
                                 dataTitle.setText(jo.getString("title"));
@@ -189,8 +197,13 @@ public class AdminDetail extends AppCompatActivity {
                                 dataCurrency.setText(jo.getString("currency"));
                                 dataAccount.setText(jo.getString("bank_account"));
                                 dataNotes.setText(jo.getString("notes"));
+                                status.setText(jo.getString("statusVal"));
 
+                                int statusId = Integer.parseInt(jo.getString("statusId"));
 
+                                if(statusId == 6 || statusId == 8 || statusId == 9) {
+                                    setVisibility();
+                                }
                                 byte[] imageBytes = Base64.decode(jo.getString("file_data"), Base64.DEFAULT);
                                 bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                                 ImageView uploadedPic = findViewById(R.id.uploadedPicture);
@@ -222,9 +235,9 @@ public class AdminDetail extends AppCompatActivity {
         ae.execute();
     }
 
-    public void onClickApproveAndRejectButton(View view){
+    public void onClickApproveAndRejectButtonAdm(View view){
         String remarks = ((TextView)findViewById(R.id.remarks)).getText().toString();
-        if(view == findViewById(R.id.buttonReject) && menuText.equalsIgnoreCase("Leave")){
+        if(view == findViewById(R.id.buttonReject)){
             if(!remarks.isEmpty()){
                 updateContent(AdminDetail.this,"9",remarks);
             }
@@ -270,15 +283,12 @@ public class AdminDetail extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
-                try {
-                    params.put("employee_id",output.getString("employee_id"));
-                    params.put("menu",menuText);
-                    params.put("summaryID",summaryID);
-                    params.put("statusCode",statusCode);
-                    params.put("remarks",remarks);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                params.put("employee_id",id);
+                params.put("menu",menuText);
+                params.put("summaryID",summaryID);
+                params.put("statusCode",statusCode);
+                params.put("remarks",remarks);
+
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.UpdateLeaveAndClaimSummary, params);
                 return res;

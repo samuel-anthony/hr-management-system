@@ -29,6 +29,7 @@ public class HREmployeeMain extends AppCompatActivity {
 
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
+        scrollViewLayout.removeAllViews();
     }
 
     public void onClickAddNewButton(View view){

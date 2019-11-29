@@ -234,12 +234,6 @@
                     android:text="Is PM"
                     android:id="@+id/checkboxIsPM"/>
 
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Is User"
-                    android:id="@+id/checkboxIsUser"/>
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

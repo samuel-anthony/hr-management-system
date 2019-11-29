@@ -263,6 +263,9 @@ public class Attendance extends AppCompatActivity implements LocationListener{
                     clockInTextView.setText(jsonObject.getString("clockin"));
                     TextView clockOutTextView= findViewById(R.id.clock_out_attendance);
                     clockOutTextView.setText(jsonObject.getString("clockout"));
+                    TextView statusTextView=findViewById(R.id.txtStatus);
+                    statusTextView.setText(jsonObject.getString("status"));
+
                     for(int i = 0; i<result.length(); i++){
                         JSONObject jo = result.getJSONObject(i);
                         String project_id = jo.getString("project_id");

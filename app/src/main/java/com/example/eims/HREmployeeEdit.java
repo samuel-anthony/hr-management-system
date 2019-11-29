@@ -43,7 +43,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         utilHelper = new UtilHelper(this);
 
-        CheckBox checkBox = findViewById(R.id.checkboxIsPM);
+       /* CheckBox checkBox = findViewById(R.id.checkboxIsPM);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -56,7 +56,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
                     ((CheckBox)findViewById(R.id.checkboxIsUser)).setChecked(true);
                 }
             }
-        });
+        });*/
         getData(this);
     }
 
@@ -93,11 +93,10 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
                  employeeTag = ((RadioButton)findViewById(selectedIDRadioButton)).getText().toString();
             }
             CheckBox isPM = findViewById(R.id.checkboxIsPM);
-            CheckBox isUser = findViewById(R.id.checkboxIsUser);
             String pmTag,userFlag;
             pmTag = isPM.isChecked() ? "1" : "0";
-            userFlag = isUser.isChecked() ? "1" : "0";
-            submitHREmployee(this,firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag,userFlag);
+            //userFlag = "1";
+            submitHREmployee(this,firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag);
         }
     }
 
@@ -131,12 +130,12 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
 
     }
 
-    public void submitHREmployee(final Context context, String firstName, String lastName, String email, String address, String hiredDate, String phone, String gender, String employeeTag, String pmTag, String userFlag){
+    public void submitHREmployee(final Context context, String firstName, String lastName, String email, String address, String hiredDate, String phone, String gender, String employeeTag, String pmTag){
         class insertToDB extends AsyncTask<Void,Void,String> {
-            String firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag,userFlag;
+            String firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag;
             Context context;
             ProgressDialog loading;
-            public insertToDB(Context context,String firstName,String lastName,String email, String address, String hiredDate,String phone,String gender, String employeeTag, String pmTag, String userFlag){
+            public insertToDB(Context context,String firstName,String lastName,String email, String address, String hiredDate,String phone,String gender, String employeeTag, String pmTag){
                 this.firstName = firstName;
                 this.lastName = lastName;
                 this.email = email;
@@ -146,7 +145,6 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
                 this.gender = gender;
                 this.employeeTag = employeeTag;
                 this.pmTag = pmTag;
-                this.userFlag = userFlag;
                 this.context = context;
             }
             @Override
@@ -185,7 +183,6 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
                 params.put("gender",gender);
                 params.put("employeeTag",employeeTag);
                 params.put("pmFlag",pmTag);
-                params.put("userFlag",userFlag);
                 params.put("employee_id",employeeID);
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.EditEmployee, params);
@@ -193,7 +190,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
             }
         }
 
-        insertToDB ae = new insertToDB(context,firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag,userFlag);
+        insertToDB ae = new insertToDB(context,firstName,lastName,email,address,hiredDate,phone,gender,employeeTag,pmTag);
         ae.execute();
     }
 
@@ -252,8 +249,6 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
                     }
                     if(jo.getString("isPM").equalsIgnoreCase("1"))
                         ((CheckBox)findViewById(R.id.checkboxIsPM)).setChecked(true);
-                    if(jo.getString("isUser").equalsIgnoreCase("1"))
-                        ((CheckBox)findViewById(R.id.checkboxIsUser)).setChecked(true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

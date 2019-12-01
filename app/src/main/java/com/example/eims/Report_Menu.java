@@ -93,10 +93,12 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
 
     public void showDatePicker(View view){
         String selectedDate = ((TextView)view).getText().toString();
-        DialogFragment datePicker = new DatePickerFragment(selectedDate);
+        DialogFragment datePicker = new DatePickerFragment(false,true,selectedDate);
         datePicker.show(getSupportFragmentManager(), "Date Picker");
         datePickerView = view;
     }
+
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

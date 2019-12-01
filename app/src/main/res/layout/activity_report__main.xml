@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
         android:layout_weight="8"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/rounded_rec"
         android:orientation="vertical"
         android:weightSum="8">
         <TextView
@@ -38,7 +38,7 @@
             android:text="@string/menu_attendance"
             android:id="@+id/menu_attendance"
             android:onClick="onclickChangeMenu"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/button_rec"
             android:layout_marginVertical="10dp"
             android:gravity="center"/>
         <TextView
@@ -48,7 +48,8 @@
             android:id="@+id/menu_leave"
             android:onClick="onclickChangeMenu"
             android:text="@string/menu_leave"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/button_rec"
+            android:backgroundTint="#dff6f0"
             android:layout_marginVertical="10dp"
             android:gravity="center"/>
         <TextView
@@ -58,7 +59,7 @@
             android:text="@string/menu_claim"
             android:id="@+id/menu_claim"
             android:onClick="onclickChangeMenu"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/button_rec"
             android:layout_marginVertical="10dp"
             android:gravity="center"/>
 

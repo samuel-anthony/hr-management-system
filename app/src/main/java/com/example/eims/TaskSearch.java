@@ -76,7 +76,7 @@ public class TaskSearch extends AppCompatActivity {
                                 final JSONObject jo = result.getJSONObject(i);
 
                                 LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f);
-                                LinearLayout leftSubContainer = utilHelper.createLinearLayout(true,true,15.0f,false);
+                                LinearLayout leftSubContainer = utilHelper.createLinearLayout(true,false,15.0f,false);
                                 RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(false,5.0f,false);
 
                                 TextView employeeName = utilHelper.createTextView(jo.getString("employeeName"));
@@ -100,7 +100,7 @@ public class TaskSearch extends AppCompatActivity {
                                 leftSubContainer.addView(textViewContainer);
                                 leftSubContainer.addView(textViewContainer2);
 
-                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                                 editButton.setOnClickListener(new View.OnClickListener()
                                 {
                                     @Override
@@ -171,7 +171,7 @@ public class TaskSearch extends AppCompatActivity {
                                 leftSubContainer.addView(textViewContainer3);
                                 leftSubContainer.addView(textViewContainer4);
 
-                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                                 editButton.setOnClickListener(new View.OnClickListener()
                                 {
                                     @Override

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -23,7 +24,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/just_shape"
+                    android:background="@drawable/attendance"
                     android:id="@+id/menu_attendance"
                     android:onClick="onclickChangeMenu">
                 </ImageView>
@@ -41,7 +42,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/just_shape"
+                    android:background="@drawable/ic_leave"
                     android:id="@+id/menu_leave"
                     android:onClick="onclickChangeMenu">
                 </ImageView>
@@ -66,7 +67,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/just_shape"
+                    android:background="@drawable/ic_claim"
                     android:id="@+id/menu_claim"
                     android:onClick="onclickChangeMenu">
                 </ImageView>

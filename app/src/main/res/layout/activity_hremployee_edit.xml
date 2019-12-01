@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="18"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rounded_rec"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:src="@drawable/calendar" />
+                        android:src="@drawable/ic_calendaricon" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/rounded_rec"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"

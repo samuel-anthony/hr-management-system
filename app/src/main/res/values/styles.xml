@@ -6,10 +6,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/blue</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/CustomTextBoldBlack</item>
+        <item name="android:buttonStyle">@style/Button</item>
     </style>
 
     <style name="Hyperlink">
         <item name="android:textColor">#3498db</item>
         <item name="android:background">@drawable/hyperlink_underline</item>
     </style>
+    <style name="CustomTextBoldBlack" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">6pt</item>
+    </style>
+    <style name="Button" parent="TextAppearance.AppCompat.Title">
+        <item name="android:background">@drawable/button_rec</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">8pt</item>
+    </style>
+
+
+
 </resources>

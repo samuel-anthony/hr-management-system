@@ -20,20 +20,33 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="18"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rounded_rec"
             >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="10dp"
                 android:orientation="vertical">
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Employee Profile"
-                    android:gravity="center"
-                    android:textSize="10pt"
-                    android:layout_marginBottom="7dp"/>
+                    android:layout_marginBottom="3pt">
+                    <View android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1" />
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="50pt"
+                        android:background="@drawable/ic_user"
+                        android:layout_marginHorizontal="10dp"
+                        android:gravity="center"></ImageView>
+                    <View android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,7 +201,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:background="@drawable/just_shape"
+                        android:background="@drawable/rounded_rec"
                         android:id="@+id/oldPassword"
                         android:inputType="textPassword"/>
                 </LinearLayout>
@@ -207,13 +220,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:background="@drawable/just_shape"
+                        android:background="@drawable/rounded_rec"
                         android:id="@+id/newPassword"
                         android:inputType="textPassword"/>
                 </LinearLayout>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10pt"
                     android:text="Change"
                     android:onClick="onClickSubmitButton"/>
             </LinearLayout>

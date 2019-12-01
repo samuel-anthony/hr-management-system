@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/rectangle">
+            android:background="@drawable/rounded_rec">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="10"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="0dp"
@@ -69,7 +69,7 @@
                     android:text="@string/search"
                     android:id="@+id/searchClaim"
                     android:onClick="onClickSearchButton"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/button_rec"
                     android:layout_marginRight="5dp"/>
                 <TextView
                     android:layout_width="0dp"
@@ -78,7 +78,7 @@
                     android:text="@string/clear"
                     android:id="@+id/clearClaim"
                     android:onClick="onClickClearButton"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/button_rec"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
         </LinearLayout>
@@ -95,7 +95,7 @@
                 android:id="@+id/addNew"
                 android:text="@string/addNew"
                 android:onClick="onClickAddNewButton"
-                android:background="@drawable/rectangle"/>
+                android:background="@drawable/button_rec"/>
         </LinearLayout>
 
         <ScrollView
@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/search_result_scroll"
+                android:background="@drawable/rounded_rec"
                 android:orientation="vertical"/>
         </ScrollView>
 

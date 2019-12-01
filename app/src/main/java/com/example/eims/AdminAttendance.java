@@ -66,7 +66,7 @@ public class AdminAttendance extends AppCompatActivity implements DatePickerDial
 
     public void showDatePicker(View view){
         String selectedDate = ((TextView)view).getText().toString();
-        DialogFragment datePicker = new DatePickerFragment(selectedDate);
+        DialogFragment datePicker = new DatePickerFragment(false,true,selectedDate);
         datePicker.show(getSupportFragmentManager(), "Date Picker");
         datePickerView = view;
     }

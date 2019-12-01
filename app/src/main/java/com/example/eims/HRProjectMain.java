@@ -99,7 +99,7 @@ public class HRProjectMain extends AppCompatActivity {
                             //RelativeRight
                             LinearLayout rightContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,true,false,0,0,0,0);
                             RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(LinearLayout.LayoutParams.MATCH_PARENT,0,7f,true,0,0,0,0);
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,100,100);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,100,100);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override

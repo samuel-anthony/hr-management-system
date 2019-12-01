@@ -94,7 +94,7 @@ public class HREmployeeMain extends AppCompatActivity {
                             LinearLayout secondRow = utilHelper.createLinearLayout(false,true);
                             LinearLayout thirdRow = utilHelper.createLinearLayout(false,true);
 
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,100,100);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,100,100);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override

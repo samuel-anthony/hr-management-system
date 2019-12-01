@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="20dp"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/rounded_rec"
                     android:orientation="vertical">
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -39,10 +39,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5pt"
                             android:text="@string/remarks"
                             android:layout_marginVertical="2dp"/>
                         <EditText
                             android:inputType="textMultiLine"
+                            android:layout_marginTop="5pt"
                             android:lines="8"
                             android:minLines="6"
                             android:gravity="top|left"
@@ -55,16 +57,20 @@
                             />
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:layout_marginTop="5pt"
                             android:layout_height="wrap_content">
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/buttonApprove"
+                                android:background="@drawable/button_rec"
+                                android:layout_marginRight="5pt"
                                 android:text="@string/approve"
                                 android:onClick="onClickApproveAndRejectButton"/>
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:background="@drawable/button_rec"
                                 android:id="@+id/buttonReject"
                                 android:text="@string/reject"
                                 android:onClick="onClickApproveAndRejectButton"/>

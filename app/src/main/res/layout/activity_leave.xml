@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Employee Name,\nemail"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:id="@+id/nameAndEmail"/>
         </LinearLayout>
         <View android:layout_width="0dp"
@@ -35,13 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
         android:layout_weight="8"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/rounded_rec"
         android:orientation="vertical"
         android:weightSum="5">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/leave_type"
+            android:textAppearance="@style/CustomTextBoldBlack"
             android:layout_marginVertical="10dp"/>
 
         <Spinner
@@ -52,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reported_to"
+            android:textAppearance="@style/CustomTextBoldBlack"
             android:layout_marginVertical="10dp"/>
 
         <Spinner
@@ -68,12 +71,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="@string/date_from"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/colon"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
@@ -84,9 +89,10 @@
                 android:clickable="true"
                 android:background="@drawable/rectangle"/>
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/calendar"
+                android:layout_weight="2"
+                android:src="@drawable/ic_calendaricon"
                 android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
 
@@ -100,12 +106,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="@string/date_to"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/colon"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
@@ -116,14 +124,16 @@
                 android:onClick="showDatePicker"
                 android:background="@drawable/rectangle"/>
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/calendar"
+                android:layout_weight="2"
+                android:src="@drawable/ic_calendaricon"
                 android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+            android:textAppearance="@style/CustomTextBoldBlack"
                 android:text="@string/notes"
                 />
         <EditText
@@ -141,6 +151,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/CustomTextBoldBlack"
             android:text="@string/attachment"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -149,6 +160,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upload_file"
+                android:layout_marginBottom="3pt"
+                android:background="@drawable/button_rec"
                 android:onClick="showUploadFragment"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -161,6 +174,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_rec"
             android:text="@string/submit"
             android:onClick="onClickSubmitButton"/>
     </LinearLayout>

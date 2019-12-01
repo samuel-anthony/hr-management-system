@@ -131,7 +131,7 @@ public class AdminClaim extends AppCompatActivity {
                             //leftSubContainer.addView(fourrow);
                             leftSubContainer.addView(subContainer1);
                             leftSubContainer.addView(subContainer2);
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override

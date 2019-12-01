@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="20dp"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rounded_rec"
             android:layout_weight="19">
             <ScrollView
                 android:layout_width="match_parent"
@@ -198,10 +198,12 @@
                 android:text="@string/attachment"/>
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="3pt"
                 android:layout_height="wrap_content">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_rec"
                     android:text="@string/upload_file"
                     android:onClick="showUploadFragment"/>
                 <TextView
@@ -215,6 +217,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_rec"
+                android:layout_marginBottom="10pt"
                 android:text="@string/submit"
                 android:onClick="onClickSubmitButton"/>
 

@@ -152,7 +152,11 @@ public class HREmployeeEditProject extends AppCompatActivity {
 
     public void onclickSubmit(View view){
         String input = arrayListToString();
-        submitHREmployee(this,input);
+        if(completAssignedProjectData.size()>4){
+            utilHelper.createPopUpDialog("Maximum Project Execeeded","The maximum project can be assigned is 4");
+        }else{
+            submitHREmployee(this,input);
+        }
     }
 
     public void submitHREmployee(Context context,String data){

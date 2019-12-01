@@ -25,14 +25,14 @@ public class HRProjectMain extends AppCompatActivity {
     LinearLayout scrollViewLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hrproject_main);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
     }
-
-
     public void onClickSearchButton(View view){
         scrollViewLayout.removeAllViews();
         String projectName = ((EditText)findViewById(R.id.projectName)).getText().toString();
@@ -97,7 +97,8 @@ public class HRProjectMain extends AppCompatActivity {
                             leftSubContainer.addView(rowThree);
                             leftSubContainer.addView(rowFour);
                             //RelativeRight
-                            RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,true,0,0,0,0);
+                            LinearLayout rightContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,true,false,0,0,0,0);
+                            RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(LinearLayout.LayoutParams.MATCH_PARENT,0,7f,true,0,0,0,0);
                             ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,100,100);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
@@ -115,9 +116,30 @@ public class HRProjectMain extends AppCompatActivity {
                                     startActivity(detailActivity);
                                 }
                             });
+                            LinearLayout rightSubContainer1 = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT,0,3f,10f,false,true,0,10,0,0);
+                            TextView memberButton = utilHelper.createTextView("Members");
+                            memberButton.setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    // Do some job here
+                                    Intent detailActivity = new Intent(context, HRProjectMemberEdit.class);
+                                    try {
+                                        detailActivity.putExtra("id",jo.getString("projectId"));
+                                        detailActivity.putExtra("name",jo.getString("projectName"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    startActivity(detailActivity);
+                                }
+                            });
+                            rightSubContainer1.addView(memberButton);
                             rightSubContainer.addView(editButton);
+                            rightContainer.addView(rightSubContainer);
+                            rightContainer.addView(rightSubContainer1);
                             container.addView(leftSubContainer);
-                            container.addView(rightSubContainer);
+                            container.addView(rightContainer);
                             scrollViewLayout.addView(container);
                         }
                     }

@@ -154,7 +154,32 @@ public class UtilHelper {
         }
         return container;
     }
-
+    public LinearLayout createLinearLayout(int width, int height, float layoutWeight, float weightSum,boolean isVerticalLayout, boolean isUsingSquareBorder,boolean isRelativeCenter, int left, int top, int right, int bottom){
+        LinearLayout container = new LinearLayout(context);
+        LinearLayout.LayoutParams params;
+        RelativeLayout.LayoutParams param2;
+        if(isRelativeCenter) {
+            param2 = new RelativeLayout.LayoutParams(width, height);
+            param2.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            container.setLayoutParams(param2);
+        }
+        else {
+            if (width == 0 || height == 0) {
+                params = new LinearLayout.LayoutParams(width, height, layoutWeight);
+            } else {
+                params = new LinearLayout.LayoutParams(width, height);
+            }
+            params.setMargins(left, top, right, bottom);
+            container.setLayoutParams(params);
+            container.setWeightSum(weightSum);
+            if (isVerticalLayout)
+                container.setOrientation(LinearLayout.VERTICAL);
+        }
+        if(isUsingSquareBorder){
+            container.setBackground(ContextCompat.getDrawable(context,R.drawable.rectangle));
+        }
+        return container;
+    }
 
     public LinearLayout createLinearLayout(boolean isVerticalLayout,boolean isUsingSquareBorder,float layout_weight, boolean isLayoutWeightVertical,boolean isHeightMatchParent){
         LinearLayout container = new LinearLayout(context);
@@ -235,6 +260,13 @@ public class UtilHelper {
         ImageView imageView = new ImageView(context);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width,height);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        imageView.setLayoutParams(layoutParams);
+        imageView.setImageResource(drawableID);
+        return imageView;
+    }
+    public ImageView createImageViewOnLinear(int drawableID, int width, int height){
+        ImageView imageView = new ImageView(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width,height);
         imageView.setLayoutParams(layoutParams);
         imageView.setImageResource(drawableID);
         return imageView;

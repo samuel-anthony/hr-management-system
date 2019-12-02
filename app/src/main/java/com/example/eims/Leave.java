@@ -162,7 +162,7 @@ public class Leave extends AppCompatActivity implements DatePickerDialog.OnDateS
                     utilHelper.createPopUpDialog("Invalid value DateFrom","DateFrom should be later than today");
                 }
                 else{
-                    long requestLeaveDuration = TimeUnit.DAYS.convert(Math.abs(dateTo.getTime()-dateFrom.getTime()),TimeUnit.MILLISECONDS);
+                    long requestLeaveDuration = TimeUnit.DAYS.convert(Math.abs(dateTo.getTime()-dateFrom.getTime()),TimeUnit.MILLISECONDS) + 1;
                     if(leaveMaxDuration<requestLeaveDuration){
                         utilHelper.createPopUpDialog("Leave duration is too long","The maximum leave duration for this leave is "+leaveMaxDuration);
                     }

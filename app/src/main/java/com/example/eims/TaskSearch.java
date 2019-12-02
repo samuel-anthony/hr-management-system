@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -76,7 +78,7 @@ public class TaskSearch extends AppCompatActivity {
                                 final JSONObject jo = result.getJSONObject(i);
 
                                 LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f);
-                                LinearLayout leftSubContainer = utilHelper.createLinearLayout(true,true,15.0f,false);
+                                LinearLayout leftSubContainer = utilHelper.createLinearLayout(true,false,15.0f,false);
                                 RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(false,5.0f,false);
 
                                 TextView employeeName = utilHelper.createTextView(jo.getString("employeeName"));
@@ -100,7 +102,7 @@ public class TaskSearch extends AppCompatActivity {
                                 leftSubContainer.addView(textViewContainer);
                                 leftSubContainer.addView(textViewContainer2);
 
-                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                                 editButton.setOnClickListener(new View.OnClickListener()
                                 {
                                     @Override
@@ -120,6 +122,12 @@ public class TaskSearch extends AppCompatActivity {
                                     }
                                 });
                                 rightSubContainer.addView(editButton);
+                                leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
+                                if (i % 2 == 0){
+                                    leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));
+                                }else{
+                                    leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+                                }
                                 container.addView(leftSubContainer);
                                 container.addView(rightSubContainer);
                                 searchResult.addView(container);
@@ -171,7 +179,7 @@ public class TaskSearch extends AppCompatActivity {
                                 leftSubContainer.addView(textViewContainer3);
                                 leftSubContainer.addView(textViewContainer4);
 
-                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                                ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                                 editButton.setOnClickListener(new View.OnClickListener()
                                 {
                                     @Override
@@ -190,6 +198,12 @@ public class TaskSearch extends AppCompatActivity {
                                         finish();
                                     }
                                 });
+                                leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
+                                if (i % 2 == 0){
+                                    leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));
+                                }else{
+                                    leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+                                }
                                 rightSubContainer.addView(editButton);
                                 container.addView(leftSubContainer);
                                 container.addView(rightSubContainer);

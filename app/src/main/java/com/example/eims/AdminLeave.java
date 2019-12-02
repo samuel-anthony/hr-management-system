@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -120,7 +122,7 @@ public class AdminLeave extends AppCompatActivity {
                             leftSubContainer.addView(subContainer);
                             leftSubContainer.addView(subContainer1);
 
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,50,50);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,50,50);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override
@@ -140,6 +142,12 @@ public class AdminLeave extends AppCompatActivity {
                                     finish();
                                 }
                             });
+                            leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
+                            if (i % 2 == 0){
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));
+                            }else{
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+                            }
 
                             rightSubContainer.addView(editButton);
                             container.addView(leftSubContainer);

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -111,6 +113,7 @@ public class HRProjectMemberEdit extends AppCompatActivity {
         for(int i = 0; i < completAssignedEmployeeData.size();i++){
 
             TextView employeeName = utilHelper.createTextView(completAssignedEmployeeData.get(i).get("employee_id") + " - " +completAssignedEmployeeData.get(i).get("employee_name"));
+            assignedEmployee.setBackgroundColor(Color.parseColor("#d6e5fa"));
             assignedEmployee.addView(employeeName);
         }
         for(int i = 0; i < completeEmployeeData.size();i++) {
@@ -137,7 +140,7 @@ public class HRProjectMemberEdit extends AppCompatActivity {
                     submitHREmployee(HRProjectMemberEdit.this,empID,currentID,actionString,"7");
                 }
             });
-            ImageView checkSign = utilHelper.createImageViewOnLinear(R.drawable.ic_check_black_24dp,100,100);
+            ImageView checkSign = utilHelper.createImageViewOnLinear(R.drawable.ic_approve,50,50);
             LinearLayout crossContainer = utilHelper.createLinearLayout(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f,10f,false,true,5,0,5,0);
             crossContainer.setOnClickListener(new View.OnClickListener()
             {
@@ -147,7 +150,7 @@ public class HRProjectMemberEdit extends AppCompatActivity {
                     submitHREmployee(HRProjectMemberEdit.this,empID,currentID,actionString,"9");
                 }
             });
-            ImageView crossSign = utilHelper.createImageViewOnLinear(R.drawable.ic_close_black_24dp,100,100);
+            ImageView crossSign = utilHelper.createImageViewOnLinear(R.drawable.ic_reject,50,50);
             checkContainer.addView(checkSign);
             crossContainer.addView(crossSign);
             centerContainer.addView(checkContainer);
@@ -157,6 +160,11 @@ public class HRProjectMemberEdit extends AppCompatActivity {
 
             linearLayout.addView(subLinearLayout);
             linearLayout.addView(subLinearLayout1);
+            linearLayout.setBackground(getDrawable(R.drawable.rounded_rec));
+            linearLayout.setBackgroundColor(Color.parseColor("#eafbea"));
+            unassignedEmployee.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+
+
 
             unassignedEmployee.addView(linearLayout);
         }
@@ -203,8 +211,8 @@ public class HRProjectMemberEdit extends AppCompatActivity {
                     JSONObject output = new JSONObject(s);
                     if(output.getString("value").equalsIgnoreCase("1")){
                         //sukses submit..
-                        utilHelper.createPopUpDialog("Success Message",output.getString("message"));
-                        addResultToView(id,actionString);
+                        utilHelper.createPopUpDialogCloseActivity("Success Message",output.getString("message"));
+                        //addResultToView(id,actionString);
                     }
                     else{
                         utilHelper.createPopUpDialog("Ooopsss",output.getString("message"));

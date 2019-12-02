@@ -136,6 +136,7 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataDateTo = findViewById(R.id.dateTo);
                                 TextView dataNotes = findViewById(R.id.notes);
                                 TextView status = findViewById(R.id.txtStatus);
+                                TextView duration = findViewById(R.id.duration);
 
                                 dataLeaveType.setText(jo.getString("leaveType"));
                                 dataReportedTo.setText(jo.getString("projectName"));
@@ -143,6 +144,7 @@ public class TaskDetail extends AppCompatActivity {
                                 dataDateTo.setText(jo.getString("dateTo"));
                                 dataNotes.setText(jo.getString("notes"));
                                 status.setText(jo.getString("statusVal"));
+                                duration.setText(jo.getString("duration") +" - "+"Days" );
 
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);

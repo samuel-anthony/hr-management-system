@@ -62,7 +62,7 @@
                 android:text="@string/search"
                 android:id="@+id/searchLeave"
                 android:onClick="onClickSearchButton"
-                android:background="@drawable/rectangle"
+                android:background="@drawable/button_rec"
                 android:layout_marginRight="5dp"/>
             <TextView
                 android:layout_width="0dp"
@@ -71,7 +71,7 @@
                 android:text="@string/clear"
                 android:id="@+id/clearLeave"
                 android:onClick="onClickClearButton"
-                android:background="@drawable/rectangle"
+                android:background="@drawable/button_rec"
                 android:layout_marginRight="5dp"/>
         </LinearLayout>
     </LinearLayout>

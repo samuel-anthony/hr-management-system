@@ -23,11 +23,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
+                android:layout_weight="4"
                 android:id="@+id/dateFrom"
                 android:onClick="showDatePicker"
                 android:clickable="true"
                 android:background="@drawable/rectangle"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/ic_calendaricon"
+                android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -43,11 +49,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
+                android:layout_weight="4"
                 android:id="@+id/dateTo"
                 android:onClick="showDatePicker"
                 android:clickable="true"
                 android:background="@drawable/rectangle"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/ic_calendaricon"
+                android:layout_marginHorizontal="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -64,6 +76,7 @@
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="-6pt"
                 android:layout_weight="6"
                 android:id="@+id/status"
                 android:background="@drawable/rectangle"/>
@@ -81,7 +94,7 @@
                 android:text="@string/search"
                 android:id="@+id/searchAttendance"
                 android:onClick="onClickSearchButton"
-                android:background="@drawable/rectangle"
+                android:background="@drawable/button_rec"
                 android:layout_marginRight="5dp"/>
             <TextView
                 android:layout_width="0dp"
@@ -90,7 +103,7 @@
                 android:text="@string/clear"
                 android:id="@+id/clearAttendance"
                 android:onClick="onClickClearButton"
-                android:background="@drawable/rectangle"
+                android:background="@drawable/button_rec"
                 android:layout_marginRight="5dp"/>
         </LinearLayout>
     </LinearLayout>

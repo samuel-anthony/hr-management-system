@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="20dp"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/rounded_rec"
                     android:orientation="vertical"
                     android:id="@+id/detailapproval">
                     <FrameLayout
@@ -57,10 +57,12 @@
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginTop="5pt"
                         android:layout_height="wrap_content">
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="5pt"
                             android:id="@+id/buttonApprove"
                             android:text="Process"
                             android:onClick="onClickApproveAndRejectButtonAdm"/>

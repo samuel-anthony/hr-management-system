@@ -19,6 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Employee Name,\nemail"
+                android:textAppearance="@style/CustomTextBoldBlack"
                 android:id="@+id/nameAndEmail"/>
         </LinearLayout>
         <View android:layout_width="0dp"
@@ -27,49 +28,43 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_rec"
             android:text="@string/sign_out"
             android:onClick="signOut"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/rounded_rec"
         android:layout_weight="7"
         android:id="@+id/fragmentMainPage"
         android:layout_marginVertical="20dp">
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rec"
+            android:text="@string/menu_report"
+            android:id="@+id/menu_report"
+            android:onClick="onclickChangeMenu">
+        </Button>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:weightSum="2">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectangle"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/menu_report"
-                android:id="@+id/menu_report"
-                android:onClick="onclickChangeMenu"
-                android:gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectangle"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/menu_profile"
-                android:id="@+id/menu_profile"
-                android:onClick="onclickChangeMenu"
-                android:gravity="center"
-                />
-        </LinearLayout>
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rec"
+            android:text="@string/menu_profile"
+            android:id="@+id/menu_profile"
+            android:onClick="onclickChangeMenu">
+        </Button>
     </LinearLayout>
 </LinearLayout>

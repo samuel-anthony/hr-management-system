@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -91,15 +94,21 @@ public class HRProjectMain extends AppCompatActivity {
                             TextView rowOne = utilHelper.createTextView("Project ID : " + jo.getString("projectId"));
                             TextView rowTwo = utilHelper.createTextView("Project Name : " + jo.getString("projectName"));
                             TextView rowThree = utilHelper.createTextView("PM Name : "+ jo.getString("pmName"));
-                            TextView rowFour = utilHelper.createTextView("Project Location : "+ jo.getString("projectLoc"));
+                            TextView rowFour = utilHelper.createTextView( jo.getString("projectLoc"));
                             leftSubContainer.addView(rowOne);
                             leftSubContainer.addView(rowTwo);
                             leftSubContainer.addView(rowThree);
                             leftSubContainer.addView(rowFour);
+                            leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
+                            if (i % 2 == 0){
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));
+                            }else{
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+                            }
                             //RelativeRight
                             LinearLayout rightContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,true,false,0,0,0,0);
                             RelativeLayout rightSubContainer = utilHelper.createRelativeLayout(LinearLayout.LayoutParams.MATCH_PARENT,0,7f,true,0,0,0,0);
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit_black_24dp,100,100);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,60,60);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override
@@ -134,6 +143,9 @@ public class HRProjectMain extends AppCompatActivity {
                                     startActivity(detailActivity);
                                 }
                             });
+                            rightSubContainer1.setBackground(getDrawable(R.drawable.rounded_rec));
+                            rightSubContainer1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f1d6ab")));
+
                             rightSubContainer1.addView(memberButton);
                             rightSubContainer.addView(editButton);
                             rightContainer.addView(rightSubContainer);

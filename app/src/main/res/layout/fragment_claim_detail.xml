@@ -21,6 +21,12 @@
                     android:text="@string/title"
                     />
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
+                <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="7"
@@ -39,6 +45,12 @@
                     android:layout_weight="3"
                     android:text="@string/project"
                     />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -60,6 +72,12 @@
                     android:text="@string/type"
                     />
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
+                <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="7"
@@ -79,6 +97,12 @@
                     android:layout_weight="3"
                     android:text="@string/date"
                     />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -100,6 +124,12 @@
                     android:text="@string/currency"
                     />
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
+                <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="7"
@@ -117,6 +147,12 @@
                     android:gravity="center_vertical"
                     android:layout_weight="3"
                     android:text="@string/amount"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -136,52 +172,65 @@
                     android:layout_weight="3"
                     android:text="@string/account_reimbursement"/>
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/colon"
+                    android:gravity="center_vertical"/>
+                <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="7"
                     android:id="@+id/account"
                     />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="10"
-                android:layout_marginVertical="2dp">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginVertical="10dp"
+             android:weightSum="10">
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:text="@string/notes"
+                 android:gravity="center_vertical"
+                 android:layout_weight="3"
+                 />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:layout_weight="1"
+                 android:text="@string/colon"
+                 android:gravity="center_vertical"/>
+             <TextView
+                 android:gravity="top|left"
+                 android:maxLines="10"
+                 android:layout_height="wrap_content"
+                 android:layout_width="0dp"
+                 android:layout_weight="6"
+                 android:id="@+id/notes"
+                 />
+         </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginVertical="10dp"
+             android:weightSum="10"
+             android:id = "@+id/linearLayoutAttachment">
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:gravity="center_vertical"
+                 android:text="@string/attachment"
+                 android:layout_weight="4"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:text="@string/notes"
-                    android:gravity="center_vertical"
-                    />
-                <TextView
-                        android:lines="8"
-                        android:minLines="6"
-                        android:maxLines="10"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:layout_weight="7"
-                        android:scrollbars="vertical"
-                        android:id="@+id/notes"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="10"
-                android:id = "@+id/linearLayoutAttachment">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/attachment"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/show"
-                    android:onClick="showUploadedPicture"/>
-            </LinearLayout>
+             <Button
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/button_rec"
+                 android:text="@string/show"
+                 android:onClick="showUploadedPicture"/>
+         </LinearLayout>
          <LinearLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
@@ -191,8 +240,15 @@
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:text="Status"
-                 android:layout_weight="4"
+                 android:layout_weight="3"
                  android:gravity="center_vertical"/>
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:layout_weight="1"
+                 android:text="@string/colon"
+                 android:gravity="center_vertical"/>
+
 
              <TextView
                  android:id="@+id/txtStatus"

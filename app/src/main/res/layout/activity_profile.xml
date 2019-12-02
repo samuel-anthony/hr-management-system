@@ -36,8 +36,8 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1" />
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginRight="50pt"
                         android:background="@drawable/ic_user"
                         android:layout_marginHorizontal="10dp"
@@ -201,7 +201,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:background="@drawable/rounded_rec"
                         android:id="@+id/oldPassword"
                         android:inputType="textPassword"/>
                 </LinearLayout>
@@ -220,7 +219,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
-                        android:background="@drawable/rounded_rec"
                         android:id="@+id/newPassword"
                         android:inputType="textPassword"/>
                 </LinearLayout>

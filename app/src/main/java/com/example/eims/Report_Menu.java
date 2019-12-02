@@ -11,6 +11,9 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -214,6 +217,13 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                             container.addView(subContainer2);
                             container.addView(subContainer3);
                             container.addView(subContainer4);
+                            container.setBackground(getDrawable(R.drawable.rounded_rec));
+
+                            if (i % 2 == 0){
+                                container.setBackgroundColor(Color.parseColor("#d6e5fa"));
+                            }else{
+                                container.setBackgroundColor(Color.parseColor("#eafbea"));
+                            }
                             searchResult.addView(container);
                         }
                     }
@@ -303,6 +313,14 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                             container.addView(subContainer2);
                             container.addView(subContainer3);
                             container.addView(subContainer4);
+                            container.setBackground(getDrawable(R.drawable.rounded_rec));
+
+                            if (i % 2 == 0){
+                                container.setBackgroundColor(Color.parseColor("#d6e5fa"));
+                            }else{
+                                container.setBackgroundColor(Color.parseColor("#eafbea"));
+                            }
+
                             searchResult.addView(container);
                         }
                     }
@@ -393,6 +411,13 @@ public class Report_Menu extends AppCompatActivity implements DatePickerDialog.O
                             container.addView(subContainer2);
                             container.addView(subContainer3);
                             container.addView(subContainer4);
+                            container.setBackground(getDrawable(R.drawable.rounded_rec));
+
+                            if (i % 2 == 0){
+                                container.setBackgroundColor(Color.parseColor("#d6e5fa"));
+                            }else{
+                                container.setBackgroundColor(Color.parseColor("#eafbea"));
+                            }
                             searchResult.addView(container);
                         }
                     }else{

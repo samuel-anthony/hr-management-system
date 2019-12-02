@@ -18,7 +18,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/leave_type"
-                android:layout_weight="4"
+                android:layout_weight="3"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/colon"
                 android:gravity="center_vertical"/>
 
             <TextView
@@ -38,7 +44,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/reported_to"
                 android:gravity="center_vertical"
-                android:layout_weight="4"/>
+                android:layout_weight="3"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/colon"
+                android:gravity="center_vertical"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -103,10 +115,39 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Duration"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/colon"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:id="@+id/duration"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:weightSum="10">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:text="@string/notes"
                 android:gravity="center_vertical"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/colon"
+                android:gravity="center_vertical"/>
             <TextView
                 android:gravity="top|left"
                 android:maxLines="10"
@@ -123,10 +164,12 @@
             android:weightSum="10"
             android:id = "@+id/linearLayoutAttachment">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:text="@string/attachment"
-                android:layout_weight="5"/>
+                android:layout_weight="4"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +186,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Status"
-                android:layout_weight="4"
+                android:layout_weight="3"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/colon"
                 android:gravity="center_vertical"/>
 
             <TextView

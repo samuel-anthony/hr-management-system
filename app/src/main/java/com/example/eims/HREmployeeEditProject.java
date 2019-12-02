@@ -234,7 +234,7 @@ public class HREmployeeEditProject extends AppCompatActivity {
 
             final int idx = i;
             RelativeLayout relativeLayout = utilHelper.createRelativeLayout(false,3f,false);
-            ImageView deleteButton = utilHelper.createImageViewOnRelative(R.drawable.ic_delete_black_24dp,100,100);
+            ImageView deleteButton = utilHelper.createImageViewOnRelative(R.drawable.ic_delete,100,100);
             deleteButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override

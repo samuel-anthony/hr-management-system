@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -87,6 +89,12 @@ public class HREmployeeMain extends AppCompatActivity {
                             leftSubContainer.addView(rowOne);
                             leftSubContainer.addView(rowTwo);
                             leftSubContainer.addView(rowThree);
+                            leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
+                            if (i % 2 == 0){
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));
+                            }else{
+                                leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
+                            }
                             //RelativeRight
                             LinearLayout rightSubContainer = utilHelper.createLinearLayout(true,false,10.0f,5.0f,false);
                             LinearLayout firstRow = utilHelper.createLinearLayout(false,false);
@@ -94,7 +102,7 @@ public class HREmployeeMain extends AppCompatActivity {
                             LinearLayout secondRow = utilHelper.createLinearLayout(false,true);
                             LinearLayout thirdRow = utilHelper.createLinearLayout(false,true);
 
-                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,100,100);
+                            ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,60,60);
                             editButton.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override
@@ -116,6 +124,8 @@ public class HREmployeeMain extends AppCompatActivity {
 
                             TextView leaveText = utilHelper.createTextView("Leave");
                             secondRow.addView(leaveText);
+                            secondRow.setBackground(getDrawable(R.drawable.rounded_rec));
+                            secondRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f1d6ab")));
                             secondRow.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override
@@ -135,6 +145,8 @@ public class HREmployeeMain extends AppCompatActivity {
 
                             TextView projecText = utilHelper.createTextView("Project");
                             thirdRow.addView(projecText);
+                            thirdRow.setBackground(getDrawable(R.drawable.rounded_rec));
+                            thirdRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#fa877f")));
                             thirdRow.setOnClickListener(new View.OnClickListener()
                             {
                                 @Override

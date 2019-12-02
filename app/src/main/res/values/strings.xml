@@ -1,4 +1,6 @@
 <resources>
+
+    <string name="google_maps_api_keys">AIzaSyDZcr4dV_JetII21OUE3TrtxSF5CsNlcg4</string>
     <string name="app_name">EIMS</string>
     <string name="app_name_detail">EMERIO Information Management System</string>
 
@@ -75,6 +77,7 @@
     <string name="phoneNumber">Phone No</string>
     <string name="hiredDate">Hired Date</string>
     <string name="employeeTag">Employee Tag</string>
+    <string name="description">Description</string>
 
 
     <string name="projectList">Project List</string>
@@ -82,6 +85,7 @@
     <string name="projectId">Project ID</string>
     <string name="projectName">Project Name</string>
     <string name="projectMember">Project Member</string>
+    <string name="projectManager">Project Manager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -90,4 +94,5 @@
         <item>IDR</item>
         <item>USD</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -60,36 +60,12 @@
                         android:layout_marginVertical="3dp">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:text="@string/description"/>
-                        <EditText
-                            android:inputType="textMultiLine"
-                            android:lines="8"
-                            android:minLines="4"
-                            android:gravity="top|left"
-                            android:maxLines="5"
-                            android:layout_height="wrap_content"
-                            android:layout_width="0dp"
-                            android:layout_weight="6"
-                            android:scrollbars="vertical"
-                            android:background="@drawable/rectangle"
-                            android:id="@+id/description"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="10"
-                        android:layout_marginVertical="3dp">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="@string/projectManager"
                             android:layout_marginVertical="10dp"/>
                         <Spinner
-                            android:id="@+id/spinnerLeaveType"
+                            android:id="@+id/spinnerProjectManager"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_weight="6"/>
@@ -118,9 +94,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-                            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                                xmlns:map="http://schemas.android.com/apk/res-auto"
-                                xmlns:tools="http://schemas.android.com/tools"
+                            <fragment
                                 android:id="@+id/map"
                                 android:name="com.google.android.gms.maps.SupportMapFragment"
                                 android:layout_width="match_parent"
@@ -146,11 +120,55 @@
                                     android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
                                     android:layout_toRightOf="@id/search_logo"
-                                    android:background="null"
+                                    android:id="@+id/search_bar_edit_text"
+                                    android:background="@color/white"
+                                    android:hint="Enter Address, City, or ZIP code"
+                                    android:inputType="text"
+                                    android:imeOptions="actionSearch"
                                     />
                             </RelativeLayout>
                         </RelativeLayout>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:weightSum="10">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="wrap_content"
+                            android:text="Latitude"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="7"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/latitude"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="10">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Longitude"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="7"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/longitude"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/submit"
+                        android:background="@drawable/button_rec"
+                        android:onClick="onClickSubmitButton"/>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

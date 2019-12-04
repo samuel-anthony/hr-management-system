@@ -50,8 +50,9 @@ public class HRProjectMain extends AppCompatActivity {
     }
 
     public void onClickAddNewButton(View view){
-        Intent mainActivity = new Intent(this, HREmployeeAdd.class);
+        Intent mainActivity = new Intent(this, HRProjectAddEdit.class);
         mainActivity.putExtra("sub_menu","add");
+        mainActivity.putExtra("id","");
         startActivity(mainActivity);
     }
 

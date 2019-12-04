@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="20dp"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rounded_rec"
             android:layout_weight="19"
             android:layout_marginHorizontal="5dp"
             android:orientation="vertical">
@@ -49,7 +49,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
-                            android:background="@drawable/rectangle"
                             android:id="@+id/projectName"/>
                     </LinearLayout>
 
@@ -70,7 +69,6 @@
                             android:layout_height="40dp"
                             android:layout_weight="6"/>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -78,15 +76,11 @@
                         android:layout_marginVertical="3dp">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:text="@string/address"/>
-                        <EditText
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:background="@drawable/rectangle"
-                            android:id="@+id/address"/>
+                            android:layout_height="match_parent"
+                            android:text="Project Location"
+                            android:layout_marginVertical="10dp"/>
+
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -129,6 +123,22 @@
                             </RelativeLayout>
                         </RelativeLayout>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="10"
+                        android:layout_marginVertical="3dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="@string/address"/>
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:id="@+id/address"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -137,13 +147,14 @@
                         android:weightSum="10">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="4"
                             android:layout_height="wrap_content"
                             android:text="Latitude"/>
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="7"
+                            android:layout_weight="6"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle"
                             android:id="@+id/latitude"/>
                     </LinearLayout>
 
@@ -155,14 +166,16 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="4"
                             android:text="Longitude"/>
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="7"
+                            android:layout_weight="6"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle"
                             android:id="@+id/longitude"/>
                     </LinearLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

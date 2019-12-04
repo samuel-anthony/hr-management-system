@@ -96,7 +96,7 @@ public class HREmployeeMain extends AppCompatActivity {
                                 leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
                             }
                             //RelativeRight
-                            LinearLayout rightSubContainer = utilHelper.createLinearLayout(true,false,10.0f,5.0f,false);
+                            LinearLayout rightSubContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,false,false,5,0,5,0);
                             LinearLayout firstRow = utilHelper.createLinearLayout(false,false);
                             RelativeLayout subFirstRow = utilHelper.createRelativeLayout(false);
                             LinearLayout secondRow = utilHelper.createLinearLayout(false,true);
@@ -122,7 +122,7 @@ public class HREmployeeMain extends AppCompatActivity {
                             subFirstRow.addView(editButton);
                             firstRow.addView(subFirstRow);
 
-                            TextView leaveText = utilHelper.createTextView("Leave");
+                            /*TextView leaveText = utilHelper.createTextView("Leave");
                             secondRow.addView(leaveText);
                             secondRow.setBackground(getDrawable(R.drawable.rounded_rec));
                             secondRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f1d6ab")));
@@ -162,10 +162,10 @@ public class HREmployeeMain extends AppCompatActivity {
                                     }
                                     startActivity(detailActivity);
                                 }
-                            });
+                            });*/
                             rightSubContainer.addView(firstRow);
-                            rightSubContainer.addView(secondRow);
-                            rightSubContainer.addView(thirdRow);
+                            //rightSubContainer.addView(secondRow);
+                            //rightSubContainer.addView(thirdRow);
 
                             container.addView(leftSubContainer);
                             container.addView(rightSubContainer);

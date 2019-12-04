@@ -122,6 +122,7 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
     }
 
     public void moveCamera(LatLng latLng,float zoom,String title){
+        map.clear();
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
         map.addMarker(options);

@@ -184,41 +184,46 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
                     JSONObject output = new JSONObject(s);
                     JSONArray resultProject = output.getJSONArray("projectManager");
                     ArrayList<String> arrayListProject = new ArrayList<String>();
-                    for(int i = 0; i<resultProject.length() ; i++){
-                        JSONObject jo = resultProject.getJSONObject(i);
-                        HashMap<String,String> data = new HashMap<>();
-                        data.put("employee_id",jo.getString("employee_id"));
-                        data.put("employee_name",jo.getString("employee_name"));
-                        completeEmployeeData.add(data);
-                        arrayListProject.add(jo.getString("employee_name"));
+                    if(resultProject.length()>0){
+                        for(int i = 0; i<resultProject.length() ; i++){
+                            JSONObject jo = resultProject.getJSONObject(i);
+                            HashMap<String,String> data = new HashMap<>();
+                            data.put("employee_id",jo.getString("employee_id"));
+                            data.put("employee_name",jo.getString("employee_name"));
+                            completeEmployeeData.add(data);
+                            arrayListProject.add(jo.getString("employee_name"));
+                        }
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_selectable_list_item, arrayListProject);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Spinner spinnerProject = findViewById(R.id.spinnerProjectManager);
+                        spinnerProject.setAdapter(arrayAdapter);
+                        spinnerProject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String projectName = parent.getItemAtPosition(position).toString();
+                                selectedEmployeeID = completeEmployeeData.get(position).get("employee_id");
+                                Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView <?> parent) {
+                                Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        if(!projectID.isEmpty()){
+                            JSONArray projectData = output.getJSONArray("projectData");
+                            JSONObject jo = projectData.getJSONObject(0);
+                            projectName.setText(jo.getString("project_name"));
+                            addressEditText.setText(jo.getString("address"));
+                            moveCamera(
+                                    new LatLng(Double.parseDouble(jo.getString("latitude")),Double.parseDouble(jo.getString("longitude"))),
+                                    15f,
+                                    jo.getString("address"));
+                            longitudeTextView.setText(jo.getString("longitude"));
+                            latitudeTextView.setText(jo.getString("latitude"));
+                        }
                     }
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_selectable_list_item, arrayListProject);
-                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    Spinner spinnerProject = findViewById(R.id.spinnerProjectManager);
-                    spinnerProject.setAdapter(arrayAdapter);
-                    spinnerProject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            String projectName = parent.getItemAtPosition(position).toString();
-                            selectedEmployeeID = completeEmployeeData.get(position).get("employee_id");
-                            Toast.makeText(parent.getContext(), "Selected: " + projectName,    Toast.LENGTH_LONG).show();
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView <?> parent) {
-                            Toast.makeText(parent.getContext(), "Nothing Selected: ",    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    if(!projectID.isEmpty()){
-                        JSONArray projectData = output.getJSONArray("projectData");
-                        JSONObject jo = projectData.getJSONObject(0);
-                        projectName.setText(jo.getString("project_name"));
-                        addressEditText.setText(jo.getString("address"));
-                        moveCamera(
-                                new LatLng(Double.parseDouble(jo.getString("latitude")),Double.parseDouble(jo.getString("longitude"))),
-                                15f,
-                                jo.getString("address"));
-                        longitudeTextView.setText(jo.getString("longitude"));
-                        latitudeTextView.setText(jo.getString("latitude"));
+                    else {//brti ga ada projectManager yang bisa di assign or edit
+                        utilHelper.createPopUpDialogCloseActivity("Lack number of PM","There is no available project manager. Please assign new project manager to be hired!");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -97,10 +97,14 @@ public class HREmployeeMain extends AppCompatActivity {
                             }
                             //RelativeRight
                             LinearLayout rightSubContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,false,false,5,0,5,0);
-                            LinearLayout firstRow = utilHelper.createLinearLayout(false,false);
+                            LinearLayout firstRow;
+                            if(jo.getString("isUser").equalsIgnoreCase("0"))
+                                firstRow = utilHelper.createLinearLayout(false,false);
+                            else
+                                firstRow = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,3f,10f,false,false,0,5,0,0);
                             RelativeLayout subFirstRow = utilHelper.createRelativeLayout(false);
-                            LinearLayout secondRow = utilHelper.createLinearLayout(false,true);
-                            LinearLayout thirdRow = utilHelper.createLinearLayout(false,true);
+                            LinearLayout secondRow = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,3f,10f,false,false,0,5,0,0);
+                            LinearLayout thirdRow = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,3f,10f,false,false,0,5,0,0);
 
                             ImageView editButton = utilHelper.createImageViewOnRelative(R.drawable.ic_edit,60,60);
                             editButton.setOnClickListener(new View.OnClickListener()
@@ -122,50 +126,53 @@ public class HREmployeeMain extends AppCompatActivity {
                             subFirstRow.addView(editButton);
                             firstRow.addView(subFirstRow);
 
-                            /*TextView leaveText = utilHelper.createTextView("Leave");
-                            secondRow.addView(leaveText);
-                            secondRow.setBackground(getDrawable(R.drawable.rounded_rec));
-                            secondRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f1d6ab")));
-                            secondRow.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    // Do some job here
-                                    Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditLeave.class);
-                                    try {
-                                        detailActivity.putExtra("id",jo.getString("empID"));
-                                        detailActivity.putExtra("name",jo.getString("name"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    startActivity(detailActivity);
-                                }
-                            });
-
-                            TextView projecText = utilHelper.createTextView("Project");
-                            thirdRow.addView(projecText);
-                            thirdRow.setBackground(getDrawable(R.drawable.rounded_rec));
-                            thirdRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#fa877f")));
-                            thirdRow.setOnClickListener(new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    // Do some job here
-                                    Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditProject.class);
-                                    try {
-                                        detailActivity.putExtra("id",jo.getString("empID"));
-                                        detailActivity.putExtra("name",jo.getString("name"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    startActivity(detailActivity);
-                                }
-                            });*/
                             rightSubContainer.addView(firstRow);
-                            //rightSubContainer.addView(secondRow);
-                            //rightSubContainer.addView(thirdRow);
+                            if(jo.getString("isUser").equalsIgnoreCase("1")){
+                                TextView leaveText = utilHelper.createTextView("Leave");
+                                secondRow.addView(leaveText);
+                                secondRow.setBackground(getDrawable(R.drawable.rounded_rec));
+                                secondRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#f1d6ab")));
+                                secondRow.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View v)
+                                    {
+                                        // Do some job here
+                                        Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditLeave.class);
+                                        try {
+                                            detailActivity.putExtra("id",jo.getString("empID"));
+                                            detailActivity.putExtra("name",jo.getString("name"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        startActivity(detailActivity);
+                                    }
+                                });
+
+                                TextView projecText = utilHelper.createTextView("Project");
+                                thirdRow.addView(projecText);
+                                thirdRow.setBackground(getDrawable(R.drawable.rounded_rec));
+                                thirdRow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#fa877f")));
+                                thirdRow.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View v)
+                                    {
+                                        // Do some job here
+                                        Intent detailActivity = new Intent(HREmployeeMain.this, HREmployeeEditProject.class);
+                                        try {
+                                            detailActivity.putExtra("id",jo.getString("empID"));
+                                            detailActivity.putExtra("name",jo.getString("name"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        startActivity(detailActivity);
+                                    }
+                                });
+
+                                rightSubContainer.addView(secondRow);
+                                rightSubContainer.addView(thirdRow);
+                            }
 
                             container.addView(leftSubContainer);
                             container.addView(rightSubContainer);

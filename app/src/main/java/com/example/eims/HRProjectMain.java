@@ -96,10 +96,12 @@ public class HRProjectMain extends AppCompatActivity {
                             TextView rowTwo = utilHelper.createTextView("Project Name : " + jo.getString("projectName"));
                             TextView rowThree = utilHelper.createTextView("PM Name : "+ jo.getString("pmName"));
                             TextView rowFour = utilHelper.createTextView( jo.getString("projectLoc"));
+                            TextView rowFive = utilHelper.createTextView( "Request : "+ jo.getString("request"));
                             leftSubContainer.addView(rowOne);
                             leftSubContainer.addView(rowTwo);
                             leftSubContainer.addView(rowThree);
                             leftSubContainer.addView(rowFour);
+                            leftSubContainer.addView(rowFive);
                             leftSubContainer.setBackground(getDrawable(R.drawable.rounded_rec));
                             if (i % 2 == 0){
                                 leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d6e5fa")));

@@ -96,10 +96,10 @@ public class HREmployeeMain extends AppCompatActivity {
                                 leftSubContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#eafbea")));
                             }
                             //RelativeRight
-                            LinearLayout rightSubContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,false,false,5,0,5,0);
+                            LinearLayout rightSubContainer = utilHelper.createLinearLayout(0,LinearLayout.LayoutParams.MATCH_PARENT,5f,10f,true,false,5,0,5,0);
                             LinearLayout firstRow;
                             if(jo.getString("isUser").equalsIgnoreCase("0"))
-                                firstRow = utilHelper.createLinearLayout(false,false);
+                                firstRow = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,3f,10f,false,false,0,5,0,0);
                             else
                                 firstRow = utilHelper.createLinearLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,3f,10f,false,false,0,5,0,0);
                             RelativeLayout subFirstRow = utilHelper.createRelativeLayout(false);

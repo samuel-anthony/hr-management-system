@@ -2,8 +2,10 @@ package com.example.eims;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,14 +44,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCallback {
+public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCallback, DatePickerDialog.OnDateSetListener {
     EditText searchBox,projectName,addressEditText;
-    TextView longitudeTextView,latitudeTextView;
+    TextView longitudeTextView,latitudeTextView, dateFrom, dateTo;
     String selectedEmployeeID,projectID;
+    SimpleDateFormat dateFormat;
+    View datePickerView;
     UtilHelper utilHelper;
     ArrayList<HashMap<String,String>> completeEmployeeData = new ArrayList<HashMap<String,String>>();
     private static final String TAG = "HRProjectAddEdit";
@@ -72,11 +81,15 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
         if(bundle.getString("sub_menu").equalsIgnoreCase("edit")){
             ((TextView)findViewById(R.id.title)).setText("Edit Form");
         }
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         projectName = findViewById(R.id.projectName);
         addressEditText = findViewById(R.id.address);
         searchBox = findViewById(R.id.search_bar_edit_text);
         latitudeTextView = findViewById(R.id.latitude);
         longitudeTextView = findViewById(R.id.longitude);
+        dateFrom = findViewById(R.id.dateFrom);
+        dateTo = findViewById(R.id.dateTo);
+
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -96,6 +109,24 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
 
         initMap();
         getData(this,projectID);
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        String currentDateString = dateFormat.format(calendar.getTime());
+        TextView a = (TextView) datePickerView;
+        a.setText(currentDateString);
+    }
+
+    public void showDatePicker(View view){
+        String selectedDate = ((TextView)view).getText().toString();
+        DialogFragment datePicker = new DatePickerFragment(selectedDate);
+        datePicker.show(getSupportFragmentManager(), "Date Picker");
+        datePickerView = view;
     }
 
     private void initMap(){
@@ -139,12 +170,36 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
         String tempLong = longitudeTextView.getText().toString();
         String tempLat = latitudeTextView.getText().toString();
         String address = addressEditText.getText().toString();
-        if(tempLong.isEmpty() || tempLat.isEmpty() || address.isEmpty()){
+        String projectName = ((EditText)findViewById(R.id.projectName)).getText().toString();
+        if(!((TextView)(findViewById(R.id.dateFrom))).getText().toString().isEmpty() && !((TextView)(findViewById(R.id.dateTo))).getText().toString().isEmpty()  || projectName.isEmpty() || tempLong.isEmpty() || tempLat.isEmpty() || address.isEmpty()){
+            try {
+                Date dateFrom = dateFormat.parse(((TextView)(findViewById(R.id.dateFrom))).getText().toString());
+                Date dateTo = dateFormat.parse(((TextView)(findViewById(R.id.dateTo))).getText().toString());
+                String status = "";
+                if(dateFrom.compareTo(dateTo) > 0){
+                    utilHelper.createPopUpDialog("Error Input","DateTo should be later than DateFrom");
+                }else if(tempLong.isEmpty() || tempLat.isEmpty() || address.isEmpty()){
+                    utilHelper.createPopUpDialog("Map is not selected","please select the project Location");
+                }else if(projectName.isEmpty()){
+                    ((EditText) findViewById(R.id.login_email)).setError("Project Name is Requires");
+                }
+                else{
+                    submitProject(this,projectID,projectName,address,tempLong,tempLat,((TextView)(findViewById(R.id.dateFrom))).getText().toString(),((TextView)(findViewById(R.id.dateTo))).getText().toString());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            utilHelper.createPopUpDialog("Error input","please fill the date from and date to");
+        }
+
+        /*if(tempLong.isEmpty() || tempLat.isEmpty() || address.isEmpty()){
             utilHelper.createPopUpDialog("Map is not selected","please select the project Location");
         }
         else{
             submitProject(this,projectID,projectName.getText().toString(),address,tempLong,tempLat);
-        }
+        }*/
     }
     public boolean isServiceOK(){
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(HRProjectAddEdit.this);
@@ -220,6 +275,8 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
                                     jo.getString("address"));
                             longitudeTextView.setText(jo.getString("longitude"));
                             latitudeTextView.setText(jo.getString("latitude"));
+                            dateFrom.setText(jo.getString("startDate"));
+                            dateTo.setText(jo.getString("endDate"));
                         }
                     }
                     else {//brti ga ada projectManager yang bisa di assign or edit
@@ -244,23 +301,25 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
         ae.execute();
     }
 
-    public void submitProject(Context context,String projectID,String projectName,String address,String longitude,String latitude){
+    public void submitProject(Context context,String projectID,String projectName,String address,String longitude,String latitude, String dateFrom,String dateTo){
         class insertToDB extends AsyncTask<Void,Void,String> {
             ProgressDialog loading;
             Context context;
-            String projectID,projectName,address,longitude,latitude;
-            public insertToDB(Context context,String projectID,String projectName,String address,String longitude,String latitude){
+            String projectID,projectName,address,longitude,latitude, dateTo, dateFrom;
+            public insertToDB(Context context,String projectID,String projectName,String address,String longitude,String latitude, String dateFrom,String dateTo){
                 this.context = context;
                 this.projectID = projectID;
                 this.projectName = projectName;
                 this.address = address;
                 this.longitude = longitude;
                 this.latitude = latitude;
+                this.dateFrom=dateFrom;
+                this.dateTo=dateTo;
             }
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(context,"Inserting employee's data...","Please wait...",false,false);
+                loading = ProgressDialog.show(context,"Updating employee's data...","Please wait...",false,false);
             }
 
             @Override
@@ -291,13 +350,15 @@ public class HRProjectAddEdit extends AppCompatActivity implements OnMapReadyCal
                 params.put("address",address);
                 params.put("longitude",longitude);
                 params.put("latitude",latitude);
+                params.put("dateF",dateFrom);
+                params.put("dateT",dateTo);
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.AddEditProject, params);
                 return res;
             }
         }
 
-        insertToDB ae = new insertToDB(context, projectID, projectName, address, longitude, latitude);
+        insertToDB ae = new insertToDB(context, projectID, projectName, address, longitude, latitude,dateFrom,dateTo);
         ae.execute();
     }
 }

@@ -92,7 +92,16 @@
                 android:layout_weight="3"
                 android:id="@+id/addNew"
                 android:text="@string/addNew"
+                android:layout_marginRight="5dp"
                 android:onClick="onClickAddNewButton"
+                android:background="@drawable/button_rec"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:id="@+id/export"
+                android:text="Export"
+                android:onClick="exportExcel"
                 android:background="@drawable/button_rec"/>
         </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.format.Time;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +21,13 @@ public class UtilHelper {
     Context context;
     public UtilHelper (Context context){
         this.context = context;
+    }
+
+    public static String getTimeStamp() {
+        Time now = new Time();
+        now.setToNow();
+        String sTime = now.format("%Y_%m_%d_%H_%M_%S");
+        return sTime;
     }
 
     public void createPopUpDialog(String title,String message){

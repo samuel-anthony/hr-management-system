@@ -79,6 +79,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
+                        android:inputType="textEmailAddress"
                         android:id="@+id/email"/>
                 </LinearLayout>
 
@@ -113,6 +114,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
+                        android:inputType="phone"
                         android:id="@+id/phone"/>
                 </LinearLayout>
 
@@ -192,31 +194,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/radioEmployeeFullTime"
-                                android:text="Full Time"
                                 android:checked="true"
-                                android:onClick="onclickRadioButton"/>
+                                android:text="Full Time"/>
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/radioEmployeeIntern"
-                                android:text="Intern"
-                                android:onClick="onclickRadioButton"/>
-
-                        </RadioGroup>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <RadioGroup
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/radioGroup2">
+                                android:text="Intern"/>
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/radioEmployeeContract"
-                                android:text="Contract"
-                                android:onClick="onclickRadioButton"/>
+                                android:text="Contract"/>
+
                         </RadioGroup>
                     </LinearLayout>
                 </LinearLayout>

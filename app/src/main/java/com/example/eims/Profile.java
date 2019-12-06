@@ -142,7 +142,7 @@ public class Profile extends AppCompatActivity {
                     TextView address = findViewById(R.id.address);
                     TextView phone = findViewById(R.id.phone);
                     TextView hiredDate = findViewById(R.id.hiredDate);
-                    TextView gender = findViewById(R.id.hiredDate);
+                    TextView gender = findViewById(R.id.gender);
 
                     firstName.setText(jo.getString("first_name"));
                     lastName.setText(jo.getString("last_name"));

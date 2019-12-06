@@ -88,10 +88,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
         else{
             String hiredDate = ((TextView)findViewById(R.id.hiredDate)).getText().toString();
             String gender = ((RadioButton)findViewById(((RadioGroup)findViewById(R.id.radioGroupGender)).getCheckedRadioButtonId())).getText().toString();
-            String employeeTag = "";
-            if(selectedIDRadioButton!=0){
-                 employeeTag = ((RadioButton)findViewById(selectedIDRadioButton)).getText().toString();
-            }
+            String employeeTag = ((RadioButton)findViewById(((RadioGroup)findViewById(R.id.radioGroup1)).getCheckedRadioButtonId())).getText().toString();
             CheckBox isPM = findViewById(R.id.checkboxIsPM);
             String pmTag,userFlag;
             pmTag = isPM.isChecked() ? "1" : "0";
@@ -100,15 +97,7 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
         }
     }
 
-    public void onclickRadioButton(View view){
-        if(view.getId() == R.id.radioEmployeeFullTime || view.getId() == R.id.radioEmployeeIntern){
-            ((RadioGroup)findViewById(R.id.radioGroup2)).clearCheck();
-        }
-        else{
-            ((RadioGroup)findViewById(R.id.radioGroup1)).clearCheck();
-        }
-        selectedIDRadioButton = view.getId();
-    }
+
 
     public void showDatePicker(View view){
         String selectedDate = ((TextView)view).getText().toString();
@@ -234,7 +223,6 @@ public class HREmployeeEdit extends AppCompatActivity  implements DatePickerDial
 
                     String currentDateString = dateFormat.format(calendar.getTime());
                     hiredDate.setText(currentDateString);
-                    ((RadioGroup)findViewById(R.id.radioGroup2)).clearCheck();
                     ((RadioGroup)findViewById(R.id.radioGroup1)).clearCheck();
                     if(jo.getString("employee_tag").contains("Full")){
                         ((RadioButton)findViewById(R.id.radioEmployeeFullTime)).setChecked(true);

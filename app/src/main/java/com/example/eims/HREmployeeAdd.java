@@ -94,7 +94,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
         else{
             String hiredDate = ((TextView)findViewById(R.id.hiredDate)).getText().toString();
             String gender = ((RadioButton)findViewById(((RadioGroup)findViewById(R.id.radioGroupGender)).getCheckedRadioButtonId())).getText().toString();
-            String employeeTag = ((RadioButton)findViewById(selectedIDRadioButton)).getText().toString();
+            String employeeTag = ((RadioButton)findViewById(((RadioGroup)findViewById(R.id.radioGroup1)).getCheckedRadioButtonId())).getText().toString();
             CheckBox isPM = findViewById(R.id.checkboxIsPM);
             //CheckBox isUser = findViewById(R.id.checkboxIsUser);
             String pmTag,userFlag;
@@ -104,7 +104,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
         }
     }
 
-    public void onclickRadioButton(View view){
+  /*  public void onclickRadioButton(View view){
         if(view.getId() == R.id.radioEmployeeFullTime || view.getId() == R.id.radioEmployeeIntern){
             ((RadioGroup)findViewById(R.id.radioGroup2)).clearCheck();
         }
@@ -112,7 +112,7 @@ public class HREmployeeAdd extends AppCompatActivity implements DatePickerDialog
             ((RadioGroup)findViewById(R.id.radioGroup1)).clearCheck();
         }
         selectedIDRadioButton = view.getId();
-    }
+    }*/
 
     public void showDatePicker(View view){
         String selectedDate = ((TextView)view).getText().toString();

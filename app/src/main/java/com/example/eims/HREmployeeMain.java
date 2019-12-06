@@ -1,34 +1,60 @@
 package com.example.eims;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class HREmployeeMain extends AppCompatActivity {
     UtilHelper utilHelper;
     LinearLayout scrollViewLayout;
+    JSONArray result;
+    TextView exporter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hremployee_main);
-
+        exporter = findViewById(R.id.export);
+        exporter.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
         scrollViewLayout.removeAllViews();
@@ -76,8 +102,9 @@ public class HREmployeeMain extends AppCompatActivity {
                 try {
                     JSONObject output = new JSONObject(s);
 
-                    JSONArray result = output.getJSONArray("employee");
+                    result = output.getJSONArray("employee");
                     if(result.length()>0){
+                        exporter.setVisibility(TextView.VISIBLE);
                         for(int i = 0; i<result.length() ; i++){
                             final JSONObject jo = result.getJSONObject(i);
                             LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f,0,5,0,5);
@@ -200,6 +227,81 @@ public class HREmployeeMain extends AppCompatActivity {
 
         searchDB ae = new searchDB(employeeName,employeeID);
         ae.execute();
+    }
+
+
+    public void exportExcel(View view){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions((Activity) this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+            return;
+        }
+
+        Workbook wb=new HSSFWorkbook();
+        Cell cell=null;
+        Sheet sheet =null;
+        sheet = wb.createSheet("Employee Data");
+        Font headerfont = wb.createFont();
+        headerfont.setBold(true);
+        headerfont.setFontHeightInPoints((short)14);
+
+        CellStyle headerStyle = wb.createCellStyle();
+        headerStyle.setFont(headerfont);
+
+        String[] header ={"ID", "Name","Email","Address" ,"Gender","Hired Date","PM Flag"};
+        Row headerRow = sheet.createRow(0);
+        for(int i = 0; i<header.length ; i++){
+            cell = headerRow.createCell(i);
+            cell.setCellValue(header[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        try {
+            if(result.length()>0){
+                for(int i = 0; i<=result.length() ; i++) {
+                    final JSONObject jo = result.getJSONObject(i);
+                    Row row = sheet.createRow(i+1);
+                    cell = row.createCell(0);
+                    cell.setCellValue(jo.getString("empID"));
+                    cell = row.createCell(1);
+                    cell.setCellValue(jo.getString("name"));
+                    cell = row.createCell(2);
+                    cell.setCellValue(jo.getString("email"));
+                    cell = row.createCell(3);
+                    cell.setCellValue(jo.getString("address"));
+                    cell = row.createCell(4);
+                    cell.setCellValue(jo.getString("gender"));
+                    cell = row.createCell(5);
+                    cell.setCellValue(jo.getString("hired_date"));
+                    cell = row.createCell(6);
+                    cell.setCellValue(jo.getString("isPM"));                }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String filename = "Employee Data - " + utilHelper.getTimeStamp() + ".xls" ;
+        File file = new File(getExternalFilesDir(null),filename);
+        FileOutputStream outputStream =null;
+
+        try {
+            outputStream=new FileOutputStream(file);
+            wb.write(outputStream);
+            Toast.makeText(getApplicationContext(),"File Exported Successfully",Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(),"Upss.. ",Toast.LENGTH_LONG).show();
+            try {
+                outputStream.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 
 }

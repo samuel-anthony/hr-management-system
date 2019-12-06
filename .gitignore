@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 .idea/.name
+app/libs/poi-ooxml-schemas-3.17.jar
+app/libs/poi-ooxml-3.17.jar
+app/libs/poi-3.17.jar

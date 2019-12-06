@@ -1,10 +1,14 @@
 package com.example.eims;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -20,10 +24,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,12 +50,14 @@ public class AdminLeave extends AppCompatActivity {
     LinearLayout scrollViewLayout;
     ArrayList<HashMap<String,String>> completeTypeDate = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeStatusData = new ArrayList<HashMap<String,String>>();
-
+    JSONArray result;
+    TextView exporter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_leave);
-
+        exporter = findViewById(R.id.export);
+        exporter.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
         initializeData();
@@ -92,8 +108,9 @@ public class AdminLeave extends AppCompatActivity {
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
-                    JSONArray result = output.getJSONArray("leave");
+                    result = output.getJSONArray("leave");
                     if(result.length()>0){
+                        exporter.setVisibility(TextView.VISIBLE);
                         for(int i = 0; i<result.length() ; i++){
                             final JSONObject jo = result.getJSONObject(i);
                             LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f);
@@ -285,6 +302,81 @@ public class AdminLeave extends AppCompatActivity {
         }
         retrieveDataDB ae = new retrieveDataDB();
         ae.execute();
+
+    }
+
+    public void exportExcel(View view){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions((Activity) this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+            return;
+        }
+
+        Workbook wb=new HSSFWorkbook();
+        Cell cell=null;
+        Sheet sheet =null;
+        sheet = wb.createSheet("Leave Data");
+        Font headerfont = wb.createFont();
+        headerfont.setBold(true);
+        headerfont.setFontHeightInPoints((short)14);
+
+        CellStyle headerStyle = wb.createCellStyle();
+        headerStyle.setFont(headerfont);
+
+        String[] header ={"Employee ID", "Employee Name","Project Reported","Leave Type","Start Date","End Date", "Status"};
+        Row headerRow = sheet.createRow(0);
+        for(int i = 0; i<header.length ; i++){
+            cell = headerRow.createCell(i);
+            cell.setCellValue(header[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        try {
+            if(result.length()>0){
+                for(int i = 0; i<=result.length() ; i++) {
+                    final JSONObject jo = result.getJSONObject(i);
+                    Row row = sheet.createRow(i+1);
+                    cell = row.createCell(0);
+                    cell.setCellValue(jo.getString("id"));
+                    cell = row.createCell(1);
+                    cell.setCellValue(jo.getString("name"));
+                    cell = row.createCell(2);
+                    cell.setCellValue(jo.getString("project"));
+                    cell = row.createCell(3);
+                    cell.setCellValue(jo.getString("type"));
+                    cell = row.createCell(4);
+                    cell.setCellValue(jo.getString("dateFrom"));
+                    cell = row.createCell(5);
+                    cell.setCellValue(jo.getString("dateTo"));
+                    cell = row.createCell(6);
+                    cell.setCellValue(jo.getString("status"));
+                }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String filename = "Leave Data - " + utilHelper.getTimeStamp() + ".xls" ;
+        File file = new File(getExternalFilesDir(null),filename);
+        FileOutputStream outputStream =null;
+
+        try {
+            outputStream=new FileOutputStream(file);
+            wb.write(outputStream);
+            Toast.makeText(getApplicationContext(),"File Exported Successfully",Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(),"Upss.. ",Toast.LENGTH_LONG).show();
+            try {
+                outputStream.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
 
     }
 }

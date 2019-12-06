@@ -176,6 +176,63 @@
                             android:background="@drawable/rectangle"
                             android:id="@+id/longitude"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginVertical="10dp"
+                        android:weightSum="10">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:text="Start Date"
+                            android:textAppearance="@style/CustomTextBoldBlack"
+                            android:gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:id="@+id/dateFrom"
+                            android:layout_marginLeft="10dp"
+                            android:onClick="showDatePicker"
+                            android:clickable="true"
+                            android:background="@drawable/rectangle"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:src="@drawable/ic_calendaricon"
+                            android:layout_marginHorizontal="10dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginVertical="10dp"
+                        android:weightSum="10">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:text="End Date"
+                            android:textAppearance="@style/CustomTextBoldBlack"
+                            android:gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:id="@+id/dateTo"
+                            android:layout_marginLeft="10dp"
+                            android:clickable="true"
+                            android:onClick="showDatePicker"
+                            android:background="@drawable/rectangle"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:src="@drawable/ic_calendaricon"
+                            android:layout_marginHorizontal="10dp"/>
+                    </LinearLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

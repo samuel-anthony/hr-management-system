@@ -96,12 +96,22 @@
                 android:onClick="onClickAddNewButton"
                 android:background="@drawable/button_rec"/>
             <TextView
+                android:layout_marginLeft="5dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:id="@+id/export"
-                android:text="Export"
+                android:text="Export XLS"
                 android:onClick="exportExcel"
+                android:background="@drawable/button_rec"/>
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:id="@+id/export2"
+                android:text="Export PDF"
+                android:onClick="createPdf"
                 android:background="@drawable/button_rec"/>
         </LinearLayout>
 

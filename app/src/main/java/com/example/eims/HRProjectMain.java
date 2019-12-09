@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,8 +30,10 @@ import android.widget.Toast;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -47,16 +50,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 
 public class HRProjectMain extends AppCompatActivity {
     UtilHelper utilHelper;
     LinearLayout scrollViewLayout;
     JSONArray result;
-    TextView exporter;
+    TextView exporter,export2;
+    File pdfFile;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -64,6 +70,8 @@ public class HRProjectMain extends AppCompatActivity {
         setContentView(R.layout.activity_hrproject_main);
         exporter = findViewById(R.id.export);
         exporter.setVisibility(TextView.GONE);
+        export2 = findViewById(R.id.export2);
+        export2.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
     }
@@ -72,7 +80,7 @@ public class HRProjectMain extends AppCompatActivity {
         String projectName = ((EditText)findViewById(R.id.projectName)).getText().toString();
         String projectId = ((EditText)findViewById(R.id.projectID)).getText().toString();
 
-        searchProjectData(this,projectId,projectName);
+        searchProjectData(this,projectName,projectId);
     }
 
 
@@ -119,6 +127,7 @@ public class HRProjectMain extends AppCompatActivity {
                     result = output.getJSONArray("project");
                     if(result.length()>0){
                         exporter.setVisibility(TextView.VISIBLE);
+                        export2.setVisibility(TextView.VISIBLE);
                         for(int i = 0; i<result.length() ; i++){
                             final JSONObject jo = result.getJSONObject(i);
                             LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f,0,5,0,5);
@@ -283,94 +292,55 @@ public class HRProjectMain extends AppCompatActivity {
 
     }
 
-    public void createPdf(View view){
+    public void createPdf(View view) throws FileNotFoundException, DocumentException {
 
-        /*Document document = new Document(PageSize.A4);
-
-        try{
-            File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents");
-            if (!docsFolder.exists()) {
-                docsFolder.mkdir();
-            }
-            File pdfFile = new File(docsFolder.getAbsolutePath(),"Helloword.pdf");
-            OutputStream output = new FileOutputStream(pdfFile);
-            document.open();
-            PdfPTable table = new PdfPTable(new float[]{2,1,2});
-            table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-            String[] header ={"Project ID", "Project Name","Project Manager","Project Location"};
-            for(int i = 0; i<header.length ; i++){
-                table.addCell(header[i]);
-            }
-            PdfPCell[] cells = table.getRow(0).getCells();
-            for(int j=0;j<cells.length;j++){
-                cells[j].setBackgroundColor(BaseColor.GRAY);
-            }
-            try {
-                if(result.length()>0){
-                    for(int i = 0; i<=result.length() ; i++) {
-                        final JSONObject jo = result.getJSONObject(i);
-                        table.addCell(jo.getString("projectId"));
-                        table.addCell(jo.getString("projectName"));
-                        table.addCell(jo.getString("pmName"));
-                        table.addCell(jo.getString("projectLoc"));
-                    }
-                }
-            }catch (JSONException e) {
-                e.printStackTrace();
-            }
-            document.add(table);
-            document.close();
-
-        } catch (Exception e) {
-        e.printStackTrace();
-        }*/
-
-
-        PdfDocument document = new PdfDocument();
-
-        // crate a page description
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
-        // start a page
-
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-
-        Canvas canvas = page.getCanvas();
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        canvas.drawCircle(50, 50, 30, paint);
-        paint.setColor(Color.BLACK);
-        canvas.drawText("Test PDF", 80, 50, paint);
-        //canvas.drawt
-        // finish the page
-        document.finishPage(page);
-
-        // draw text on the graphics object of the page
-        // Create Page 2
-        pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 2).create();
-        page = document.startPage(pageInfo);
-        canvas = page.getCanvas();
-        paint = new Paint();
-        paint.setColor(Color.BLUE);
-        canvas.drawCircle(100, 100, 100, paint);
-        document.finishPage(page);
-        // write the document content
-
-        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/mypdf/";
-        File file = new File(directory_path);
-        if (!file.exists()) {
-            file.mkdirs();
+        File docsFolder = new File(Environment.getExternalStorageDirectory()+"/Documents");
+        if(!docsFolder.exists()){
+            docsFolder.mkdir();
+            //Log.i(TAG,"Created a new directory for PDF");
         }
-        String targetPdf = directory_path+"test-2.pdf";
-        File filePath = new File(targetPdf);
+        String pdfname = "Project Data - " + utilHelper.getTimeStamp() + ".pdf" ;
+        pdfFile = new File(docsFolder.getAbsolutePath(),pdfname);
+        OutputStream output = new FileOutputStream(pdfFile);
+        Document document =new Document(PageSize.A4);
+        PdfPTable table = new PdfPTable(new float[]{3,3,3,3});
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.getDefaultCell().setFixedHeight(50);
+        table.setTotalWidth(PageSize.A4.getWidth());
+        table.setWidthPercentage(100);
+        table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+        String[] header ={"Project ID", "Project Name","Project Manager","Project Location"};
+        for(int i = 0; i<header.length ; i++){
+            table.addCell(header[i]);
+        }
+        table.setHeaderRows(1);
+        PdfPCell[] cells = table.getRow(0).getCells();
+        for (int j = 0; j < cells.length; j++) {
+            cells[j].setBackgroundColor(BaseColor.GRAY);
+        }
         try {
-            document.writeTo(new FileOutputStream(filePath));
-            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Log.e("main", "error "+e.toString());
-            Toast.makeText(this, "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
+            if(result.length()>0){
+                for(int i = 0; i<=result.length() ; i++) {
+                    final JSONObject jo = result.getJSONObject(i);
+                    table.addCell(jo.getString("projectId"));
+                    table.addCell(jo.getString("projectName"));
+                    table.addCell(jo.getString("pmName"));
+                    table.addCell(jo.getString("projectLoc"));
+                }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
-        // close the document
+        PdfWriter.getInstance(document,output);
+        document.open();
+        document.add(new Paragraph("Project Data \n\n"));
+        document.add(table);
         document.close();
+        Toast.makeText(getApplicationContext(),"File Exported Successfully",Toast.LENGTH_LONG).show();
+
     }
+
+
+
+
 }

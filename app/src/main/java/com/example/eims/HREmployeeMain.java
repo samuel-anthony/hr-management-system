@@ -22,6 +22,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -38,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,13 +59,15 @@ public class HREmployeeMain extends AppCompatActivity {
     UtilHelper utilHelper;
     LinearLayout scrollViewLayout;
     JSONArray result;
-    TextView exporter;
+    TextView exporter, export2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hremployee_main);
         exporter = findViewById(R.id.export);
         exporter.setVisibility(TextView.GONE);
+        export2 = findViewById(R.id.export2);
+        export2.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
         scrollViewLayout.removeAllViews();
@@ -105,6 +118,7 @@ public class HREmployeeMain extends AppCompatActivity {
                     result = output.getJSONArray("employee");
                     if(result.length()>0){
                         exporter.setVisibility(TextView.VISIBLE);
+                        export2.setVisibility(TextView.VISIBLE);
                         for(int i = 0; i<result.length() ; i++){
                             final JSONObject jo = result.getJSONObject(i);
                             LinearLayout container = utilHelper.createLinearLayout(false,false,20.0f,0,5,0,5);
@@ -301,6 +315,59 @@ public class HREmployeeMain extends AppCompatActivity {
                 ex.printStackTrace();
             }
         }
+
+    }
+
+
+    public void createPdf(View view) throws FileNotFoundException, DocumentException {
+
+        File docsFolder = new File(Environment.getExternalStorageDirectory()+"/Documents");
+        if(!docsFolder.exists()){
+            docsFolder.mkdir();
+            //Log.i(TAG,"Created a new directory for PDF");
+        }
+        String pdfname = "Employee Data - " + utilHelper.getTimeStamp() + ".pdf" ;
+        File pdfFile = new File(docsFolder.getAbsolutePath(),pdfname);
+        OutputStream output = new FileOutputStream(pdfFile);
+        Document document =new Document(PageSize.A4);
+        PdfPTable table = new PdfPTable(new float[]{3,3,3,3,3,3,3});
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.getDefaultCell().setFixedHeight(50);
+        table.setTotalWidth(PageSize.A4.getWidth());
+        table.setWidthPercentage(100);
+        table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+        String[] header ={"ID", "Name","Email","Address" ,"Gender","Hired Date","PM Flag"};
+        for(int i = 0; i<header.length ; i++){
+            table.addCell(header[i]);
+        }
+        table.setHeaderRows(1);
+        PdfPCell[] cells = table.getRow(0).getCells();
+        for (int j = 0; j < cells.length; j++) {
+            cells[j].setBackgroundColor(BaseColor.GRAY);
+        }
+        try {
+            if(result.length()>0){
+                for(int i = 0; i<=result.length() ; i++) {
+                final JSONObject jo = result.getJSONObject(i);
+                    table.addCell(jo.getString("empID"));
+                    table.addCell(jo.getString("name"));
+                    table.addCell(jo.getString("email"));
+                    table.addCell(jo.getString("address"));
+                    table.addCell(jo.getString("gender"));
+                    table.addCell(jo.getString("hired_date"));
+                    table.addCell(jo.getString("isPM"));
+
+            }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PdfWriter.getInstance(document,output);
+        document.open();
+        document.add(new Paragraph("Employee Data \n\n"));
+        document.add(table);
+        document.close();
+        Toast.makeText(getApplicationContext(),"File Exported Successfully",Toast.LENGTH_LONG).show();
 
     }
 

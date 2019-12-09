@@ -10,10 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,6 +49,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 
 public class HRProjectMain extends AppCompatActivity {
@@ -267,5 +281,96 @@ public class HRProjectMain extends AppCompatActivity {
             }
         }
 
+    }
+
+    public void createPdf(View view){
+
+        /*Document document = new Document(PageSize.A4);
+
+        try{
+            File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents");
+            if (!docsFolder.exists()) {
+                docsFolder.mkdir();
+            }
+            File pdfFile = new File(docsFolder.getAbsolutePath(),"Helloword.pdf");
+            OutputStream output = new FileOutputStream(pdfFile);
+            document.open();
+            PdfPTable table = new PdfPTable(new float[]{2,1,2});
+            table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            String[] header ={"Project ID", "Project Name","Project Manager","Project Location"};
+            for(int i = 0; i<header.length ; i++){
+                table.addCell(header[i]);
+            }
+            PdfPCell[] cells = table.getRow(0).getCells();
+            for(int j=0;j<cells.length;j++){
+                cells[j].setBackgroundColor(BaseColor.GRAY);
+            }
+            try {
+                if(result.length()>0){
+                    for(int i = 0; i<=result.length() ; i++) {
+                        final JSONObject jo = result.getJSONObject(i);
+                        table.addCell(jo.getString("projectId"));
+                        table.addCell(jo.getString("projectName"));
+                        table.addCell(jo.getString("pmName"));
+                        table.addCell(jo.getString("projectLoc"));
+                    }
+                }
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+            document.add(table);
+            document.close();
+
+        } catch (Exception e) {
+        e.printStackTrace();
+        }*/
+
+
+        PdfDocument document = new PdfDocument();
+
+        // crate a page description
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
+        // start a page
+
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+
+        Canvas canvas = page.getCanvas();
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        canvas.drawCircle(50, 50, 30, paint);
+        paint.setColor(Color.BLACK);
+        canvas.drawText("Test PDF", 80, 50, paint);
+        //canvas.drawt
+        // finish the page
+        document.finishPage(page);
+
+        // draw text on the graphics object of the page
+        // Create Page 2
+        pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 2).create();
+        page = document.startPage(pageInfo);
+        canvas = page.getCanvas();
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
+        canvas.drawCircle(100, 100, 100, paint);
+        document.finishPage(page);
+        // write the document content
+
+        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/mypdf/";
+        File file = new File(directory_path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String targetPdf = directory_path+"test-2.pdf";
+        File filePath = new File(targetPdf);
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e("main", "error "+e.toString());
+            Toast.makeText(this, "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
+        }
+        // close the document
+        document.close();
     }
 }

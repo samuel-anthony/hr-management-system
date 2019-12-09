@@ -118,6 +118,22 @@
                 android:onClick="exportExcel"
                 android:background="@drawable/button_rec"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_marginVertical="1dp">
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textSize="8pt"
+                android:text="Result"
+                android:background="#f1d6ab"
+                android:id="@+id/result"/>
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

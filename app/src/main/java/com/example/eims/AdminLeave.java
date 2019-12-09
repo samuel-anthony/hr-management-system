@@ -51,13 +51,15 @@ public class AdminLeave extends AppCompatActivity {
     ArrayList<HashMap<String,String>> completeTypeDate = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeStatusData = new ArrayList<HashMap<String,String>>();
     JSONArray result;
-    TextView exporter;
+    TextView exporter, totalcount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_leave);
         exporter = findViewById(R.id.export);
         exporter.setVisibility(TextView.GONE);
+        totalcount = findViewById(R.id.result);
+        totalcount.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
         initializeData();
@@ -108,6 +110,8 @@ public class AdminLeave extends AppCompatActivity {
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
+                    totalcount.setVisibility(TextView.VISIBLE);
+                    totalcount.setText(output.getString("response")+ " " + "Result Found");
                     result = output.getJSONArray("leave");
                     if(result.length()>0){
                         exporter.setVisibility(TextView.VISIBLE);

@@ -55,12 +55,14 @@ public class AdminAttendance extends AppCompatActivity implements DatePickerDial
     LinearLayout scrollViewLayout;
     ArrayList<HashMap<String,String>> completeStatusData = new ArrayList<HashMap<String,String>>();
     JSONArray result;
-    TextView exporter;
+    TextView exporter, totalcount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_attendance);
         exporter = findViewById(R.id.export);
+        totalcount = findViewById(R.id.result);
+        totalcount.setVisibility(TextView.GONE);
         exporter.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -143,6 +145,8 @@ public class AdminAttendance extends AppCompatActivity implements DatePickerDial
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
+                    totalcount.setVisibility(TextView.VISIBLE);
+                    totalcount.setText(output.getString("response")+ " " + "Result Found");
                     result = output.getJSONArray("attendance");
                     if(result.length()>0){
                         exporter.setVisibility(TextView.VISIBLE);
@@ -199,6 +203,7 @@ public class AdminAttendance extends AppCompatActivity implements DatePickerDial
                         TextView dataStatus = utilHelper.createTextView("No Data Available");
                         scrollViewLayout.addView(dataStatus);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

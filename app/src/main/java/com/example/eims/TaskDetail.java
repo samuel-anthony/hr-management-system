@@ -145,6 +145,9 @@ public class TaskDetail extends AppCompatActivity {
                                 dataNotes.setText(jo.getString("notes"));
                                 status.setText(jo.getString("statusVal"));
                                 duration.setText(jo.getString("duration") +" - "+"Days" );
+                                TextView employeeName = findViewById(R.id.employeeName);
+                                employeeName.setText(jo.getString("name"));
+
 
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
@@ -174,6 +177,7 @@ public class TaskDetail extends AppCompatActivity {
                                 TextView dataAccount = findViewById(R.id.account);
                                 TextView dataNotes = findViewById(R.id.notes);
                                 TextView status = findViewById(R.id.txtStatus);
+                                TextView employeeName = findViewById(R.id.employeeName);
 
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
@@ -186,6 +190,7 @@ public class TaskDetail extends AppCompatActivity {
                                 dataAccount.setText(jo.getString("bank_account"));
                                 dataNotes.setText(jo.getString("notes"));
                                 status.setText(jo.getString("statusVal"));
+                                employeeName.setText(jo.getString("name"));
 
 
                                 byte[] imageBytes = Base64.decode(jo.getString("file_data"), Base64.DEFAULT);

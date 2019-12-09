@@ -50,13 +50,15 @@ public class AdminClaim extends AppCompatActivity {
     ArrayList<HashMap<String,String>> completeTypeDate = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String,String>> completeStatusData = new ArrayList<HashMap<String,String>>();
     JSONArray result;
-    TextView exporter;
+    TextView exporter, totalcount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_claim);
         exporter = findViewById(R.id.export);
         exporter.setVisibility(TextView.GONE);
+        totalcount = findViewById(R.id.result);
+        totalcount.setVisibility(TextView.GONE);
         utilHelper  = new UtilHelper(this);
         scrollViewLayout = findViewById(R.id.search_result_scroll);
         initializeData();
@@ -107,6 +109,8 @@ public class AdminClaim extends AppCompatActivity {
                 loading.dismiss();
                 try {
                     JSONObject output = new JSONObject(s);
+                    totalcount.setVisibility(TextView.VISIBLE);
+                    totalcount.setText(output.getString("response")+ " " + "Result Found");
                     result = output.getJSONArray("claim");
                     if(result.length()>0){
                         exporter.setVisibility(TextView.VISIBLE);
@@ -307,7 +311,7 @@ public class AdminClaim extends AppCompatActivity {
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("employee_id","");
-                params.put("sub_menu","LeaveAdmin");
+                params.put("sub_menu","Claim");
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(ConfigURL.GetTypeAndStatusReportMenu, params);
                 return res;

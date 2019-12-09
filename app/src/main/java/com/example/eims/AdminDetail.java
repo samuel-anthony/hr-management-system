@@ -161,6 +161,9 @@ public class AdminDetail extends AppCompatActivity {
                                 dataNotes.setText(jo.getString("notes"));
                                 status.setText(jo.getString("statusVal"));
                                 duration.setText(jo.getString("duration") +" - "+ "Days");
+                                TextView employeeName = findViewById(R.id.employeeName);
+                                employeeName.setText(jo.getString("name"));
+
 
                                 View attachment = findViewById(R.id.linearLayoutAttachment);
                                 if(jo.getString("file_data").isEmpty()){
@@ -200,6 +203,9 @@ public class AdminDetail extends AppCompatActivity {
                                 dataAccount.setText(jo.getString("bank_account"));
                                 dataNotes.setText(jo.getString("notes"));
                                 status.setText(jo.getString("statusVal"));
+                                TextView employeeName = findViewById(R.id.employeeName);
+                                employeeName.setText(jo.getString("name"));
+
 
                                 int statusId = Integer.parseInt(jo.getString("statusId"));
 
